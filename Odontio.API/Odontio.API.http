@@ -1,6 +1,0 @@
-@Odontio.API_HostAddress = http://localhost:5082
-
-GET {{Odontio.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
