@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odontio.API", "Odontio.API\Odontio.API.csproj", "{63D62D9E-FD6A-4D58-A4DB-913F0F2BCB55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odontio.Application", "Odontio.Application\Odontio.Application.csproj", "{968DC655-2F48-4C92-9080-484D6A878338}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odontio.Domain", "Odontio.Domain\Odontio.Domain.csproj", "{94750D9C-C5C7-4BA6-9F89-83258AFB6554}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odontio.Infrastructure", "Odontio.Infrastructure\Odontio.Infrastructure.csproj", "{976C4002-C45F-44F8-8873-E3AC784014C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63D62D9E-FD6A-4D58-A4DB-913F0F2BCB55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63D62D9E-FD6A-4D58-A4DB-913F0F2BCB55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63D62D9E-FD6A-4D58-A4DB-913F0F2BCB55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63D62D9E-FD6A-4D58-A4DB-913F0F2BCB55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{968DC655-2F48-4C92-9080-484D6A878338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{968DC655-2F48-4C92-9080-484D6A878338}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{968DC655-2F48-4C92-9080-484D6A878338}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{968DC655-2F48-4C92-9080-484D6A878338}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94750D9C-C5C7-4BA6-9F89-83258AFB6554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94750D9C-C5C7-4BA6-9F89-83258AFB6554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94750D9C-C5C7-4BA6-9F89-83258AFB6554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94750D9C-C5C7-4BA6-9F89-83258AFB6554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976C4002-C45F-44F8-8873-E3AC784014C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976C4002-C45F-44F8-8873-E3AC784014C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{976C4002-C45F-44F8-8873-E3AC784014C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976C4002-C45F-44F8-8873-E3AC784014C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
