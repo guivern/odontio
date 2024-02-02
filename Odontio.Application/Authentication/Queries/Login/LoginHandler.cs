@@ -13,16 +13,15 @@ public class LoginHandler(IApplicationDbContext context, IAuthService authServic
 {
     public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
-        var user = await context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Username == request.Username);
+        var user = await context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken: cancellationToken);
 
         if (user == null)
             return Error.Custom(code: "INVALID_CREDENTIALS", description: "Invalid username or password",
                 type: (int)HttpStatusCode.Unauthorized);
 
-        var isValidPassword = false;
-
-        if (user.PasswordHash != null && user.PasswordSalt != null)
-            isValidPassword = authService.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt);
+        var isValidPassword = authService.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt);
 
         if (!isValidPassword)
             return Error.Custom(code: "INVALID_CREDENTIALS", description: "Invalid username or password",

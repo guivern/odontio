@@ -13,14 +13,13 @@ namespace Odontio.Tests.Authentication.Queries.Login;
 [TestSubject(typeof(LoginHandler))]
 public class LoginHandlerTest
 {
+    private readonly Mock<IApplicationDbContext> _mockContext = new();
+    private readonly Mock<IAuthService> _mockAuthService = new();
+    private readonly Mock<IMapper> _mockMapper = new();
+
     [Fact]
     public async Task Handle_ValidCredentials_ReturnsAuthenticationResult()
     {
-        // Arrange
-        var mockContext = new Mock<IApplicationDbContext>();
-        var mockAuthService = new Mock<IAuthService>();
-        var mockMapper = new Mock<IMapper>();
-
         var user = new User 
         { 
             Username = "test", 
@@ -32,16 +31,16 @@ public class LoginHandlerTest
 
         var users = new List<User> { user };
 
-        mockContext.Setup(x => x.Users).ReturnsDbSet(users);
+        _mockContext.Setup(x => x.Users).ReturnsDbSet(users);
 
-        mockAuthService.Setup(a => a.VerifyPassword(It.IsAny<string>(), user.PasswordHash, user.PasswordSalt))
+        _mockAuthService.Setup(a => a.VerifyPassword(It.IsAny<string>(), user.PasswordHash, user.PasswordSalt))
             .Returns(true);
-        mockAuthService.Setup(a => a.GenerateJwtToken(user))
+        _mockAuthService.Setup(a => a.GenerateJwtToken(user))
             .Returns(token);
-        mockMapper.Setup(m => m.Map<AuthenticationResult>(user))
+        _mockMapper.Setup(m => m.Map<AuthenticationResult>(user))
             .Returns(authResult);
 
-        var handler = new LoginHandler(mockContext.Object, mockAuthService.Object, mockMapper.Object);
+        var handler = new LoginHandler(_mockContext.Object, _mockAuthService.Object, _mockMapper.Object);
         var request = new LoginQuery("test", "password");
 
         // Act
@@ -54,11 +53,6 @@ public class LoginHandlerTest
     [Fact]
     public async Task Handle_InvalidCredentials_ReturnsError()
     {
-        // Arrange
-        var mockContext = new Mock<IApplicationDbContext>();
-        var mockAuthService = new Mock<IAuthService>();
-        var mockMapper = new Mock<IMapper>();
-
         var user = new User 
         { 
             Username = "test", 
@@ -68,12 +62,12 @@ public class LoginHandlerTest
 
         var users = new List<User> { user };
 
-        mockContext.Setup(x => x.Users).ReturnsDbSet(users);
+        _mockContext.Setup(x => x.Users).ReturnsDbSet(users);
 
-        mockAuthService.Setup(a => a.VerifyPassword(It.IsAny<string>(), user.PasswordHash, user.PasswordSalt))
+        _mockAuthService.Setup(a => a.VerifyPassword(It.IsAny<string>(), user.PasswordHash, user.PasswordSalt))
             .Returns(false); // Invalid password
 
-        var handler = new LoginHandler(mockContext.Object, mockAuthService.Object, mockMapper.Object);
+        var handler = new LoginHandler(_mockContext.Object, _mockAuthService.Object, _mockMapper.Object);
         var request = new LoginQuery("test", "wrongpassword"); // Invalid password
 
         // Act

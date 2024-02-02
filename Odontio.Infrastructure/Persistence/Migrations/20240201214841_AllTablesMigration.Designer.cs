@@ -12,7 +12,7 @@ using Odontio.Infrastructure.Persistence;
 namespace Odontio.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240115211339_AllTablesMigration")]
+    [Migration("20240201214841_AllTablesMigration")]
     partial class AllTablesMigration
     {
         /// <inheritdoc />
@@ -45,8 +45,44 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Observations")
+                        .HasColumnType("text");
+
+                    b.Property<long>("PatientTreatmentId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientTreatmentId");
+
+                    b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("Odontio.Domain.Entities.Budget", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("ExpirationDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset?>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -54,17 +90,34 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<long>("MedicalRecordId")
+                    b.Property<long>("PatientId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Observations")
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Budgets");
+                });
+
+            modelBuilder.Entity("Odontio.Domain.Entities.Category", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicalRecordId");
-
-                    b.ToTable("Appointments");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Diagnosis", b =>
@@ -85,10 +138,8 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -123,6 +174,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -139,6 +191,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ConditionType")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
@@ -155,55 +208,6 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("MedicalConditions");
-                });
-
-            modelBuilder.Entity("Odontio.Domain.Entities.MedicalRecord", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("Date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<long>("PatientId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ToothId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TreatmentId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("ToothId");
-
-                    b.HasIndex("TreatmentId");
-
-                    b.ToTable("MedicalRecords");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Patient", b =>
@@ -233,13 +237,11 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("LastDentalVisit")
                         .HasColumnType("text");
@@ -251,6 +253,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("MaritalStatus")
@@ -315,6 +318,49 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.ToTable("PatientDiseases");
                 });
 
+            modelBuilder.Entity("Odontio.Domain.Entities.PatientTreatment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("BudgetId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<long?>("ToothId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TreatmentId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("ToothId");
+
+                    b.HasIndex("TreatmentId");
+
+                    b.ToTable("PatientTreatments");
+                });
+
             modelBuilder.Entity("Odontio.Domain.Entities.Payment", b =>
                 {
                     b.Property<long>("Id")
@@ -326,6 +372,9 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
+                    b.Property<long>("BudgetId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -335,17 +384,11 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.Property<DateTimeOffset>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<DateTimeOffset?>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
-
-                    b.Property<long>("MedicalRecordId")
-                        .HasColumnType("bigint");
 
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("integer");
@@ -358,7 +401,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicalRecordId");
+                    b.HasIndex("BudgetId");
 
                     b.ToTable("Payments");
                 });
@@ -372,11 +415,48 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Odontio.Domain.Entities.ScheduledAppointment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<long>("PatientId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("ScheduledAppointments");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Tooth", b =>
@@ -409,6 +489,9 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
                     b.Property<decimal?>("Cost")
                         .HasColumnType("numeric");
 
@@ -416,12 +499,15 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<long>("WorkspaceId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("WorkspaceId");
 
@@ -436,22 +522,33 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
                     b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<string>("PhotoUrl")
@@ -461,6 +558,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Username")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<long>("WorkspaceId")
@@ -495,9 +593,6 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<DateTimeOffset?>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
@@ -505,6 +600,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Phone")
@@ -520,13 +616,24 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Odontio.Domain.Entities.Appointment", b =>
                 {
-                    b.HasOne("Odontio.Domain.Entities.MedicalRecord", "MedicalRecord")
+                    b.HasOne("Odontio.Domain.Entities.PatientTreatment", "PatientTreatment")
                         .WithMany("Appointments")
-                        .HasForeignKey("MedicalRecordId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("PatientTreatmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MedicalRecord");
+                    b.Navigation("PatientTreatment");
+                });
+
+            modelBuilder.Entity("Odontio.Domain.Entities.Budget", b =>
+                {
+                    b.HasOne("Odontio.Domain.Entities.Patient", "Patient")
+                        .WithMany("Budgets")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Diagnosis", b =>
@@ -555,31 +662,6 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("Odontio.Domain.Entities.MedicalRecord", b =>
-                {
-                    b.HasOne("Odontio.Domain.Entities.Patient", "Patient")
-                        .WithMany("MedicalRecords")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Odontio.Domain.Entities.Tooth", "Tooth")
-                        .WithMany()
-                        .HasForeignKey("ToothId");
-
-                    b.HasOne("Odontio.Domain.Entities.Treatment", "Treatment")
-                        .WithMany()
-                        .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Tooth");
-
-                    b.Navigation("Treatment");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Patient", b =>
@@ -618,24 +700,68 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("Odontio.Domain.Entities.Payment", b =>
+            modelBuilder.Entity("Odontio.Domain.Entities.PatientTreatment", b =>
                 {
-                    b.HasOne("Odontio.Domain.Entities.MedicalRecord", "MedicalRecord")
-                        .WithMany("Payments")
-                        .HasForeignKey("MedicalRecordId")
+                    b.HasOne("Odontio.Domain.Entities.Budget", "Budget")
+                        .WithMany("PatientTreatments")
+                        .HasForeignKey("BudgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Odontio.Domain.Entities.Tooth", "Tooth")
+                        .WithMany()
+                        .HasForeignKey("ToothId");
+
+                    b.HasOne("Odontio.Domain.Entities.Treatment", "Treatment")
+                        .WithMany("PatientTreatments")
+                        .HasForeignKey("TreatmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("MedicalRecord");
+                    b.Navigation("Budget");
+
+                    b.Navigation("Tooth");
+
+                    b.Navigation("Treatment");
+                });
+
+            modelBuilder.Entity("Odontio.Domain.Entities.Payment", b =>
+                {
+                    b.HasOne("Odontio.Domain.Entities.Budget", "Budget")
+                        .WithMany("Payments")
+                        .HasForeignKey("BudgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Budget");
+                });
+
+            modelBuilder.Entity("Odontio.Domain.Entities.ScheduledAppointment", b =>
+                {
+                    b.HasOne("Odontio.Domain.Entities.Patient", "Patient")
+                        .WithMany("ScheduledAppointments")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Treatment", b =>
                 {
+                    b.HasOne("Odontio.Domain.Entities.Category", "Category")
+                        .WithMany("Treatments")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Odontio.Domain.Entities.Workspace", "Workspace")
                         .WithMany("Treatments")
                         .HasForeignKey("WorkspaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Workspace");
                 });
@@ -651,7 +777,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.HasOne("Odontio.Domain.Entities.Workspace", "Workspace")
                         .WithMany("Users")
                         .HasForeignKey("WorkspaceId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
@@ -659,27 +785,44 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.Navigation("Workspace");
                 });
 
-            modelBuilder.Entity("Odontio.Domain.Entities.MedicalRecord", b =>
+            modelBuilder.Entity("Odontio.Domain.Entities.Budget", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("PatientTreatments");
 
                     b.Navigation("Payments");
                 });
 
+            modelBuilder.Entity("Odontio.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Treatments");
+                });
+
             modelBuilder.Entity("Odontio.Domain.Entities.Patient", b =>
                 {
+                    b.Navigation("Budgets");
+
                     b.Navigation("Diagnoses");
 
                     b.Navigation("Diseases");
 
                     b.Navigation("MedicalConditions");
 
-                    b.Navigation("MedicalRecords");
+                    b.Navigation("ScheduledAppointments");
+                });
+
+            modelBuilder.Entity("Odontio.Domain.Entities.PatientTreatment", b =>
+                {
+                    b.Navigation("Appointments");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Odontio.Domain.Entities.Treatment", b =>
+                {
+                    b.Navigation("PatientTreatments");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Workspace", b =>

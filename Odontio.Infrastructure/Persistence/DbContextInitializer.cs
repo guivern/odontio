@@ -51,11 +51,55 @@ public class DbContextInitializer
         // Seed data here
         await SeedRoles();
         await SeedWorkspaces();
+        await SeedCategories();
         await _context.SaveChangesAsync();
         
-        await SeedAdminUsers();
+        await SeedUsers();
         await SeedDiseases();
+        await SeedTreatments();
         await _context.SaveChangesAsync();
+    }
+
+    private async Task SeedTreatments()
+    {
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/SeedTreatments.json");
+        var data = await File.ReadAllTextAsync(filePath);
+        var treatmentsFromJson = JsonSerializer.Deserialize<List<Treatment>>(data);
+        
+        var workspacesWithoutTreatments = await _context.Workspaces
+            .Include(x => x.Treatments)
+            .Where(x => x.Treatments.Count == 0)
+            .AsNoTracking()
+            .ToListAsync();
+        
+        var treatmentsToAdd = new List<Treatment>();
+        foreach (var workspace in workspacesWithoutTreatments)
+        {
+            foreach (var treatment in treatmentsFromJson)
+            {
+                treatmentsToAdd.Add(new Treatment
+                {
+                    Name = treatment.Name,
+                    Description = treatment.Description,
+                    Cost = treatment.Cost,
+                    CategoryId = treatment.CategoryId,
+                    WorkspaceId = workspace.Id,
+                });
+            }            
+        }
+        
+        await _context.Treatments.AddRangeAsync(treatmentsToAdd);
+    }
+
+    private async Task SeedCategories()
+    {
+        if (await _context.Categories.AsNoTracking().AnyAsync()) return;
+        
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/SeedCategories.json");
+        var data = await File.ReadAllTextAsync(filePath);
+        var categoriesFromJson = JsonSerializer.Deserialize<List<Category>>(data);
+        
+        await _context.Categories.AddRangeAsync(categoriesFromJson);
     }
 
     private async Task SeedRoles()
@@ -78,12 +122,12 @@ public class DbContextInitializer
 
     private async Task SeedWorkspaces()
     {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/Workspaces.json");
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/SeedWorkspaces.json");
         var data = await File.ReadAllTextAsync(filePath);
-        var workspaces = JsonSerializer.Deserialize<List<Workspace>>(data);
+        var workspacesJson = JsonSerializer.Deserialize<List<Workspace>>(data);
         var existingWorkspaces = await _context.Workspaces.AsNoTracking().ToListAsync();
         
-        foreach (var workspace in workspaces)
+        foreach (var workspace in workspacesJson)
         {
             var existingWorkspace = existingWorkspaces.FirstOrDefault(x => x.Id == workspace.Id && x.Name == workspace.Name);
             if (existingWorkspace == null)
@@ -93,7 +137,7 @@ public class DbContextInitializer
         }
     }
 
-    private async Task SeedAdminUsers()
+    private async Task SeedUsers()
     {
         var workspaces = await _context.Workspaces.AsNoTracking().ToListAsync();
         foreach (var workspace in workspaces)
@@ -123,7 +167,7 @@ public class DbContextInitializer
         if (await _context.Diseases.AsNoTracking().AnyAsync()) return;
         
         // path: Odontio.Infrastructure/Persistence/Data/Diseases.json
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/Diseases.json");
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/SeedDiseases.json");
         var data = await File.ReadAllTextAsync(filePath);
         var diseases = JsonSerializer.Deserialize<List<Disease>>(data);
         

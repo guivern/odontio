@@ -36,31 +36,25 @@ public class ApplicationDbContext:  DbContext, IApplicationDbContext
         // }
         // #endregion
         
-        builder.Entity<Workspace>()
-            .HasMany(x => x.Users)
-            .WithOne(x => x.Workspace)
-            .OnDelete(DeleteBehavior.Restrict);
-        
+        // cannot delete a workspace if it has patients
         builder.Entity<Workspace>()
             .HasMany(x => x.Patients)
             .WithOne(x => x.Workspace)
             .OnDelete(DeleteBehavior.Restrict);
         
-        builder.Entity<Patient>()
-            .HasMany(x => x.MedicalRecords)
-            .WithOne(x => x.Patient)
+        // cannot delete a category if it has treatments
+        builder.Entity<Category>()
+            .HasMany(x => x.Treatments)
+            .WithOne(x => x.Category)
             .OnDelete(DeleteBehavior.Restrict);
         
-        builder.Entity<MedicalRecord>()
-            .HasMany(x => x.Payments)
-            .WithOne(x => x.MedicalRecord)
+        // cannot delete a treatment if it has patient treatments (in a budget)
+        builder.Entity<Treatment>()
+            .HasMany(x => x.PatientTreatments)
+            .WithOne(x => x.Treatment)
             .OnDelete(DeleteBehavior.Restrict);
         
-        builder.Entity<MedicalRecord>()
-            .HasMany(x => x.Appointments)
-            .WithOne(x => x.MedicalRecord)
-            .OnDelete(DeleteBehavior.Restrict);
-        
+        // cannot delete a role if it has users
         builder.Entity<Role>()
             .HasMany(x => x.Users)
             .WithOne(x => x.Role)
@@ -97,7 +91,9 @@ public class ApplicationDbContext:  DbContext, IApplicationDbContext
     }
     
     public DbSet<Disease> Diseases { get; set; }
-    public DbSet<MedicalRecord> MedicalRecords { get; set; }
+    public DbSet<PatientTreatment> PatientTreatments { get; set; }
+    public DbSet<Budget> Budgets { get; set; }
+    public DbSet<Appointment> Appointments { get; set; }
     public DbSet<MedicalCondition> MedicalConditions { get; set; }
     public DbSet<Diagnosis> Diagnoses { get; set; }
     public DbSet<Patient> Patients { get; set; }
@@ -105,8 +101,9 @@ public class ApplicationDbContext:  DbContext, IApplicationDbContext
     public DbSet<Tooth> Teeth { get; set; }
     public DbSet<Workspace> Workspaces { get; set; }
     public DbSet<Treatment> Treatments { get; set; }
+    public DbSet<Category> Categories { get; set; }
     public DbSet<Payment> Payments { get; set; }
-    public DbSet<Appointment> Appointments { get; set; }
+    public DbSet<ScheduledAppointment> ScheduledAppointments { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
 }

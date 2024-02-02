@@ -13,12 +13,38 @@ namespace Odontio.Infrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Diseases",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Diseases", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,12 +72,11 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: true),
                     Phone = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: true),
                     Ruc = table.Column<string>(type: "text", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -68,8 +93,8 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FirstName = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: true),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
                     Birthdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Gender = table.Column<int>(type: "integer", nullable: false),
                     MaritalStatus = table.Column<int>(type: "integer", nullable: false),
@@ -86,7 +111,6 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     Observations = table.Column<string>(type: "text", nullable: true),
                     ReferredId = table.Column<long>(type: "bigint", nullable: true),
                     WorkspaceId = table.Column<long>(type: "bigint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -114,14 +138,21 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Cost = table.Column<decimal>(type: "numeric", nullable: true),
-                    WorkspaceId = table.Column<long>(type: "bigint", nullable: false)
+                    WorkspaceId = table.Column<long>(type: "bigint", nullable: false),
+                    CategoryId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Treatments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Treatments_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Treatments_Workspaces_WorkspaceId",
                         column: x => x.WorkspaceId,
@@ -136,16 +167,19 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Username = table.Column<string>(type: "text", nullable: true),
+                    Username = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: true),
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     PhotoUrl = table.Column<string>(type: "text", nullable: true),
-                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: true),
-                    PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: false),
                     WorkspaceId = table.Column<long>(type: "bigint", nullable: false),
-                    RoleId = table.Column<long>(type: "bigint", nullable: false)
+                    RoleId = table.Column<long>(type: "bigint", nullable: false),
+                    Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -161,7 +195,33 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         column: x => x.WorkspaceId,
                         principalTable: "Workspaces",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Budgets",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    ExpirationDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    PatientId = table.Column<long>(type: "bigint", nullable: false),
+                    Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Budgets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Budgets_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,9 +233,8 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     ToothId = table.Column<long>(type: "bigint", nullable: true),
                     PatientId = table.Column<long>(type: "bigint", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: false),
                     Observations = table.Column<string>(type: "text", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -203,7 +262,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ConditionType = table.Column<string>(type: "text", nullable: true),
+                    ConditionType = table.Column<string>(type: "text", nullable: false),
                     HasCondition = table.Column<bool>(type: "boolean", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     PatientId = table.Column<long>(type: "bigint", nullable: false)
@@ -246,17 +305,14 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MedicalRecords",
+                name: "ScheduledAppointments",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     PatientId = table.Column<long>(type: "bigint", nullable: false),
-                    TreatmentId = table.Column<long>(type: "bigint", nullable: false),
-                    ToothId = table.Column<long>(type: "bigint", nullable: true),
-                    Cost = table.Column<decimal>(type: "numeric", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -264,37 +320,25 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MedicalRecords", x => x.Id);
+                    table.PrimaryKey("PK_ScheduledAppointments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MedicalRecords_Patients_PatientId",
+                        name: "FK_ScheduledAppointments_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MedicalRecords_Teeth_ToothId",
-                        column: x => x.ToothId,
-                        principalTable: "Teeth",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_MedicalRecords_Treatments_TreatmentId",
-                        column: x => x.TreatmentId,
-                        principalTable: "Treatments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Appointments",
+                name: "PatientTreatments",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Observations = table.Column<string>(type: "text", nullable: true),
-                    MedicalRecordId = table.Column<long>(type: "bigint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    BudgetId = table.Column<long>(type: "bigint", nullable: false),
+                    TreatmentId = table.Column<long>(type: "bigint", nullable: false),
+                    ToothId = table.Column<long>(type: "bigint", nullable: true),
+                    Cost = table.Column<decimal>(type: "numeric", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -302,11 +346,22 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.PrimaryKey("PK_PatientTreatments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Appointments_MedicalRecords_MedicalRecordId",
-                        column: x => x.MedicalRecordId,
-                        principalTable: "MedicalRecords",
+                        name: "FK_PatientTreatments_Budgets_BudgetId",
+                        column: x => x.BudgetId,
+                        principalTable: "Budgets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PatientTreatments_Teeth_ToothId",
+                        column: x => x.ToothId,
+                        principalTable: "Teeth",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PatientTreatments_Treatments_TreatmentId",
+                        column: x => x.TreatmentId,
+                        principalTable: "Treatments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -322,8 +377,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     Amount = table.Column<decimal>(type: "numeric", nullable: false),
                     ReceiptType = table.Column<int>(type: "integer", nullable: false),
                     ReceiptNumber = table.Column<string>(type: "text", nullable: true),
-                    MedicalRecordId = table.Column<long>(type: "bigint", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    BudgetId = table.Column<long>(type: "bigint", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -333,17 +387,48 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_MedicalRecords_MedicalRecordId",
-                        column: x => x.MedicalRecordId,
-                        principalTable: "MedicalRecords",
+                        name: "FK_Payments_Budgets_BudgetId",
+                        column: x => x.BudgetId,
+                        principalTable: "Budgets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    PatientTreatmentId = table.Column<long>(type: "bigint", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Observations = table.Column<string>(type: "text", nullable: true),
+                    Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_PatientTreatments_PatientTreatmentId",
+                        column: x => x.PatientTreatmentId,
+                        principalTable: "PatientTreatments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_MedicalRecordId",
+                name: "IX_Appointments_PatientTreatmentId",
                 table: "Appointments",
-                column: "MedicalRecordId");
+                column: "PatientTreatmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Budgets_PatientId",
+                table: "Budgets",
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Diagnoses_PatientId",
@@ -361,21 +446,6 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MedicalRecords_PatientId",
-                table: "MedicalRecords",
-                column: "PatientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MedicalRecords_ToothId",
-                table: "MedicalRecords",
-                column: "ToothId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MedicalRecords_TreatmentId",
-                table: "MedicalRecords",
-                column: "TreatmentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PatientDiseases_DiseaseId",
                 table: "PatientDiseases",
                 column: "DiseaseId");
@@ -384,6 +454,21 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 name: "IX_PatientDiseases_PatientId",
                 table: "PatientDiseases",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientTreatments_BudgetId",
+                table: "PatientTreatments",
+                column: "BudgetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientTreatments_ToothId",
+                table: "PatientTreatments",
+                column: "ToothId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientTreatments_TreatmentId",
+                table: "PatientTreatments",
+                column: "TreatmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Patients_ReferredId",
@@ -396,9 +481,19 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 column: "WorkspaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_MedicalRecordId",
+                name: "IX_Payments_BudgetId",
                 table: "Payments",
-                column: "MedicalRecordId");
+                column: "BudgetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScheduledAppointments_PatientId",
+                table: "ScheduledAppointments",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Treatments_CategoryId",
+                table: "Treatments",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Treatments_WorkspaceId",
@@ -435,22 +530,34 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
+                name: "ScheduledAppointments");
+
+            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "MedicalRecords");
+                name: "PatientTreatments");
+
+            migrationBuilder.DropTable(
+                name: "Diseases");
 
             migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Patients");
+                name: "Budgets");
 
             migrationBuilder.DropTable(
                 name: "Teeth");
 
             migrationBuilder.DropTable(
                 name: "Treatments");
+
+            migrationBuilder.DropTable(
+                name: "Patients");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Workspaces");

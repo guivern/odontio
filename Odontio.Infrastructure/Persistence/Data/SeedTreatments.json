@@ -1,0 +1,672 @@
+﻿[
+  {
+    "CategoryId": 1,
+    "Name": "Consultas",
+    "Cost": 100000
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Cementado de corona provisoria",
+    "Cost": 150000
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Atención de urgencia",
+    "Cost": 180000
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Extracción en erupción normal anteriores",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Extracción en erupción normal pre molares",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Extracción en erupción normal primeros molares",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Extracción en erupción normal segundos molares",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Extracción de restos radiculares",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Extracción en erupción normal terceros molares (Exodoncia)",
+    "Cost": 300000
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Exodoncia temporario sin reabsorción",
+    "Cost": 150000
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Exodoncia temporario con reabsorción",
+    "Cost": 150000
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Curación post-extracción",
+    "Cost": 150000
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Limpieza de sarros leves (Gingivitis)",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Profilaxis moderada por maxilar (Sarros)",
+    "Cost": 230000
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Profilaxis crónico por maxilar (Enfermedad periodontal)",
+    "Cost": 260000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Pulpotomía",
+    "Cost": 400000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Estudio clínico y radiológico para el diagnóstico (endodoncia)",
+    "Cost": 100000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Endodoncia anterior",
+    "Cost": 700000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Endodoncia premolar",
+    "Cost": 800000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Endodoncia 1er y 2do molar",
+    "Cost": 900000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Endodoncia 3er molar",
+    "Cost": 1200000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Retratamiento endodóntico anterior",
+    "Cost": 900000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Retratamiento endodóntico pre-molar",
+    "Cost": 950000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Retratamiento endodóntico 1er y 2do molar",
+    "Cost": 1300000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Apexificación inicial",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Apexificación control mensual",
+    "Cost": 300000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Ortodoncia convencional (entrega inicial)",
+    "Cost": 1500000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Cuota mensual por Ortodoncia convencional",
+    "Cost": 350000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Retenedor fijo por maxilar",
+    "Cost": 400000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Remoción de aparatología por arcada",
+    "Cost": 400000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Ortodoncia convencional cerámico (entrega inicial)",
+    "Cost": 3000000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Cuota mensual por Ortodoncia convencional cerámico",
+    "Cost": 450000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Ortodoncia convencional estética zafiro (entrega inicial)",
+    "Cost": 4000000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Cuota mensual por Ortodoncia convencional estética zafiro",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Ortodoncia autoligado (entrega inicial)",
+    "Cost": 3500000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Cuota mensual autoligado",
+    "Cost": 400000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Orodoncia estética autoligado (entrega inicial)",
+    "Cost": 5000000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Cuota mensual autoligado estético",
+    "Cost": 550000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Ortodoncia incerceptiva (niños) (entrega inicial)",
+    "Cost": 1600000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Cuota mensual interceptiva",
+    "Cost": 370000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Ortopedia (entrega inicial)",
+    "Cost": 1400000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Cuota mensual ortopedia",
+    "Cost": 350000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Micro implante inter radicular",
+    "Cost": 800000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Micro implante intra radicular",
+    "Cost": 1500000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Reposición de aparatología convenional por pieza",
+    "Cost": 180000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Placa hawley por maxilar",
+    "Cost": 350000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Retenedor fijo",
+    "Cost": 250000
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Remoción de aparatología por arcada",
+    "Cost": 400000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Extracción de diente retenido en 3er molar y otros (Exodoncia)",
+    "Cost": 700000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Extracción de diente retenido supernumerario (Exodoncia)",
+    "Cost": 750000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Extracción de canino retenido",
+    "Cost": 900000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Extracción a colgajo",
+    "Cost": 300000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Tratamiento alveolitis",
+    "Cost": 300000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Tratamiento hemorrágico",
+    "Cost": 300000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Ferulización en luxación (movilidad)",
+    "Cost": 400000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Ferulización avulsión (expulsión)",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Frenectomía",
+    "Cost": 650000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Gingivectomía",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Gingivoplastía",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Biopsia",
+    "Cost": 800000
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Alargamiento coronario",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Sellador de fosas y fisuras",
+    "Cost": 250000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Mantenedor de espacio",
+    "Cost": 450000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Endodoncia en diente temporario (niños)",
+    "Cost": 550000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Restauración anterior en diente temporario con luz halógena (niños)",
+    "Cost": 300000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Restauración posterior en diente temporario con luz halógena (niños)",
+    "Cost": 300000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Restauración con lonomero de vidrio en diente temporario (niños)",
+    "Cost": 300000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Extracción simple con movilidad (niños)",
+    "Cost": 150000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Extracción de supernumerarios en erupción normal (niños)",
+    "Cost": 250000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Profilaxis buco dental (niños)",
+    "Cost": 180000
+  },
+  {
+    "CategoryId": 7,
+    "Name": "Fluorización (niños)",
+    "Cost": 130000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Blanqueamiento en diente no vital",
+    "Cost": 550000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Blanqueamiento de dientes vitales en consultorio",
+    "Cost": 1300000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Blanqueamiento de dientes vitales combinado (consultorio + cubeta)",
+    "Cost": 1800000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Blanqueamiento con cubeta (casero)",
+    "Cost": 1000000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración con luz halógena Anterior (por cara)",
+    "Cost": 250000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración con luz halógena Anterior (cada cara a partir de 2 caras)",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración clase I con luz halógena (posterior occlusal)",
+    "Cost": 220000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración clase II con luz halógena (hasta 2 caras)",
+    "Cost": 2500000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración clase II compuesta con luz halógena (3 caras)",
+    "Cost": 280000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración de angulo con luz halógena",
+    "Cost": 400000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Carilla de resina con luz halógena",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauraciones cervicales (lonomero) Vitremer",
+    "Cost": 280000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Carilla y lente de contacto de porcelana pura",
+    "Cost": 3000000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración post-endodoncia Anterior",
+    "Cost": 400000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración post-endodoncia Premolar",
+    "Cost": 450000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración post-endodoncia Molar",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Restauración con resina (luz halógena)",
+    "Cost": 2400000
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Sky",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Perno metálico",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Perno de fibra de vidrio",
+    "Cost": 600000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Corona provisoria anterior del perno",
+    "Cost": 150000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Corona provisoria posterior del perno",
+    "Cost": 150000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Corona Isosit",
+    "Cost": 600000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Corona de porcelana y metal",
+    "Cost": 1200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Corona con frente estético (veener) porcelana",
+    "Cost": 1200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Corona de porcelana libre de metal (E-Max)",
+    "Cost": 3000000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Puente de metal porcelana por pieza",
+    "Cost": 1200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Placa de protección",
+    "Cost": 500000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Placa de relajación de acrílico",
+    "Cost": 1300000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Agregado de diente a prótesis sin impresión",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Agregado de diente a prótesis con impresión",
+    "Cost": 250000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Corona de porcelana Zirconio",
+    "Cost": 3000000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Removible de acrílico (hasta 4 piezas)",
+    "Cost": 950000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Dientes subsiguientes",
+    "Cost": 120000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Removible cromo cobalto (hasta 4 piezas)",
+    "Cost": 13000000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Prótesis estética flexible por maxilar",
+    "Cost": 1500000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Prótesis de acrílico completa por maxilar",
+    "Cost": 1400000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Incrustación con Isosit",
+    "Cost": 900000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Incrustación en porcelana (E-Max)",
+    "Cost": 3000000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Puente provisorio por pieza",
+    "Cost": 130000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Compostura de prótesis con impresión",
+    "Cost": 250000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Compostura de prótesis sin impresión",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Componentes de prótesis fijas",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Rebasado externo",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Retiro de perno",
+    "Cost": 280000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Retiro de corona de isosit",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Retiro de corona de porcelana",
+    "Cost": 220000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Retiro de puente por pilares",
+    "Cost": 140000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Placa provisoria de un diente anterior (hasta 2 dientes)",
+    "Cost": 180000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Placa provisoria diente subsiguiente",
+    "Cost": 70000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Encerado",
+    "Cost": 200000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Mock up (modelo)",
+    "Cost": 250000
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Placa dentada",
+    "Cost": 1200000
+  },
+  {
+    "CategoryId": 10,
+    "Name": "Toxina Botulínica por sector",
+    "Cost": 1200000
+  },
+  {
+    "CategoryId": 10,
+    "Name": "Ácido Hialurónico",
+    "Cost": 1900000
+  },
+  {
+    "CategoryId": 10,
+    "Name": "Toxina Botulínica ATM",
+    "Cost": 2000000
+  },
+  {
+    "CategoryId": 10,
+    "Name": "Bichectomía",
+    "Cost": 2000000
+  },
+  {
+    "CategoryId": 11,
+    "Name": "Implante cirugía",
+    "Cost": 3500000
+  },
+  {
+    "CategoryId": 11,
+    "Name": "Corona sobre implante",
+    "Cost": 2500000
+  },
+  {
+    "CategoryId": 11,
+    "Name": "Injerto óseo",
+    "Cost": 2500000
+  },
+  {
+    "CategoryId": 11,
+    "Name": "Levantamiento de seno maxilar por lado",
+    "Cost": 5500000
+  },
+  {
+    "CategoryId": 11,
+    "Name": "Regeneración ósea guiada con membrana",
+    "Cost": 3500000
+  },
+  {
+    "CategoryId": 12,
+    "Name": "Periapical",
+    "Cost": 50000
+  }
+]

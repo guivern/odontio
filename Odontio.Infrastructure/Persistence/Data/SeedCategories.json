@@ -1,0 +1,54 @@
+﻿[
+  {
+    "Name": "Consultas",
+    "Id": 1
+  },
+  {
+    "Name": "Cirugías",
+    "Id": 2
+  },
+  {
+    "Name": "Periodoncia",
+    "Id": 3
+  },
+  {
+    "Name": "Endodoncia",
+    "Id": 4
+  },
+  {
+    "Name": "Ortodoncia",
+    "Id": 5
+  },
+  {
+    "Name": "Extracciones",
+    "Id": 6
+  },
+  {
+    "Name": "Odontopediatría",
+    "Id": 7
+  },
+  {
+    "Name": "Estética",
+    "Id": 8
+  },
+  {
+    "Name": "Protesis",
+    "Id": 9
+  },
+  {
+    "Name": "Armonización Facial",
+    "Id": 10
+  },
+  {
+    "Name": "Implantes",
+    "Id": 11
+  },
+  {
+    "Name": "Radiografías",
+    "Id": 12
+  },
+  {
+    "Name": "Otros",
+    "Id": 13
+  }
+]

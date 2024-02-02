@@ -10,7 +10,9 @@ public interface IApplicationDbContext
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     
     DbSet<Disease> Diseases { get; set; }
-    DbSet<MedicalRecord> MedicalRecords { get; set; }
+    DbSet<PatientTreatment> PatientTreatments { get; set; }
+    DbSet<Budget> Budgets { get; set; }
+    DbSet<Appointment> Appointments { get; set; }
     DbSet<MedicalCondition> MedicalConditions { get; set; }
     DbSet<Diagnosis> Diagnoses { get; set; }
     DbSet<Patient> Patients { get; set; }
@@ -18,8 +20,9 @@ public interface IApplicationDbContext
     DbSet<Tooth> Teeth { get; set; }
     DbSet<Workspace> Workspaces { get; set; }
     DbSet<Treatment> Treatments { get; set; }
+    DbSet<Category> Categories { get; set; }
     DbSet<Payment> Payments { get; set; }
-    DbSet<Appointment> Appointments { get; set; }
+    DbSet<ScheduledAppointment> ScheduledAppointments { get; set; }
     DbSet<User> Users { get; set; }
     DbSet<Role> Roles { get; set; }
 }

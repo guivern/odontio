@@ -10,10 +10,8 @@ public class Payment: BaseAuditableEntity
     public PaymentMethod PaymentMethod {get; set;}
     public decimal Amount {get; set;}
     public ReceiptType ReceiptType {get; set;}
-    public string ReceiptNumber {get; set;}
+    public string? ReceiptNumber {get; set;}
     
-    public long MedicalRecordId {get; set;}
-    public MedicalRecord MedicalRecord {get; set;}
-    
-    public bool IsDeleted { get; set; }
+    public long BudgetId {get; set;}
+    public Budget Budget {get; set;} = null!;
 }
