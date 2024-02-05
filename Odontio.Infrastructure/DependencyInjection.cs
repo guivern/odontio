@@ -17,14 +17,9 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddDbContextInitializer(configuration);
-        services.AddAuth(configuration);
+        services.AddAuthentication(configuration);
+        services.AddAuthorization();
         services.AddServices();
-
-        // services.AddAuthorization(options =>
-        // {
-        //     options.AddPolicy(Policies.IsAdmin, Policies.IsAdminPolicy());
-        //     options.AddPolicy(Policies.IsUser, Policies.IsUserPolicy());
-        // });
 
         return services;
     }
@@ -53,7 +48,7 @@ public static class DependencyInjection
         return services;
     }
     
-     public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
+     public static IServiceCollection AddAuthentication(this IServiceCollection services, ConfigurationManager configuration)
     {
         // var facebookAuthSettings = new FacebookAuthSettings();
         // configuration.Bind(nameof(FacebookAuthSettings), facebookAuthSettings);
@@ -97,6 +92,17 @@ public static class DependencyInjection
                 };
             });
 
+        return services;
+    }
+     
+    private static IServiceCollection AddAuthorization(this IServiceCollection services)
+    {
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Administrator", policy => policy.RequireClaim("Role", "Administrator"));
+            options.AddPolicy("User", policy => policy.RequireClaim("Role", "User"));
+        });
+        
         return services;
     }
 }

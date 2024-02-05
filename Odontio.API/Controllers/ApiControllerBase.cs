@@ -51,6 +51,11 @@ public class ApiControllerBase: ControllerBase
         {
             return Unauthorized(error);
         }
+        
+        if (error.NumericType == 403)
+        {
+            return Problem(statusCode: 403, title: error.Description);
+        }
 
         var statusCode = error.Type switch
         {

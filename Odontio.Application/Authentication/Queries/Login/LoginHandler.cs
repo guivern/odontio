@@ -15,6 +15,7 @@ public class LoginHandler(IApplicationDbContext context, IAuthService authServic
     {
         var user = await context.Users
             .AsNoTracking()
+            .Include(x => x.Role)
             .FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken: cancellationToken);
 
         if (user == null)

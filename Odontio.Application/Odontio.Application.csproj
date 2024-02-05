@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Authentication\Commands\" />
+    <Folder Include="Categories\Commands\" />
   </ItemGroup>
 
   <PropertyGroup>
