@@ -11,9 +11,14 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly())); // add all handlers
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>)); // add validation behavior
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); // add validators
+        services.AddMediatR(options =>
+        {
+            options.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+
+            options.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
+            options.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
+        services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
         services.AddMapping(); // add mapster
         services.AddSignalR();
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));

@@ -1,13 +1,10 @@
-﻿using MediatR;
-using Odontio.Application.Categories.Common;
+﻿using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Helpers;
-using Odontio.Application.Common.Interfaces;
-using ErrorOr;
-using RolesEnum = Odontio.Domain.Enums.Roles;
 
 namespace Odontio.Application.Categories.Queries.GetCategories;
 
-public record GetCategoriesQuery : PagedListQueryBase, IRequest<ErrorOr<PagedList<GetCategoryResult>>>, IAuthorizeable
+
+[RolesAuthorize(nameof(RolesEnum.User), nameof(RolesEnum.Administrator))]
+public class GetCategoriesQuery : PagedListQueryBase, IRequest<ErrorOr<PagedList<GetCategoriesResult>>>
 {
-    public string[] Roles => new[] { nameof(RolesEnum.User), nameof(RolesEnum.Administrator) };
 }
