@@ -40,8 +40,8 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
             }
 
             // throw new UnauthorizedException();
-            return (dynamic)Error.Custom((int)HttpStatusCode.Forbidden, "FORBIDDEN",
-                "User is not authorized to perform this action.");
+            return (dynamic)Error.Custom(type: (int)HttpStatusCode.Forbidden, code: "FORBIDDEN",
+                description: "User is not authorized to perform this action.");
         }
 
         return await next();

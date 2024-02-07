@@ -1,4 +1,6 @@
-﻿using Odontio.Application.Treatments.Common.CreateTreatment;
+﻿using Odontio.Application.Treatments.Commands.CreateTreatment;
+using Odontio.Application.Treatments.Commands.DeleteTreatment;
+using Odontio.Application.Treatments.Commands.UpdateTreatment;
 using Odontio.Application.Treatments.Queries.GetTreatmentById;
 using Odontio.Application.Treatments.Queries.GetTreatments;
 
@@ -42,6 +44,31 @@ public class TreatmentsController(IMediator mediator) : ApiControllerBase
         return result.Match<IActionResult>(
             result => CreatedAtAction(nameof(GetById),
                 new GetTreatmentByIdQuery { Id = result.Id, WorkspaceId = workspaceId }, result),
+            errors => Problem(errors)
+        );
+    }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(long workspaceId, long id, UpdateTreatmentCommand command)
+    {
+        if (id != command.Id) return BadRequest();
+
+        command.WorkspaceId = workspaceId;
+        var result = await mediator.Send(command);
+
+        return result.Match<IActionResult>(
+            result => Ok(result),
+            errors => Problem(errors)
+        );
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(DeleteTreatmentCommand command)
+    {
+        var result = await mediator.Send(command);
+
+        return result.Match<IActionResult>(
+            result => NoContent(),
             errors => Problem(errors)
         );
     }

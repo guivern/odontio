@@ -17,6 +17,7 @@ public static class DependencyInjection
 
             options.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
             options.AddOpenBehavior(typeof(ValidationBehavior<,>));
+            options.AddOpenBehavior(typeof(WorkspaceValidationBehavior<,>));
         });
         services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
         services.AddMapping(); // add mapster
@@ -24,5 +25,5 @@ public static class DependencyInjection
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
 
         return services;
-    } 
+    }
 }

@@ -9,14 +9,6 @@ public class GetTreatmentsHandler(IApplicationDbContext context)
     public async Task<ErrorOr<PagedList<GetTreatmentsResult>>> Handle(GetTreatmentsQuery request,
         CancellationToken cancellationToken)
     {
-        var workspaceExists = await context.Workspaces.AsNoTracking()
-            .AnyAsync(x => x.Id == request.WorkspaceId, cancellationToken);
-        
-        if (!workspaceExists)
-        {
-            return Error.NotFound(description: "Workspace not found");
-        }
-        
         var query = context.Treatments
             .AsNoTracking()
             .Include(x => x.Category)

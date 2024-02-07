@@ -1,6 +1,6 @@
-﻿namespace Odontio.Application.Treatments.Common.CreateTreatment;
+﻿namespace Odontio.Application.Treatments.Commands.UpdateTreatment;
 
-public class CreateTreatmentResult
+public class UpdateTreatmentResult
 {
     public long Id {get; set;}
     public string Name {get; set;} = null!;
