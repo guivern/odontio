@@ -7,9 +7,11 @@ public class Budget: BaseAuditableEntity
 {
     private const int ExpirationMonths = 6;
     public long Id { get; set; }
-    public DateTimeOffset Date { get; set; }
+    public DateOnly Date { get; set; }
     public BudgetStatus Status { get; set; } = BudgetStatus.Pendiente;
-    public DateTimeOffset ExpirationDate { get; set; } = DateTimeOffset.Now.AddMonths(ExpirationMonths);
+
+    public DateOnly ExpirationDate { get; set; } =
+        DateOnly.FromDateTime(DateTimeOffset.Now.AddMonths(ExpirationMonths).Date);
     
     public long PatientId { get; set; }
     public Patient Patient { get; set; } = null!;
@@ -46,6 +48,6 @@ public class Budget: BaseAuditableEntity
     
     private bool HasExpired()
     {
-        return Status == BudgetStatus.Pendiente && DateTimeOffset.Now > ExpirationDate;
+        return Status == BudgetStatus.Pendiente && DateOnly.FromDateTime(DateTimeOffset.Now.Date) > ExpirationDate;
     }
 }

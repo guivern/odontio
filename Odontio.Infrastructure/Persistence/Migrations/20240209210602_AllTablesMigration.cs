@@ -95,9 +95,9 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
-                    Birthdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Birthdate = table.Column<DateOnly>(type: "date", nullable: true),
                     Gender = table.Column<int>(type: "integer", nullable: false),
-                    MaritalStatus = table.Column<int>(type: "integer", nullable: false),
+                    MaritalStatus = table.Column<int>(type: "integer", nullable: true),
                     Occupation = table.Column<string>(type: "text", nullable: true),
                     Address = table.Column<string>(type: "text", nullable: true),
                     Phone = table.Column<string>(type: "text", nullable: true),
@@ -105,6 +105,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     WorkAddress = table.Column<string>(type: "text", nullable: true),
                     WorkPhone = table.Column<string>(type: "text", nullable: true),
                     Ruc = table.Column<string>(type: "text", nullable: true),
+                    DocumentNumber = table.Column<string>(type: "text", nullable: false),
                     LastDentalVisit = table.Column<string>(type: "text", nullable: true),
                     ToothLossCause = table.Column<string>(type: "text", nullable: true),
                     BrushingFrequency = table.Column<string>(type: "text", nullable: true),
@@ -204,9 +205,9 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    ExpirationDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ExpirationDate = table.Column<DateOnly>(type: "date", nullable: false),
                     PatientId = table.Column<long>(type: "bigint", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
@@ -230,7 +231,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
                     ToothId = table.Column<long>(type: "bigint", nullable: true),
                     PatientId = table.Column<long>(type: "bigint", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
@@ -310,7 +311,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     PatientId = table.Column<long>(type: "bigint", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),

@@ -5,7 +5,7 @@ namespace Odontio.Domain.Entities;
 public class Diagnosis: BaseAuditableEntity
 {
     public long Id { get; set; }
-    public DateTimeOffset Date { get; set; }
+    public DateOnly Date { get; set; }
     
     public long? ToothId { get; set; }
     public Tooth? Tooth { get; set; }

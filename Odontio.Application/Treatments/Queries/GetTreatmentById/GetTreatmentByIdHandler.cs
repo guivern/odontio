@@ -18,7 +18,7 @@ public class GetTreatmentByIdHandler(IApplicationDbContext context, IMapper mapp
         }
 
         var result = mapper.Map<GetTreatmentByIdResult>(treatment);
-
+        
         return result;
     }
 }
