@@ -8,7 +8,7 @@ public static class Extensions
     {
         var header = new { currentPage, itemsPerPage, totalItems, totalPages };
             
-        response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
-        response.Headers.Add("Access-Control-Expose-Headers", "X-Pagination");
+        response.Headers["X-Pagination"] = JsonConvert.SerializeObject(header);
+        response.Headers["Access-Control-Expose-Headers"] = "X-Pagination";
     }
 }

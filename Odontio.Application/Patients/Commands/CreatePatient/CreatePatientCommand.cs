@@ -1,11 +1,12 @@
 ﻿using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Interfaces;
+using Odontio.Application.Patients.Common;
 
 namespace Odontio.Application.Patients.Commands.CreatePatient;
 
 [ValidateWorkspace]
 [RolesAuthorize(nameof(RolesEnum.Administrator))]
-public class CreatePatientCommand : IRequest<ErrorOr<CreatePatientResult>>, IWorkspaceResource
+public class CreatePatientCommand : IRequest<ErrorOr<UpsertPatientResult>>, IWorkspaceResource
 {
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
@@ -25,5 +26,6 @@ public class CreatePatientCommand : IRequest<ErrorOr<CreatePatientResult>>, IWor
     public string? BrushingFrequency { get; set; }
     public string? Observations { get; set; }
     public long? ReferredId { get; set; }
+    
     public long WorkspaceId { get; set; }
 }

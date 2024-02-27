@@ -1,4 +1,5 @@
-﻿using Odontio.Application.Common.Interfaces;
+﻿using FluentValidation.Validators;
+using Odontio.Application.Common.Interfaces;
 using Odontio.Domain.Enums;
 
 namespace Odontio.Application.Patients.Commands.CreatePatient;
@@ -10,11 +11,15 @@ public class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
     public CreatePatientValidator(IApplicationDbContext context)
     {
         _context = context;
+        RuleFor(x => x.WorkspaceId).NotEmpty().WithMessage("Workspace id is required");
         RuleFor(x => x.FirstName).NotEmpty().MaximumLength(248);
         RuleFor(x => x.LastName).NotEmpty().MaximumLength(248);
         RuleFor(x => x.Gender).NotEmpty().Must(BeValidGender).WithMessage("Invalid gender");
         RuleFor(x => x.MaritalStatus).Must(BeValidMaritalStatus).WithMessage("Invalid marital status");
         RuleFor(x => x.DocumentNumber).NotEmpty().MustAsync(BeUniqueDocumentNumber).WithMessage("Already exists");
+        // RuleFor(x => x.MedicalConditions)
+        //     .ForEach(x =>
+        //         x.Must(mc => !string.IsNullOrEmpty(mc.ConditionType)).WithMessage("Is required"));
     }
 
     private bool BeValidMaritalStatus(string? arg)

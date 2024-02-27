@@ -1,8 +1,7 @@
-﻿namespace Odontio.Application.Patients.Commands.CreatePatient;
+﻿namespace Odontio.API.Contracts.Patients;
 
-public class CreatePatientResult
+public class UpdatePatientRequest
 {
-    public long Id { get; set; }
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public DateOnly? Birthdate { get; set; }
@@ -16,9 +15,9 @@ public class CreatePatientResult
     public string? WorkPhone { get; set; }
     public string? Ruc { get; set; }
     public string DocumentNumber { get; set; } = null!;
-    public string? LastDentalVisit {get; set;}
-    public string? ToothLossCause {get; set;}
-    public string? BrushingFrequency {get; set;}
-    public string? Observations {get; set;}
-    public long? ReferredId  {get; set;}
+    public string? LastDentalVisit { get; set; }
+    public string? ToothLossCause { get; set; }
+    public string? BrushingFrequency { get; set; }
+    public string? Observations { get; set; }
+    public long? ReferredId { get; set; }
 }

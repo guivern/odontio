@@ -8,6 +8,6 @@ namespace Odontio.Application.Patients.Queries.GetPatientById;
 [RolesAuthorize(nameof(RolesEnum.User), nameof(RolesEnum.Administrator))]
 public class GetPatientByIdQuery : IRequest<ErrorOr<GetPatientByIdResult>>, IWorkspaceResource
 {
-    [FromRoute] public long Id { get; init; }
-    [FromRoute] public long WorkspaceId { get; init; }
+    public long Id { get; init; }
+    public long WorkspaceId { get; init; }
 }

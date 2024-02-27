@@ -18,6 +18,7 @@ public static class DependencyInjection
             options.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
             options.AddOpenBehavior(typeof(ValidationBehavior<,>));
             options.AddOpenBehavior(typeof(WorkspaceValidationBehavior<,>));
+            options.AddOpenBehavior(typeof(PatientValidationBehavior<,>));
         });
         services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
         services.AddMapping(); // add mapster

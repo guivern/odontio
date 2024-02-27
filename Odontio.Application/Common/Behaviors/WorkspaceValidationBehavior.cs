@@ -24,6 +24,7 @@ public class WorkspaceValidationBehavior<TRequest, TResponse> : IPipelineBehavio
 
         if (attributeExists)
         {
+            // check if workspace exists
             var workspaceExists = await _context.Workspaces.AsNoTracking()
                 .AnyAsync(x => x.Id == request.WorkspaceId, cancellationToken);
             
@@ -32,11 +33,10 @@ public class WorkspaceValidationBehavior<TRequest, TResponse> : IPipelineBehavio
                 return (dynamic)Error.NotFound(description: "Workspace not found");
             }
             
-            // Extract WorkspaceId from JWT claims
+            // check if user has access to workspace
             var user = _httpContextAccessor.HttpContext?.User;
             var userWorkspaceId = user?.FindFirst("WorkspaceId")?.Value;
-
-            // Compare WorkspaceId from JWT claims with WorkspaceId in the request
+            
             if (userWorkspaceId == null || request.WorkspaceId != long.Parse(userWorkspaceId))
             {
                 return (dynamic)Error.Custom((int)HttpStatusCode.Forbidden, "FORBIDDEN",

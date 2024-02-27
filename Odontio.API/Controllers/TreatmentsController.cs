@@ -1,4 +1,6 @@
-﻿using Odontio.Application.Treatments.Commands.CreateTreatment;
+﻿using MapsterMapper;
+using Odontio.API.Contracts.Treatments;
+using Odontio.Application.Treatments.Commands.CreateTreatment;
 using Odontio.Application.Treatments.Commands.DeleteTreatment;
 using Odontio.Application.Treatments.Commands.UpdateTreatment;
 using Odontio.Application.Treatments.Queries.GetTreatmentById;
@@ -7,12 +9,22 @@ using Odontio.Application.Treatments.Queries.GetTreatments;
 namespace Odontio.API.Controllers;
 
 [Route("api/v1/Workspaces/{workspaceId}/[controller]")]
-public class TreatmentsController(IMediator mediator) : ApiControllerBase
+public class TreatmentsController(IMediator mediator, IMapper mapper) : ApiControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll(GetTreatmentsQuery request)
+    public async Task<IActionResult> GetAll(long workspaceId, PaginationQueryParams pagination,
+        CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(request);
+        var request = new GetTreatmentsQuery
+        {
+            WorkspaceId = workspaceId,
+            Page = pagination.Page,
+            PageSize = pagination.PageSize,
+            Filter = pagination.Filter,
+            OrderBy = pagination.OrderBy
+        };
+
+        var result = await mediator.Send(request, cancellationToken);
 
         return result.Match<IActionResult>(
             result =>
@@ -25,9 +37,10 @@ public class TreatmentsController(IMediator mediator) : ApiControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(GetTreatmentByIdQuery request)
+    public async Task<IActionResult> GetById(long id, long workspaceId, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(request);
+        var request = new GetTreatmentByIdQuery { Id = id, WorkspaceId = workspaceId };
+        var result = await mediator.Send(request, cancellationToken);
 
         return result.Match<IActionResult>(
             result => Ok(result),
@@ -36,10 +49,13 @@ public class TreatmentsController(IMediator mediator) : ApiControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(long workspaceId, CreateTreatmentCommand command)
+    public async Task<IActionResult> Create(long workspaceId, CreateTreatmentRequest request,
+        CancellationToken cancellationToken)
     {
+        var command = mapper.Map<CreateTreatmentCommand>(request);
         command.WorkspaceId = workspaceId;
-        var result = await mediator.Send(command);
+
+        var result = await mediator.Send(command, cancellationToken);
 
         return result.Match<IActionResult>(
             result => CreatedAtAction(nameof(GetById),
@@ -47,25 +63,37 @@ public class TreatmentsController(IMediator mediator) : ApiControllerBase
             errors => Problem(errors)
         );
     }
-    
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(long workspaceId, long id, UpdateTreatmentCommand command)
-    {
-        if (id != command.Id) return BadRequest();
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(long workspaceId, long id, UpdateTreatmentRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (id != request.Id)
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Invalid request",
+                Detail = "The id in the request body does not match the id in the route"
+            });
+        }
+
+
+        var command = mapper.Map<UpdateTreatmentCommand>(request);
         command.WorkspaceId = workspaceId;
-        var result = await mediator.Send(command);
+
+        var result = await mediator.Send(command, cancellationToken);
 
         return result.Match<IActionResult>(
             result => Ok(result),
             errors => Problem(errors)
         );
     }
-    
+
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(DeleteTreatmentCommand command)
+    public async Task<IActionResult> Delete(long workspaceId, long id, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(command);
+        var command = new DeleteTreatmentCommand { Id = id, WorkspaceId = workspaceId };
+        var result = await mediator.Send(command, cancellationToken);
 
         return result.Match<IActionResult>(
             result => NoContent(),

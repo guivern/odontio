@@ -1,4 +1,6 @@
-﻿namespace Odontio.Application.Patients.Queries.GetPatientById;
+﻿using Odontio.Application.MedicalConditions.Common;
+
+namespace Odontio.Application.Patients.Queries.GetPatientById;
 
 public class GetPatientByIdResult
 {
@@ -21,4 +23,6 @@ public class GetPatientByIdResult
     public string? BrushingFrequency {get; set;}
     public string? Observations {get; set;}
     public long? ReferredId  {get; set;}
+    
+    // public List<MedicalConditionResult> MedicalConditions { get; set; } = new();
 }

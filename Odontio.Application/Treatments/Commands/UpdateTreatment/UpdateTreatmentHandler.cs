@@ -13,7 +13,7 @@ public class UpdateTreatmentHandler(IApplicationDbContext context, IMapper mappe
             return Error.NotFound(description: "Treatment not found");
         }
 
-        mapper.Map(request, treatment);
+        treatment = mapper.Map(request, treatment);
 
         try
         {
