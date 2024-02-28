@@ -57,7 +57,19 @@ public class DbContextInitializer
         await SeedUsers();
         await SeedDiseases();
         await SeedTreatments();
+        await SeedTeeth();
         await _context.SaveChangesAsync();
+    }
+
+    private async Task SeedTeeth()
+    {
+        if (await _context.Teeth.AsNoTracking().AnyAsync()) return;
+        
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/SeedTeeth.json");
+        var data = await File.ReadAllTextAsync(filePath);
+        var teethFromJson = JsonSerializer.Deserialize<List<Tooth>>(data);
+        
+        await _context.Teeth.AddRangeAsync(teethFromJson);
     }
 
     private async Task SeedTreatments()

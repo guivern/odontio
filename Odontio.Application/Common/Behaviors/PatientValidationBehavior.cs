@@ -21,7 +21,6 @@ public class PatientValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
     {
         var requestType = request.GetType();
         var attributeExists = Attribute.IsDefined(requestType, typeof(ValidatePatientAttribute));
-
         if (attributeExists)
         {
             // check if patient exists

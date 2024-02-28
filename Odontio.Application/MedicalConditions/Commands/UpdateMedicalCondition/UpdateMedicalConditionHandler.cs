@@ -1,5 +1,4 @@
 ﻿using Odontio.Application.Common.Interfaces;
-using Odontio.Application.MedicalConditions.Common;
 using Odontio.Application.MedicalConditions.UpdateMedicalCondition;
 
 namespace Odontio.Application.MedicalConditions.Common.UpdateMedicalCondition;
@@ -10,16 +9,12 @@ public class UpdateMedicalConditionHandler(IApplicationDbContext context, IMappe
     public async Task<ErrorOr<MedicalConditionResult>> Handle(UpdateMedicalConditionCommand request,
         CancellationToken cancellationToken)
     {
-        var medicalCondition = await context.MedicalConditions.FindAsync(request.Id);
+        var medicalCondition = await context.MedicalConditions
+            .FirstOrDefaultAsync(x => x.Id == request.Id && x.PatientId == request.PatientId, cancellationToken);
         
         if (medicalCondition == null)
         {
             return Error.NotFound(description: "Medical condition not found");
-        }
-        
-        if (medicalCondition.PatientId != request.PatientId)
-        {
-            return Error.Validation(description: "Medical condition does not belong to patient");
         }
         
         medicalCondition = mapper.Map(request, medicalCondition);
