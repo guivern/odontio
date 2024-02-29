@@ -6,6 +6,5 @@ public class DeletePatientValidator : AbstractValidator<DeletePatientCommand>
     {
         RuleFor(x => x.Id).NotEmpty();
         RuleFor(x => x.WorkspaceId).NotEmpty();
-        RuleFor(x => x.PatientId).NotEmpty();
     }
 }

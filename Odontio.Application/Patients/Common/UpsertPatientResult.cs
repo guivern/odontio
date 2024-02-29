@@ -21,5 +21,4 @@ public class UpsertPatientResult
     public string? BrushingFrequency { get; set; }
     public string? Observations { get; set; }
     public long? ReferredId { get; set; }
-    public List<long> Diseases { get; set; } = new();
 }

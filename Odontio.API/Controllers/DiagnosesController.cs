@@ -61,17 +61,13 @@ public class DiagnosesController(IMediator mediator, IMapper mapper) : ApiContro
         );
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> Update(long workspaceId, long patientId, long id,
         [FromBody] UpdateDiagnosisRequest request, CancellationToken cancellationToken)
     {
-        if (id != request.Id)
-        {
-            return BadRequest("The id in the request body does not match the id in the URL");
-        }
-        
         var command = mapper.Map<UpdateDiagnosisCommand>(request);
 
+        command.Id = id;
         command.PatientId = patientId;
         command.WorkspaceId = workspaceId;
 

@@ -77,7 +77,6 @@ public class TreatmentsController(IMediator mediator, IMapper mapper) : ApiContr
             });
         }
 
-
         var command = mapper.Map<UpdateTreatmentCommand>(request);
         command.WorkspaceId = workspaceId;
 

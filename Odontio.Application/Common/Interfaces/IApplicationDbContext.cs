@@ -22,7 +22,7 @@ public interface IApplicationDbContext
     DbSet<Treatment> Treatments { get; set; }
     DbSet<Category> Categories { get; set; }
     DbSet<Payment> Payments { get; set; }
-    DbSet<ScheduledAppointment> ScheduledAppointments { get; set; }
+    DbSet<ScheduledVisit> ScheduledVisits { get; set; }
     DbSet<User> Users { get; set; }
     DbSet<Role> Roles { get; set; }
 }

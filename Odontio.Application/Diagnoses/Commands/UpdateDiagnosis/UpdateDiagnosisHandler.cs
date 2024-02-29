@@ -7,11 +7,11 @@ namespace Odontio.Application.Diagnoses.Commands.UpdateDiagnosis;
 public class UpdateDiagnosisHandler(IApplicationDbContext context, IMapper mapper)
     : IRequestHandler<UpdateDiagnosisCommand, ErrorOr<UpsertDiagnosisResult>>
 {
-    public async Task<ErrorOr<UpsertDiagnosisResult>> Handle(UpdateDiagnosisCommand request,
+    public async Task<ErrorOr<UpsertDiagnosisResult>> Handle(UpdateDiagnosisCommand command,
         CancellationToken cancellationToken)
     {
         var diagnosis = await context.Diagnoses
-            .Where(x => x.Id == request.Id && x.PatientId == request.PatientId)
+            .Where(x => x.Id == command.Id && x.PatientId == command.PatientId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (diagnosis == null)
@@ -19,7 +19,7 @@ public class UpdateDiagnosisHandler(IApplicationDbContext context, IMapper mappe
             return Error.NotFound(description: "Diagnosis not found");
         }
 
-        diagnosis = mapper.Map(request, diagnosis);
+        diagnosis = mapper.Map(command, diagnosis);
         
         try
         {

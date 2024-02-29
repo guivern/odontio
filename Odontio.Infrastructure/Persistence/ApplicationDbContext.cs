@@ -103,7 +103,7 @@ public class ApplicationDbContext:  DbContext, IApplicationDbContext
     public DbSet<Treatment> Treatments { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Payment> Payments { get; set; }
-    public DbSet<ScheduledAppointment> ScheduledAppointments { get; set; }
+    public DbSet<ScheduledVisit> ScheduledVisits { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
 }

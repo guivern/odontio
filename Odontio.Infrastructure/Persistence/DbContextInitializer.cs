@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Odontio.Application.Common.Interfaces;
@@ -19,6 +20,14 @@ public class DbContextInitializer
         _logger = logger;
         _authService = authService;
     }
+    
+    // #pragma warning disable CA2255
+    // [ModuleInitializer]
+    // #pragma warning restore CA2255
+    // public static void Initialize()
+    // {
+    //     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+    // }
 
     public async Task InitialiseAsync()
     {
