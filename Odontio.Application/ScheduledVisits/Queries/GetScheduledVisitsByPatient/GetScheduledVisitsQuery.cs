@@ -7,7 +7,7 @@ namespace Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByPatien
 [ValidateWorkspace]
 [ValidatePatient]
 [RolesAuthorize(nameof(RolesEnum.Administrator))]
-public class GetScheduledVisitsQuery: IRequest<IEnumerable<ScheduledVisitDto>>, IPatientResource
+public class GetScheduledVisitsQuery: IRequest<IEnumerable<UpsertScheduledVisitResult>>, IPatientResource
 {
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }

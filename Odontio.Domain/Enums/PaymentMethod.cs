@@ -5,6 +5,6 @@ public enum PaymentMethod
     Efectivo = 1,
     Transferencia,
     Giro,
-    POS,
-    Cheque
+    Voucher,
+    Otro
 }

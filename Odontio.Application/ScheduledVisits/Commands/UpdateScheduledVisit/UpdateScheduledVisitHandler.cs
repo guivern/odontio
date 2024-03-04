@@ -3,9 +3,9 @@ using Odontio.Application.ScheduledVisits.Common;
 
 namespace Odontio.Application.ScheduledVisits.Commands.UpdateScheduledVisit;
 
-public class UpdateScheduledVisitHandler(IApplicationDbContext context, IMapper mapper): IRequestHandler<UpdateScheduledVisitCommand, ErrorOr<ScheduledVisitDto>>
+public class UpdateScheduledVisitHandler(IApplicationDbContext context, IMapper mapper): IRequestHandler<UpdateScheduledVisitCommand, ErrorOr<UpsertScheduledVisitResult>>
 {
-    public async Task<ErrorOr<ScheduledVisitDto>> Handle(UpdateScheduledVisitCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<UpsertScheduledVisitResult>> Handle(UpdateScheduledVisitCommand command, CancellationToken cancellationToken)
     {
         var visit = await context.ScheduledVisits
             .Where(x => x.Id == command.Id)
@@ -22,7 +22,7 @@ public class UpdateScheduledVisitHandler(IApplicationDbContext context, IMapper 
 
         await context.SaveChangesAsync(cancellationToken);
         
-        var result = mapper.Map<ScheduledVisitDto>(visit);
+        var result = mapper.Map<UpsertScheduledVisitResult>(visit);
 
         return result;
     }

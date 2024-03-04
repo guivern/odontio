@@ -5,9 +5,9 @@ using Odontio.Domain.Entities;
 namespace Odontio.Application.ScheduledVisits.Commands.CreateScheduledVisit;
 
 public class CreateScheduleVisitHandler(IApplicationDbContext context, IMapper mapper)
-    : IRequestHandler<CreateScheduleVisitCommand, ErrorOr<ScheduledVisitDto>>
+    : IRequestHandler<CreateScheduleVisitCommand, ErrorOr<UpsertScheduledVisitResult>>
 {
-    public async Task<ErrorOr<ScheduledVisitDto>> Handle(CreateScheduleVisitCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<UpsertScheduledVisitResult>> Handle(CreateScheduleVisitCommand command, CancellationToken cancellationToken)
     {
         var entity = mapper.Map<ScheduledVisit>(command);
 
@@ -15,7 +15,7 @@ public class CreateScheduleVisitHandler(IApplicationDbContext context, IMapper m
 
         await context.SaveChangesAsync(cancellationToken);
 
-        var result = mapper.Map<ScheduledVisitDto>(entity);
+        var result = mapper.Map<UpsertScheduledVisitResult>(entity);
         
         return result;
     }
