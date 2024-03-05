@@ -1,7 +1,6 @@
-﻿using Odontio.Application.ScheduledVisits.Common;
-using Odontio.Domain.Entities;
+﻿using Odontio.Domain.Entities;
 
-namespace Odontio.Application.ScheduledVisits;
+namespace Odontio.Application.ScheduledVisits.Common;
 
 public class MappingConfig: IRegister
 {

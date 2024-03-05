@@ -1,7 +1,7 @@
 ﻿using Odontio.Application.Treatments.Queries.GetTreatments;
 using Odontio.Domain.Entities;
 
-namespace Odontio.Application.Treatments;
+namespace Odontio.Application.Treatments.Common;
 
 public class MappingConfig: IRegister
 {
