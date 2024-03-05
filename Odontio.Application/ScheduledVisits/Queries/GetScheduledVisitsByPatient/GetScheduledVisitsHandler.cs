@@ -5,13 +5,27 @@ namespace Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByPatien
 
 public class GetScheduledVisitsHandler(IApplicationDbContext context): IRequestHandler<GetScheduledVisitsQuery, IEnumerable<UpsertScheduledVisitResult>>
 {
-    public async Task<IEnumerable<UpsertScheduledVisitResult>> Handle(GetScheduledVisitsQuery query, CancellationToken cancellationToken)
+    public async Task<IEnumerable<UpsertScheduledVisitResult>> Handle(GetScheduledVisitsQuery request, CancellationToken cancellationToken)
     {
-        var visits = await context.ScheduledVisits
-            .Where(x => x.PatientId == query.PatientId)
+        var query = context.ScheduledVisits
+            .Include(x => x.Patient)
+            .Where(x => x.PatientId == request.PatientId)
             .ProjectToType<UpsertScheduledVisitResult>()
-            .ToListAsync(cancellationToken);
+            .AsNoTracking()
+            .AsQueryable();
 
-        return visits;
+        if (request.DateRange.StartDate != null)
+        {
+            query = query.Where(x => DateOnly.FromDateTime(x.Date.Date) >= request.DateRange.StartDate);
+        }
+        
+        if (request.DateRange.EndDate != null)
+        {
+            query = query.Where(x => DateOnly.FromDateTime(x.Date.Date) <= request.DateRange.EndDate);
+        }
+        
+        var result = await query.ToListAsync(cancellationToken);
+
+        return result;
     }
 }

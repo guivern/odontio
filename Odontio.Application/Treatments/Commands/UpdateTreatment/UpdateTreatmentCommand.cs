@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Interfaces;
+using Odontio.Domain.Enums;
 
 namespace Odontio.Application.Treatments.Commands.UpdateTreatment;
 
 [ValidateWorkspace]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(Roles.Administrator))]
 public class UpdateTreatmentCommand : IRequest<ErrorOr<UpdateTreatmentResult>>, IWorkspaceResource
 {
     public long Id { get; set; }

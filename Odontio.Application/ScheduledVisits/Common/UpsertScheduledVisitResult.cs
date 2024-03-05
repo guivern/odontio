@@ -6,4 +6,5 @@ public class UpsertScheduledVisitResult
     public DateTimeOffset Date { get; set; }
     public string? Description { get; set; }
     public long PatientId { get; set; }
+    public string PatientName { get; set; } = null!;
 }

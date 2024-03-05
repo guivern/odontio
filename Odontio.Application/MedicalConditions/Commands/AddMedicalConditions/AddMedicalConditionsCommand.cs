@@ -1,12 +1,13 @@
 ﻿using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Interfaces;
 using Odontio.Application.MedicalConditions.Common;
+using Odontio.Domain.Enums;
 
 namespace Odontio.Application.MedicalConditions.Common.AddMedicalConditions;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(Roles.Administrator))]
 public class AddMedicalConditionsCommand : IRequest<ErrorOr<List<MedicalConditionResult>>>, IPatientResource
 {
     public List<AddMedicalConditionDto> MedicalConditions { get; set; } = [];

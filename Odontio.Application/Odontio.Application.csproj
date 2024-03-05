@@ -19,7 +19,6 @@
   <ItemGroup>
     <Folder Include="Authentication\Commands\" />
     <Folder Include="MedicalConditions\Commands\" />
-    <Folder Include="Patients\Queries\GetPatinets\" />
   </ItemGroup>
 
   <PropertyGroup>

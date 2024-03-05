@@ -5,13 +5,12 @@ namespace Odontio.Domain.Entities;
 
 public class Budget: BaseAuditableEntity
 {
-    private const int ExpirationMonths = 6;
+    // private const int ExpirationMonths = 6;
     public long Id { get; set; }
     public DateOnly Date { get; set; }
-    public BudgetStatus Status { get; set; } = BudgetStatus.Pendiente;
+    public BudgetStatus Status { get; set; }
 
-    public DateOnly ExpirationDate { get; set; } =
-        DateOnly.FromDateTime(DateTimeOffset.Now.AddMonths(ExpirationMonths).Date);
+    public DateOnly ExpirationDate { get; set; } /*DateOnly.FromDateTime(DateTimeOffset.Now.AddMonths(ExpirationMonths).Date);*/
     
     public long PatientId { get; set; }
     public Patient Patient { get; set; } = null!;

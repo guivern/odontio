@@ -1,11 +1,12 @@
 ﻿using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Interfaces;
+using Odontio.Domain.Enums;
 
 namespace Odontio.Application.PatientDiseases.Commands.DeletePatientDisease;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(Roles.Administrator))]
 public class DeletePatientDiseaseCommand : IRequest<ErrorOr<Unit>>, IPatientResource
 {
     public long Id { get; set; }

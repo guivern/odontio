@@ -4,12 +4,32 @@ using Odontio.Application.Patients.Commands.CreatePatient;
 using Odontio.Application.Patients.Commands.DeletePatient;
 using Odontio.Application.Patients.Commands.UpdatePatient;
 using Odontio.Application.Patients.Queries.GetPatientById;
+using Odontio.Application.Patients.Queries.GetPatients;
 
 namespace Odontio.API.Controllers;
 
 [Route("api/v1/Workspaces/{workspaceId}/[controller]")]
 public class PatientsController(IMediator mediator, IMapper mapper) : ApiControllerBase
 {
+    [HttpGet]
+    public async Task<IActionResult> GetAll(long workspaceId, PaginationQueryParams pagination, CancellationToken cancellationToken)
+    {
+        var request = new GetPatientsQuery
+        {
+            WorkspaceId = workspaceId,
+            Page = pagination.Page,
+            PageSize = pagination.PageSize,
+            Filter = pagination.Filter,
+            OrderBy = pagination.OrderBy
+        };
+
+        var result = await mediator.Send(request, cancellationToken);
+        
+        Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+        
+        return Ok(result);
+    }
+    
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(long id, long workspaceId, CancellationToken cancellationToken)
     {

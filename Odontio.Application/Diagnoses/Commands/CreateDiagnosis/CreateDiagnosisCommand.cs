@@ -1,12 +1,13 @@
 ﻿using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Interfaces;
 using Odontio.Application.Diagnoses.Common;
+using Odontio.Domain.Enums;
 
 namespace Odontio.Application.Diagnoses.Commands.CreateDiagnosis;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(Roles.Administrator))]
 public class CreateDiagnosisCommand: IRequest<ErrorOr<UpsertDiagnosisResult>>, IPatientResource
 {
     public DateOnly? Date { get; set; }

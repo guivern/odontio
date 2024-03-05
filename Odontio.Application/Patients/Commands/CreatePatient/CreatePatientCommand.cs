@@ -1,11 +1,12 @@
 ﻿using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Interfaces;
 using Odontio.Application.Patients.Common;
+using Odontio.Domain.Enums;
 
 namespace Odontio.Application.Patients.Commands.CreatePatient;
 
 [ValidateWorkspace]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(Roles.Administrator))]
 public class CreatePatientCommand : IRequest<ErrorOr<UpsertPatientResult>>, IWorkspaceResource
 {
     public string FirstName { get; set; } = null!;

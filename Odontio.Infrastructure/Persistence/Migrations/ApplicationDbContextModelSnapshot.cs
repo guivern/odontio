@@ -58,7 +58,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PatientTreatmentId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Budget", b =>
@@ -97,7 +97,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Budgets");
+                    b.ToTable("Budgets", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Category", b =>
@@ -114,7 +114,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Diagnosis", b =>
@@ -159,7 +159,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ToothId");
 
-                    b.ToTable("Diagnoses");
+                    b.ToTable("Diagnoses", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Disease", b =>
@@ -176,7 +176,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Diseases");
+                    b.ToTable("Diseases", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.MedicalCondition", b =>
@@ -204,7 +204,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("MedicalConditions");
+                    b.ToTable("MedicalConditions", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Patient", b =>
@@ -293,7 +293,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("WorkspaceId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.PatientDisease", b =>
@@ -316,7 +316,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("PatientDiseases");
+                    b.ToTable("PatientDiseases", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.PatientTreatment", b =>
@@ -359,7 +359,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("TreatmentId");
 
-                    b.ToTable("PatientTreatments");
+                    b.ToTable("PatientTreatments", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Payment", b =>
@@ -404,7 +404,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("BudgetId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Role", b =>
@@ -421,7 +421,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.ScheduledVisit", b =>
@@ -457,7 +457,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("ScheduledVisits");
+                    b.ToTable("ScheduledVisits", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Tooth", b =>
@@ -479,7 +479,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teeth");
+                    b.ToTable("Teeth", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Treatment", b =>
@@ -512,7 +512,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("WorkspaceId");
 
-                    b.ToTable("Treatments");
+                    b.ToTable("Treatments", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.User", b =>
@@ -571,7 +571,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("WorkspaceId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Workspace", b =>
@@ -612,7 +612,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workspaces");
+                    b.ToTable("Workspaces", (string)null);
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Appointment", b =>
