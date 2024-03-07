@@ -15,8 +15,6 @@ public class CreateBudgetHandler(IApplicationDbContext context, IMapper mapper, 
         budget.Status = BudgetStatus.Pendiente;
         budget.ExpirationDate = budget.Date.AddMonths(1);
         
-        // budget.Treatments = request.Treatments.Select(t => mapper.Map<PatientTreatment>(t)).ToList();
-        
         context.Budgets.Add(budget);
         await context.SaveChangesAsync(cancellationToken);
         
