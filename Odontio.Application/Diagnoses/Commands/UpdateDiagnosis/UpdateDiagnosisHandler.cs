@@ -21,6 +21,8 @@ public class UpdateDiagnosisHandler(IApplicationDbContext context, IMapper mappe
 
         diagnosis = mapper.Map(command, diagnosis);
         
+        context.Diagnoses.Entry(diagnosis).State = EntityState.Modified;
+        
         try
         {
             await context.SaveChangesAsync(cancellationToken);

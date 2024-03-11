@@ -19,8 +19,17 @@ public class UpdateScheduledVisitHandler(IApplicationDbContext context, IMapper 
 
         visit.Date = command.Date;
         visit.Description = command.Description;
+        
+        context.ScheduledVisits.Entry(visit).State = EntityState.Modified;
 
-        await context.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return Error.Conflict(description: "The visit was modified by another user");
+        }
         
         var result = mapper.Map<UpsertScheduledVisitResult>(visit);
 

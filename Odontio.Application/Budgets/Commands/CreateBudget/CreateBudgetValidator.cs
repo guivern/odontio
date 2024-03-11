@@ -46,13 +46,13 @@ public class CreateBudgetValidator : AbstractValidator<CreateBudgetCommand>
             return Task.FromResult(true);
         }
         
-        var exists = _context.Teeth.AnyAsync(x => x.Id == arg1.ToothId);
+        var exists = _context.Teeth.AsNoTracking().AnyAsync(x => x.Id == arg1.ToothId, cancellationToken: arg2);
         return exists;
     }
 
     private Task<bool> TreatmentExists(CreatePatientTreatment arg1, CancellationToken arg2)
     {
-        var exists = _context.Treatments.AnyAsync(x => x.Id == arg1.TreatmentId);
+        var exists = _context.Treatments.AsNoTracking().AnyAsync(x => x.Id == arg1.TreatmentId, cancellationToken: arg2);
         return exists;
     }
 }

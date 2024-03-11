@@ -7,7 +7,7 @@ namespace Odontio.Application.Budgets.Queries.GetBudgetsByWorkspace;
 
 [ValidateWorkspace]
 [RolesAuthorize(nameof(RolesEnum.Administrator))]
-public class GetBudgetsByWorkspaceQuery: PagedListQueryBase, IRequest<PagedList<UpsertBudgetResult>>, IWorkspaceResource
+public class GetBudgetsByWorkspaceQuery: PagedListQueryBase, IRequest<PagedList<GetBudgetResult>>, IWorkspaceResource
 {
     public long WorkspaceId { get; set; }
 }

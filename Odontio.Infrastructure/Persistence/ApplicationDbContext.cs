@@ -54,6 +54,12 @@ public class ApplicationDbContext:  DbContext, IApplicationDbContext
             .WithOne(x => x.Treatment)
             .OnDelete(DeleteBehavior.Restrict);
         
+        // cannot delete a patient if it has appointments
+        builder.Entity<Patient>()
+            .HasMany(x => x.Appointments)
+            .WithOne(x => x.Patient)
+            .OnDelete(DeleteBehavior.Restrict);
+        
         // cannot delete a role if it has users
         builder.Entity<Role>()
             .HasMany(x => x.Users)
@@ -93,6 +99,7 @@ public class ApplicationDbContext:  DbContext, IApplicationDbContext
     public DbSet<Disease> Diseases { get; set; }
     public DbSet<PatientTreatment> PatientTreatments { get; set; }
     public DbSet<Budget> Budgets { get; set; }
+    public DbSet<MedicalRecord> MedicalRecords { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<MedicalCondition> MedicalConditions { get; set; }
     public DbSet<Diagnosis> Diagnoses { get; set; }

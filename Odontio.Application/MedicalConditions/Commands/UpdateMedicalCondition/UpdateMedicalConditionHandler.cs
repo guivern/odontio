@@ -19,6 +19,8 @@ public class UpdateMedicalConditionHandler(IApplicationDbContext context, IMappe
         
         medicalCondition = mapper.Map(request, medicalCondition);
         
+        context.MedicalConditions.Entry(medicalCondition).State = EntityState.Modified;
+        
         try
         {
             await context.SaveChangesAsync(cancellationToken);

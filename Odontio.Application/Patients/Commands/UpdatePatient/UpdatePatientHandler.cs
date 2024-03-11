@@ -17,6 +17,8 @@ public class UpdatePatientHandler(IApplicationDbContext context, IMapper mapper)
         
         patient = mapper.Map(request, patient);
         
+        context.Patients.Entry(patient).State = EntityState.Modified;
+        
         try
         {
             await context.SaveChangesAsync(cancellationToken);

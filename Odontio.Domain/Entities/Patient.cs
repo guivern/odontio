@@ -36,4 +36,5 @@ public class Patient : BaseAuditableEntity
     public ICollection<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
     public ICollection<Budget> Budgets { get; set; } = new List<Budget>();
     public ICollection<ScheduledVisit> ScheduledVisits { get; set; } = new List<ScheduledVisit>();
+    public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 }

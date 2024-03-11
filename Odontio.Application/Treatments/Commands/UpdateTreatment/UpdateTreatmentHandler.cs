@@ -14,6 +14,7 @@ public class UpdateTreatmentHandler(IApplicationDbContext context, IMapper mappe
         }
 
         treatment = mapper.Map(request, treatment);
+        context.Treatments.Entry(treatment).State = EntityState.Modified;
 
         try
         {

@@ -4,9 +4,9 @@ using Odontio.Application.Common.Interfaces;
 
 namespace Odontio.Application.Budgets.Queries.GetBudgetsByPatient;
 
-public class GetBudgetsByPatientHandler(IApplicationDbContext context) : IRequestHandler<GetBudgetsByPatientQuery, PagedList<UpsertBudgetResult>>
+public class GetBudgetsByPatientHandler(IApplicationDbContext context) : IRequestHandler<GetBudgetsByPatientQuery, PagedList<GetBudgetResult>>
 {
-    public async Task<PagedList<UpsertBudgetResult>> Handle(GetBudgetsByPatientQuery request, CancellationToken cancellationToken)
+    public async Task<PagedList<GetBudgetResult>> Handle(GetBudgetsByPatientQuery request, CancellationToken cancellationToken)
     {
         
         var query = context.Budgets
@@ -15,7 +15,7 @@ public class GetBudgetsByPatientHandler(IApplicationDbContext context) : IReques
             .ThenInclude(x => x.Treatment)
             .Where(x => x.Patient.WorkspaceId == request.WorkspaceId)
             .Where(x => x.PatientId == request.PatientId)
-            .ProjectToType<UpsertBudgetResult>()
+            .ProjectToType<GetBudgetResult>()
             .AsNoTracking()
             .AsQueryable();
 
@@ -30,6 +30,6 @@ public class GetBudgetsByPatientHandler(IApplicationDbContext context) : IReques
             query = query.OrderBy(request.OrderBy);
         }
         
-        return await PagedList<UpsertBudgetResult>.CreateAsync(query, request.Page, request.PageSize);
+        return await PagedList<GetBudgetResult>.CreateAsync(query, request.Page, request.PageSize);
     }
 }

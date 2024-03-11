@@ -22,8 +22,17 @@ public class UpdateBudgetHandler(IApplicationDbContext context, IMapper mapper)
         }
 
         budget = mapper.Map(request, budget);
+        
+        context.Budgets.Entry(budget).State = EntityState.Modified;
 
-        await context.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return Error.Conflict(description: "The Budget was modified by another user");
+        }
 
         var result = mapper.Map<UpsertBudgetResult>(budget);
 

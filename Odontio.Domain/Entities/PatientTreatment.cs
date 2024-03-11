@@ -17,6 +17,8 @@ public class PatientTreatment: BaseAuditableEntity
     public Tooth? Tooth { get; set; }
     
     public decimal Cost { get; set; }
+
+    public TreatmentStatus Status { get; set; }
     
-    public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+    public ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
 }

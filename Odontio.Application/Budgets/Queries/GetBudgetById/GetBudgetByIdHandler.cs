@@ -3,9 +3,9 @@ using Odontio.Application.Common.Interfaces;
 
 namespace Odontio.Application.Budgets.Queries.GetBudgetById;
 
-public class GetBudgetByIdHandler(IApplicationDbContext context): IRequestHandler<GetBudgetByIdQuery, ErrorOr<UpsertBudgetResult>>
+public class GetBudgetByIdHandler(IApplicationDbContext context): IRequestHandler<GetBudgetByIdQuery, ErrorOr<GetBudgetResult>>
 {
-    public async Task<ErrorOr<UpsertBudgetResult>> Handle(GetBudgetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<GetBudgetResult>> Handle(GetBudgetByIdQuery request, CancellationToken cancellationToken)
     {
         var budget = await context.Budgets
             .Include(x => x.Patient)
@@ -13,7 +13,7 @@ public class GetBudgetByIdHandler(IApplicationDbContext context): IRequestHandle
             .ThenInclude(x => x.Treatment)
             .Where(x => x.Id == request.Id)
             .Where(x => x.PatientId == request.PatientId)
-            .ProjectToType<UpsertBudgetResult>()
+            .ProjectToType<GetBudgetResult>()
             .FirstOrDefaultAsync(cancellationToken);
 
         if (budget == null)
