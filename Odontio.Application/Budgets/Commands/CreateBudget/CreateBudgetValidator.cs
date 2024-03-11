@@ -39,7 +39,7 @@ public class CreateBudgetValidator : AbstractValidator<CreateBudgetCommand>
             .ForEach(x => x.Must(y => y.Cost >= 0).WithMessage("Cost must be a positive value"));
     }
 
-    private Task<bool> ToothExists(CreatePatientTreatment arg1, CancellationToken arg2)
+    private Task<bool> ToothExists(CreatePatientTreatmentDto arg1, CancellationToken arg2)
     {
         if (arg1.ToothId == null)
         {
@@ -50,7 +50,7 @@ public class CreateBudgetValidator : AbstractValidator<CreateBudgetCommand>
         return exists;
     }
 
-    private Task<bool> TreatmentExists(CreatePatientTreatment arg1, CancellationToken arg2)
+    private Task<bool> TreatmentExists(CreatePatientTreatmentDto arg1, CancellationToken arg2)
     {
         var exists = _context.Treatments.AsNoTracking().AnyAsync(x => x.Id == arg1.TreatmentId, cancellationToken: arg2);
         return exists;

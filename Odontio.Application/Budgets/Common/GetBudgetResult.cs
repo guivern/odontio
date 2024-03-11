@@ -1,4 +1,6 @@
-﻿namespace Odontio.Application.Budgets.Common;
+﻿using Odontio.Application.PatientTreatments.Common;
+
+namespace Odontio.Application.Budgets.Common;
 
 public class GetBudgetResult
 {
@@ -10,14 +12,5 @@ public class GetBudgetResult
     public string PatientName { get; set; }
     public decimal TotalCost { get; set; }
 
-    public List<GetPatientTreatmentResult> PatientTreatments { get; set; } = new();
-}
-
-public class GetPatientTreatmentResult
-{
-    public long Id { get; set; }
-    public long TreatmentId { get; set; }
-    public string TreatmentName { get; set; }
-    public long? ToothId { get; set; }
-    public decimal Cost { get; set; }
+    public List<GetPatientTreatmentResultDto> PatientTreatments { get; set; } = new();
 }

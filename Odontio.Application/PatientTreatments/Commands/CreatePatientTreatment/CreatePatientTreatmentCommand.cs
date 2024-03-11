@@ -1,23 +1,18 @@
 ﻿using Odontio.Application.Budgets.Common;
 using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Interfaces;
+using Odontio.Application.PatientTreatments.Common;
 
-namespace Odontio.Application.Budgets.Commands.CreateBudget;
+namespace Odontio.Application.PatientTreatments.Commands.CreatePatientTreatment;
 
 [ValidateWorkspace]
 [ValidatePatient]
 [RolesAuthorize(nameof(RolesEnum.Administrator))]
-public class CreateBudgetCommand: IRequest<ErrorOr<UpsertBudgetResult>>, IPatientResource
+public class CreatePatientTreatmentCommand : IRequest<ErrorOr<UpsertPatientTreatmentResult>>, IPatientResource
 {
-    public DateOnly? Date { get; set; }
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }
-    
-    public List<CreatePatientTreatmentDto> PatientTreatments { get; set; } = new();
-}
-
-public class CreatePatientTreatmentDto
-{
+    public long BudgetId { get; set; }
     public long TreatmentId { get; set; }
     public long? ToothId { get; set; }
     public decimal Cost { get; set; }
