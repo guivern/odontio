@@ -3,13 +3,12 @@ using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Helpers;
 using Odontio.Application.Common.Interfaces;
 
-namespace Odontio.Application.Appointments.Queries.GetAppointmentsByPatient;
+namespace Odontio.Application.Appointments.Queries.GetAppointments;
 
 [ValidateWorkspace]
-[ValidatePatient]
 [RolesAuthorize(nameof(RolesEnum.Administrator))]
-public class GetAppointmentsByPatientQuery : PagedListQueryBase, IRequest<PagedList<GetAppointmentResult>>, IPatientResource
+public class GetAppointmentsQuery : PagedListQueryBase, IRequest<ErrorOr<PagedList<GetAppointmentResult>>>, IWorkspaceResource
 {
     public long WorkspaceId { get; set; }
-    public long PatientId { get; set; }
+    public long? PatientId { get; set; }
 }

@@ -15,7 +15,7 @@ public class CreatePatientTreatmentValidator : AbstractValidator<CreatePatientTr
             .MustAsync(BudgetBelongsToPatient).WithMessage("Budget not found or does not belong to patient");
         RuleFor(x => x.TreatmentId).NotEmpty()
             .MustAsync(TreatmentExists).WithMessage("Treatment not found");
-        RuleFor(x => x.Cost).NotEmpty()
+        RuleFor(x => x.Cost)
             .Must(x => x >= 0).WithMessage("Cost must be greater than or equal to 0");
         RuleFor(x => x.ToothId).MustAsync(ToothExists).WithMessage("Tooth not found");
     }

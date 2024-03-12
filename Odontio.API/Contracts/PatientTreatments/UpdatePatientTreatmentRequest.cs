@@ -1,6 +1,6 @@
-﻿namespace Odontio.Application.PatientTreatments.Common;
+﻿namespace Odontio.API.Contracts.PatientTreatments;
 
-public class UpsertPatientTreatmentResult
+public class UpdatePatientTreatmentRequest
 {
     public long Id { get; set; }
     public long TreatmentId { get; set; }

@@ -3,7 +3,7 @@ using Odontio.Application.Appointments.Commands.CreateAppointment;
 using Odontio.Application.Appointments.Commands.DeleteAppointment;
 using Odontio.Application.Appointments.Commands.UpdateAppointment;
 using Odontio.Application.Appointments.Queries.GetAppointmentById;
-using Odontio.Application.Appointments.Queries.GetAppointmentsByPatient;
+using Odontio.Application.Appointments.Queries.GetAppointments;
 
 namespace Odontio.API.Controllers;
 
@@ -14,20 +14,24 @@ public class AppointmentsController(IMediator mediator, IMapper mapper) : ApiCon
     public async Task<IActionResult> GetAppointmentsByPatient(long workspaceId, long patientId,
         PaginationQueryParams pagination, CancellationToken cancellationToken)
     {
-        var query = new GetAppointmentsByPatientQuery
+        var query = new GetAppointmentsQuery
         {
             PatientId = patientId,
             WorkspaceId = workspaceId,
             Page = pagination.Page,
             PageSize = pagination.PageSize,
-            Filter = pagination.Filter,
             OrderBy = pagination.OrderBy
         };
         
         var result = await mediator.Send(query, cancellationToken);
-
-        Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
-        return Ok(result);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
     }
     
     [HttpGet("{id}")]

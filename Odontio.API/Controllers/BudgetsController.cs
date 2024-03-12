@@ -3,7 +3,7 @@ using Odontio.Application.Budgets.Commands.CreateBudget;
 using Odontio.Application.Budgets.Commands.DeleteBudget;
 using Odontio.Application.Budgets.Commands.UpdateBudget;
 using Odontio.Application.Budgets.Queries.GetBudgetById;
-using Odontio.Application.Budgets.Queries.GetBudgetsByPatient;
+using Odontio.Application.Budgets.Queries.GetBudgets;
 
 namespace Odontio.API.Controllers;
 
@@ -14,24 +14,30 @@ public class BudgetsController(IMediator mediator, IMapper mapper) : ApiControll
     public async Task<IActionResult> GetBudgetsByPatient(long workspaceId, long patientId,
         PaginationQueryParams pagination, CancellationToken cancellationToken)
     {
-        var query = new GetBudgetsByPatientQuery
+        var query = new GetBudgetsQuery()
         {
             PatientId = patientId,
             WorkspaceId = workspaceId,
             Page = pagination.Page,
             PageSize = pagination.PageSize,
-            Filter = pagination.Filter,
-            OrderBy = pagination.OrderBy
+            OrderBy = pagination.OrderBy,
         };
-        
+
         var result = await mediator.Send(query, cancellationToken);
 
-        Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
-        return Ok(result);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
     }
-    
+
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetBudgetById(long id, long workspaceId, long patientId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetBudgetById(long id, long workspaceId, long patientId,
+        CancellationToken cancellationToken)
     {
         var query = new GetBudgetByIdQuery { Id = id, WorkspaceId = workspaceId, PatientId = patientId };
         var result = await mediator.Send(query, cancellationToken);
@@ -41,7 +47,7 @@ public class BudgetsController(IMediator mediator, IMapper mapper) : ApiControll
             errors => Problem(errors)
         );
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> CreateBudget(long workspaceId, long patientId, CreateBudgetRequest request,
         CancellationToken cancellationToken)
@@ -58,13 +64,14 @@ public class BudgetsController(IMediator mediator, IMapper mapper) : ApiControll
             errors => Problem(errors)
         );
     }
-    
+
     [HttpPatch("{id}")]
-    public async Task<IActionResult> UpdateBudget(long id, long workspaceId, long patientId, UpdateBudgetRequest request,
+    public async Task<IActionResult> UpdateBudget(long id, long workspaceId, long patientId,
+        UpdateBudgetRequest request,
         CancellationToken cancellationToken)
     {
         var command = mapper.Map<UpdateBudgetCommand>(request);
-        
+
         command.Id = id;
         command.WorkspaceId = workspaceId;
         command.PatientId = patientId;
@@ -76,9 +83,10 @@ public class BudgetsController(IMediator mediator, IMapper mapper) : ApiControll
             errors => Problem(errors)
         );
     }
-    
+
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteBudget(long id, long workspaceId, long patientId, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteBudget(long id, long workspaceId, long patientId,
+        CancellationToken cancellationToken)
     {
         var command = new DeleteBudgetCommand { Id = id, WorkspaceId = workspaceId, PatientId = patientId };
         var result = await mediator.Send(command, cancellationToken);

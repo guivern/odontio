@@ -1,5 +1,7 @@
-﻿using Odontio.Application.Appointments.Queries.GetAppointmentsByWorkspace;
+﻿using Odontio.Application.Appointments.Queries.GetAppointments;
+using Odontio.Application.Budgets.Queries.GetBudgets;
 using Odontio.Application.Common.Helpers;
+using Odontio.Application.PatientTreatments.Queries.GetPatientTreatments;
 using Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByWorkspace;
 
 namespace Odontio.API.Controllers;
@@ -27,10 +29,11 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
     }
 
     [HttpGet("{workspaceId}/Appointments")]
-    public async Task<IActionResult> GetAppointments(long workspaceId, PaginationQueryParams pagination,
+    public async Task<IActionResult> GetAppointments(long workspaceId,
+        PaginationQueryParams pagination,
         CancellationToken cancellationToken)
     {
-        var query = new GetAppointmentsByWorkspaceQuery
+        var query = new GetAppointmentsQuery
         {
             WorkspaceId = workspaceId,
             Page = pagination.Page,
@@ -40,8 +43,61 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
         };
 
         var result = await mediator.Send(query, cancellationToken);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
+    }
 
-        Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
-        return Ok(result);
+    [HttpGet("{workspaceId}/Budgets")]
+    public async Task<IActionResult> GetBudgets(long workspaceId, PaginationQueryParams pagination,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetBudgetsQuery()
+        {
+            WorkspaceId = workspaceId,
+            Page = pagination.Page,
+            PageSize = pagination.PageSize,
+            Filter = pagination.Filter,
+            OrderBy = pagination.OrderBy,
+        };
+
+        var result = await mediator.Send(query, cancellationToken);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpGet("{workspaceId}/PatientTreatments")]
+    public async Task<IActionResult> GetPatientTreatments(long workspaceId,
+        PaginationQueryParams pagination, CancellationToken cancellationToken)
+    {
+        var query = new GetPatientTreatmentsQuery()
+        {
+            WorkspaceId = workspaceId,
+            Page = pagination.Page,
+            PageSize = pagination.PageSize,
+            Filter = pagination.Filter,
+            OrderBy = pagination.OrderBy,
+        };
+
+        var result = await mediator.Send(query, cancellationToken);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
     }
 }

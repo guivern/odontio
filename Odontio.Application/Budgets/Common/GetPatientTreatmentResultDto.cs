@@ -7,4 +7,5 @@ public class GetPatientTreatmentResultDto
     public string TreatmentName { get; set; }
     public long? ToothId { get; set; }
     public decimal Cost { get; set; }
+    public string Status { get; set; }
 }

@@ -9,13 +9,19 @@ public class GetPatientTreatmentByIdHandler(IApplicationDbContext context, IMapp
     {
         var patientTreatment = await context.PatientTreatments
             .Include(x=> x.Budget)
+            .ThenInclude(x => x.Patient)
             .Include(x => x.Treatment)
             .Include(x => x.Tooth)
             .Include(x => x.MedicalRecords)
             .Where(x => x.BudgetId == request.BudgetId)
             .Where(x => x.Budget.PatientId == request.PatientId)
             .Where(x => x.Id == request.Id)
-            .FirstAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
+        
+        if (patientTreatment == null)
+        {
+            return Error.NotFound(description: "Patient treatment not found");
+        }
 
         var result = mapper.Map<GetPatientTreatmentFullResult>(patientTreatment);
         

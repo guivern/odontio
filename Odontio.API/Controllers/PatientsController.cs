@@ -5,6 +5,7 @@ using Odontio.Application.Patients.Commands.DeletePatient;
 using Odontio.Application.Patients.Commands.UpdatePatient;
 using Odontio.Application.Patients.Queries.GetPatientById;
 using Odontio.Application.Patients.Queries.GetPatients;
+using Odontio.Application.PatientTreatments.Queries.GetPatientTreatments;
 
 namespace Odontio.API.Controllers;
 
@@ -84,6 +85,31 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
 
         return result.Match<IActionResult>(
             result => Ok(),
+            errors => Problem(errors)
+        );
+    }
+    
+    [HttpGet("{id}/PatientTreatments")]
+    public async Task<IActionResult> GetPatientTreatments(long id, long workspaceId, PaginationQueryParams pagination,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetPatientTreatmentsQuery
+        {
+            WorkspaceId = workspaceId,
+            PatientId = id,
+            Page = pagination.Page,
+            PageSize = pagination.PageSize,
+            Filter = pagination.Filter,
+            OrderBy = pagination.OrderBy
+        };
+
+        var result = await mediator.Send(query, cancellationToken);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
             errors => Problem(errors)
         );
     }

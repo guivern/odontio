@@ -8,6 +8,7 @@ public class DeletePatientTreatmentHandler(IApplicationDbContext context) : IReq
     {
         var patientTreatment = await context.PatientTreatments
             .Where(x => x.Id == request.Id)
+            .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
         
         if (patientTreatment is null)
@@ -17,6 +18,8 @@ public class DeletePatientTreatmentHandler(IApplicationDbContext context) : IReq
         
         var budget = await context.Budgets
             .Where(x => x.Id == request.BudgetId && x.PatientId == request.PatientId)
+            .Include(x => x.PatientTreatments)
+            .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
         
         if (budget is null)

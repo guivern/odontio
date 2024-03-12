@@ -13,4 +13,5 @@ public class UpdatePatientTreatmentRequest
     public long TreatmentId { get; set; }
     public long? ToothId { get; set; }
     public decimal Cost { get; set; }
+    public string Status { get; set; }
 }

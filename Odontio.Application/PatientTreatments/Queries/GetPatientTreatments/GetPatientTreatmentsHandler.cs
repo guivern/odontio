@@ -4,12 +4,12 @@ using Odontio.Application.PatientTreatments.Common;
 using Odontio.Domain.Entities;
 using Odontio.Domain.Enums;
 
-namespace Odontio.Application.PatientTreatments.Queries.GetPatientTreatmentsByWorkspace;
+namespace Odontio.Application.PatientTreatments.Queries.GetPatientTreatments;
 
-public class GetPatientTreatmentsByWorkspaceHandler(IApplicationDbContext context)
-    : IRequestHandler<GetPatientTreatmentsByWorkspaceQuery, PagedList<GetPatientTreatmentFullResult>>
+public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper mapper)
+    : IRequestHandler<GetPatientTreatmentsQuery, ErrorOr<PagedList<GetPatientTreatmentFullResult>>>
 {
-    public async Task<PagedList<GetPatientTreatmentFullResult>> Handle(GetPatientTreatmentsByWorkspaceQuery request,
+    public async Task<ErrorOr<PagedList<GetPatientTreatmentFullResult>>> Handle(GetPatientTreatmentsQuery request,
         CancellationToken cancellationToken)
     {
         var query = context.PatientTreatments
@@ -19,8 +19,18 @@ public class GetPatientTreatmentsByWorkspaceHandler(IApplicationDbContext contex
             .Include(x => x.Tooth)
             .Include(x => x.MedicalRecords)
             .Where(x => x.Budget.Patient.WorkspaceId == request.WorkspaceId)
-            .ProjectToType<GetPatientTreatmentFullResult>()
             .AsQueryable();
+        
+        if (request.PatientId != null)
+        {
+            var patientExits = await context.Patients.AnyAsync(x => x.Id == request.PatientId
+                && x.WorkspaceId == request.WorkspaceId, cancellationToken);
+            
+            if (!patientExits)
+                return Error.NotFound(description: "Patient not found");
+            
+            query = query.Where(x => x.Budget.Patient.Id == request.PatientId);
+        }
 
         if (!string.IsNullOrEmpty(request.Filter))
         {
@@ -34,17 +44,24 @@ public class GetPatientTreatmentsByWorkspaceHandler(IApplicationDbContext contex
             });
         }
         
-        if (request.Status != null)
-        {
-            query = query.Where(x => GetStatusFromString(x.Status) == request.Status);
-        }
+        // if (request.Status != null)
+        // {
+        //     query = query.Where(x => GetStatusFromString(x.Status) == request.Status);
+        // }
 
         if (request.OrderBy != null && request.OrderBy.Count != 0)
         {
             query = query.OrderBy(request.OrderBy);
         }
 
-        return await PagedList<GetPatientTreatmentFullResult>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<PatientTreatment>.CreateAsync(query, request.Page, request.PageSize);
+        var dto = mapper.Map<PagedList<GetPatientTreatmentFullResult>>(result);
+        dto.PageSize = result.PageSize;
+        dto.PageNumber = result.PageNumber;
+        dto.TotalCount = result.TotalCount;
+        dto.TotalPages = result.TotalPages;
+        
+        return dto;
     }
     
     private TreatmentStatus? GetStatusFromString(string xStatus)

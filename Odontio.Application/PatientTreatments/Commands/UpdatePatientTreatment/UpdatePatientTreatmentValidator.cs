@@ -16,8 +16,15 @@ public class UpdatePatientTreatmentValidator : AbstractValidator<UpdatePatientTr
             .MustAsync(BudgetBelongsToPatient).WithMessage("Budget not found");
         RuleFor(x => x.TreatmentId).NotEmpty()
             .MustAsync(TreatmentExists).WithMessage("Treatment not found");
-        RuleFor(x => x.Cost).NotEmpty()
+        RuleFor(x => x.Cost)
             .Must(x => x >= 0).WithMessage("Cost must be greater than or equal to 0");
+        RuleFor(x => x.Status).NotEmpty()
+            .Must(BeValidStatus).WithMessage("Status must be 'Pending', 'InProgress' or 'Finished'");
+    }
+
+    private bool BeValidStatus(string arg)
+    {
+        return arg is "Pending" or "InProgress" or "Finished";
     }
 
     private async Task<bool> TreatmentExists(UpdatePatientTreatmentCommand arg1, long arg2, CancellationToken arg3)
