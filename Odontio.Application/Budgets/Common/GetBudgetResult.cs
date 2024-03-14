@@ -14,3 +14,14 @@ public class GetBudgetResult
 
     public List<GetPatientTreatmentResultDto> PatientTreatments { get; set; } = new();
 }
+
+public class GetPatientTreatmentResultDto
+{
+    public long Id { get; set; }
+    public long TreatmentId { get; set; }
+    public long AppointmentId { get; set; }
+    public string TreatmentName { get; set; }
+    public long? ToothId { get; set; }
+    public decimal Cost { get; set; }
+    public string Status { get; set; }
+}

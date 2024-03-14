@@ -17,7 +17,7 @@ public class CreateAppointmentValidator : AbstractValidator<CreateAppointmentCom
         // validate if PatientTreatment exists and belongs to the patient
         RuleForEach(x => x.MedicalRecords)
             .MustAsync(PatientTreatmentExits)
-            .WithMessage("Patient treatment not found or does not belong to the patient");
+            .WithMessage("Patient treatment not found");
         
         // validate if the PatientTreatment status is not finished
         RuleForEach(x => x.MedicalRecords)
@@ -25,7 +25,7 @@ public class CreateAppointmentValidator : AbstractValidator<CreateAppointmentCom
             .WithMessage("Patient treatment is finished");
     }
 
-    private async Task<bool> PatientTreatmentNotFinished(CreateMedicalRecordCommand arg1, CancellationToken arg2)
+    private async Task<bool> PatientTreatmentNotFinished(CreateMedicalRecordDto arg1, CancellationToken arg2)
     {
         var patientTreatment = await _context.PatientTreatments
             .Where(x => x.Id == arg1.PatientTreatmentId)
@@ -37,7 +37,7 @@ public class CreateAppointmentValidator : AbstractValidator<CreateAppointmentCom
         return patientTreatment.Status != TreatmentStatus.Finished;
     }
 
-    private async Task<bool> PatientTreatmentExits(CreateAppointmentCommand arg1, CreateMedicalRecordCommand arg2, CancellationToken arg3)
+    private async Task<bool> PatientTreatmentExits(CreateAppointmentCommand arg1, CreateMedicalRecordDto arg2, CancellationToken arg3)
     {
         var patientTreatment = await _context.PatientTreatments
             .Include(x => x.Budget)

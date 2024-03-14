@@ -31,7 +31,7 @@ public class UpdateAppointmentValidator: AbstractValidator<UpdateAppointmentComm
         
     }
 
-    private async Task<bool> MedicalRecordBelongsToAppointment(UpdateAppointmentCommand arg1, UpdateMedicalRecordCommand arg2, CancellationToken arg3)
+    private async Task<bool> MedicalRecordBelongsToAppointment(UpdateAppointmentCommand arg1, UpdateMedicalRecordDto arg2, CancellationToken arg3)
     {
         if (arg2.Id == 0) return true; // new medical record
         
@@ -45,7 +45,7 @@ public class UpdateAppointmentValidator: AbstractValidator<UpdateAppointmentComm
         return medicalRecord is not null;
     }
 
-    private async Task<bool> PatientTreatmentNotFinished(UpdateMedicalRecordCommand arg1, CancellationToken arg2)
+    private async Task<bool> PatientTreatmentNotFinished(UpdateMedicalRecordDto arg1, CancellationToken arg2)
     {
         var patientTreatment = await _context.PatientTreatments
             .Where(x => x.Id == arg1.PatientTreatmentId)
@@ -57,7 +57,7 @@ public class UpdateAppointmentValidator: AbstractValidator<UpdateAppointmentComm
         return patientTreatment.Status != TreatmentStatus.Finished;
     }
 
-    private async Task<bool> PatientTreatmentBelongsToPatient(UpdateAppointmentCommand arg1, UpdateMedicalRecordCommand arg2, CancellationToken arg3)
+    private async Task<bool> PatientTreatmentBelongsToPatient(UpdateAppointmentCommand arg1, UpdateMedicalRecordDto arg2, CancellationToken arg3)
     {
         var patientTreatment = await _context.PatientTreatments
             .Include(x => x.Budget)

@@ -10,6 +10,7 @@ public class MappingConfig : IRegister
             .Map(dest => dest.PatientName, src => $"{src.Patient.FirstName} {src.Patient.LastName}");
 
         config.NewConfig<MedicalRecord, GetMedicalRecordResult>()
-            .Map(dest => dest.TreatmentName, src => src.PatientTreatment.Treatment.Name);
+            .Map(dest => dest.TreatmentName, src => src.PatientTreatment.Treatment.Name)
+            .Map(dest => dest.BudgetId, src => src.PatientTreatment.BudgetId);
     }
 }

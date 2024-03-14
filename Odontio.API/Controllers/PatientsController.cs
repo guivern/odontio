@@ -1,5 +1,6 @@
 ﻿using MapsterMapper;
 using Odontio.API.Contracts.Patients;
+using Odontio.Application.MedicalRecords.Queries.GetMedicalRecords;
 using Odontio.Application.Patients.Commands.CreatePatient;
 using Odontio.Application.Patients.Commands.DeletePatient;
 using Odontio.Application.Patients.Commands.UpdatePatient;
@@ -94,6 +95,31 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
         CancellationToken cancellationToken)
     {
         var query = new GetPatientTreatmentsQuery
+        {
+            WorkspaceId = workspaceId,
+            PatientId = id,
+            Page = pagination.Page,
+            PageSize = pagination.PageSize,
+            Filter = pagination.Filter,
+            OrderBy = pagination.OrderBy
+        };
+
+        var result = await mediator.Send(query, cancellationToken);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
+    }
+    
+    [HttpGet("{id}/MedicalRecords")]
+    public async Task<IActionResult> GetMedicalRecords(long id, long workspaceId, PaginationQueryParams pagination,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetMedicalRecordsQuery
         {
             WorkspaceId = workspaceId,
             PatientId = id,

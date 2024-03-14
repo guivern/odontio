@@ -12,7 +12,7 @@ public class CreateBudgetHandler(IApplicationDbContext context, IMapper mapper, 
         var budget = mapper.Map<Budget>(request);
         
         budget.Date = request.Date ?? dateTimeProvider.Today;
-        budget.Status = BudgetStatus.Pendiente;
+        budget.Status = BudgetStatus.Pending;
         budget.ExpirationDate = budget.Date.AddMonths(1);
         
         context.Budgets.Add(budget);

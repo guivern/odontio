@@ -7,7 +7,7 @@ public class DeletePatientTreatmentHandler(IApplicationDbContext context) : IReq
     public async Task<ErrorOr<Unit>> Handle(DeletePatientTreatmentCommand request, CancellationToken cancellationToken)
     {
         var patientTreatment = await context.PatientTreatments
-            .Where(x => x.Id == request.Id)
+            .Where(x => x.Id == request.Id && x.BudgetId == request.BudgetId)
             .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
         

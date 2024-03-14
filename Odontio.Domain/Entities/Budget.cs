@@ -22,15 +22,15 @@ public class Budget: BaseAuditableEntity
     {
         if (HasAppointment())
         {
-            Status = BudgetStatus.Aprobado;
+            Status = BudgetStatus.Approved;
         }
         else if (HasExpired())
         {
-            Status = BudgetStatus.Expirado;
+            Status = BudgetStatus.Rejected;
         }
         else
         {
-            Status = BudgetStatus.Pendiente;
+            Status = BudgetStatus.Pending;
         }
     }
     
@@ -47,6 +47,6 @@ public class Budget: BaseAuditableEntity
     
     private bool HasExpired()
     {
-        return Status == BudgetStatus.Pendiente && DateOnly.FromDateTime(DateTimeOffset.Now.Date) > ExpirationDate;
+        return Status == BudgetStatus.Pending && DateOnly.FromDateTime(DateTimeOffset.Now.Date) > ExpirationDate;
     }
 }

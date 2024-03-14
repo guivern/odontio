@@ -44,6 +44,7 @@ public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper 
             });
         }
         
+        // TODO VALIDAR SI ESTO FUNCIONA
         // if (request.Status != null)
         // {
         //     query = query.Where(x => GetStatusFromString(x.Status) == request.Status);
@@ -55,6 +56,7 @@ public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper 
         }
 
         var result = await PagedList<PatientTreatment>.CreateAsync(query, request.Page, request.PageSize);
+        
         var dto = mapper.Map<PagedList<GetPatientTreatmentFullResult>>(result);
         dto.PageSize = result.PageSize;
         dto.PageNumber = result.PageNumber;

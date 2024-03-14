@@ -2,7 +2,7 @@
 
 public enum BudgetStatus
 {
-    Pendiente,
-    Aprobado,
-    Expirado,
+    Pending,
+    Approved,
+    Rejected,
 }
