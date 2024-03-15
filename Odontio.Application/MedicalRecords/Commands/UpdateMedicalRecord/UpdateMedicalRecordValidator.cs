@@ -26,15 +26,6 @@ public class UpdateMedicalRecordValidator : AbstractValidator<UpdateMedicalRecor
             .AsNoTracking()
             .FirstOrDefaultAsync(arg3);
         
-        if (patientTreatment == null) return false; // patient treatment not found
-        
-        // validate if the appointment exists and the patient treatment is related to it
-        var appointment = await _context.Appointments
-            .Where(x => x.Id == arg1.AppointmentId)
-            .Where(x => x.MedicalRecords.Any(x => x.PatientTreatmentId == arg2))
-            .AsNoTracking()
-            .FirstOrDefaultAsync(arg3);
-        
-        return appointment != null;
+        return patientTreatment is not null;
     }
 }
