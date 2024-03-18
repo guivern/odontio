@@ -4,9 +4,9 @@ using Odontio.Application.Common.Interfaces;
 namespace Odontio.Application.Appointments.Queries.GetAppointmentById;
 
 public class GetAppointmentByIdHandler(IApplicationDbContext context)
-    : IRequestHandler<GetAppointmentByIdQuery, ErrorOr<GetAppointmentResult>>
+    : IRequestHandler<GetAppointmentByIdQuery, ErrorOr<GetAppointmentFullResult>>
 {
-    public async Task<ErrorOr<GetAppointmentResult>> Handle(GetAppointmentByIdQuery request,
+    public async Task<ErrorOr<GetAppointmentFullResult>> Handle(GetAppointmentByIdQuery request,
         CancellationToken cancellationToken)
     {
         var appointment = await context.Appointments
@@ -15,7 +15,7 @@ public class GetAppointmentByIdHandler(IApplicationDbContext context)
             .ThenInclude(x => x.Treatment)
             .Include(x => x.Patient)
             .Where(x => x.PatientId == request.PatientId && x.Patient.WorkspaceId == request.WorkspaceId)
-            .ProjectToType<GetAppointmentResult>()
+            .ProjectToType<GetAppointmentFullResult>()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (appointment == null)

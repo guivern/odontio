@@ -19,9 +19,6 @@ public class GetAppointmentsHandler(IApplicationDbContext context, IMapper mappe
         }
 
         var query = context.Appointments
-            .Include(x => x.MedicalRecords)
-            .ThenInclude(x => x.PatientTreatment)
-            .ThenInclude(x => x.Treatment)
             .Include(x => x.Patient)
             .Where(x => x.Patient.WorkspaceId == request.WorkspaceId);
         

@@ -6,6 +6,9 @@ public class MappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
+        config.NewConfig<Appointment, GetAppointmentFullResult>()
+            .Map(dest => dest.PatientName, src => $"{src.Patient.FirstName} {src.Patient.LastName}");
+        
         config.NewConfig<Appointment, GetAppointmentResult>()
             .Map(dest => dest.PatientName, src => $"{src.Patient.FirstName} {src.Patient.LastName}");
 
