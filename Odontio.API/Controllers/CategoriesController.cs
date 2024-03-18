@@ -6,9 +6,9 @@ public class CategoriesController(IMediator mediator) : ApiControllerBase
 {
     [HttpGet]
     // [Authorize(Policy = nameof(Roles.Administrator))]
-    public async Task<IActionResult> GetAll([FromQuery] GetCategoriesQuery request)
+    public async Task<IActionResult> GetAll([FromQuery] GetCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(request);
+        var result = await mediator.Send(request, cancellationToken);
         
         return result.Match<IActionResult>(
             result =>

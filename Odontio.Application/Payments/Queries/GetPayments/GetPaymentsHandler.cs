@@ -37,7 +37,11 @@ public class GetPaymentsHandler(IApplicationDbContext context, IMapper mapper)
                 $"{nameof(Payment.Budget)}.{nameof(Budget.Patient)}.{nameof(Patient.DocumentNumber)}"
             });
         }
-
+        
+        if (request.OrderBy != null && request.OrderBy.Count != 0)
+        {
+            query = query.OrderBy(request.OrderBy);
+        }
 
         var result = await PagedList<Payment>.CreateAsync(query, request.Page, request.PageSize);
 

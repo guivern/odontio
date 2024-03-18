@@ -2,261 +2,313 @@
   {
     "Number": 11,
     "Name": "Incisivo central superior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 1
   },
   {
     "Number": 12,
     "Name": "Incisivo lateral superior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 1
   },
   {
     "Number": 13,
     "Name": "Canino superior derecho",
+    "Odontogram": 2,
     "Type": 2
   },
   {
     "Number": 14,
     "Name": "Primer premolar superior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 3
   },
   {
     "Number": 15,
     "Name": "Segundo premolar superior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 3
   },
   {
     "Number": 16,
     "Name": "Primer molar superior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 17,
     "Name": "Segundo molar superior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 18,
     "Name": "Tercer molar superior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 21,
     "Name": "Incisivo central superior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 1
   },
   {
     "Number": 22,
     "Name": "Incisivo lateral superior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 1
   },
   {
     "Number": 23,
     "Name": "Canino superior izquierdo",
+    "Odontogram": 2,
     "Type": 2
   },
   {
     "Number": 24,
     "Name": "Primer premolar superior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 3
   },
   {
     "Number": 25,
     "Name": "Segundo premolar superior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 3
   },
   {
     "Number": 26,
     "Name": "Primer molar superior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 27,
     "Name": "Segundo molar superior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 28,
     "Name": "Tercer molar superior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 31,
     "Name": "Incisivo central inferior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 1
   },
   {
     "Number": 32,
     "Name": "Incisivo lateral inferior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 1
   },
   {
     "Number": 33,
     "Name": "Canino inferior izquierdo",
+    "Odontogram": 2,
     "Type": 2
   },
   {
     "Number": 34,
     "Name": "Primer premolar inferior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 3
   },
   {
     "Number": 35,
     "Name": "Segundo premolar inferior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 3
   },
   {
     "Number": 36,
     "Name": "Primer molar inferior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 37,
     "Name": "Segundo molar inferior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 38,
     "Name": "Tercer molar inferior izquierdo",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 41,
     "Name": "Incisivo central inferior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 1
   },
   {
     "Number": 42,
     "Name": "Incisivo lateral inferior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 1
   },
   {
     "Number": 43,
     "Name": "Canino inferior derecho",
+    "Odontogram": 2,
     "Type": 2
   },
   {
     "Number": 44,
     "Name": "Primer premolar inferior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 3
   },
   {
     "Number": 45,
     "Name": "Segundo premolar inferior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 3
   },
   {
     "Number": 46,
     "Name": "Primer molar inferior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 47,
     "Name": "Segundo molar inferior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 48,
     "Name": "Tercer molar inferior derecho",
-    "Type": 2
+    "Odontogram": 2,
+    "Type": 4
   },
   {
     "Number": 51,
     "Name": "Incisivo central superior derecho",
+    "Odontogram": 1,
     "Type": 1
   },
   {
     "Number": 52,
     "Name": "Incisivo lateral superior derecho",
+    "Odontogram": 1,
     "Type": 1
   },
   {
     "Number": 53,
     "Name": "Canino superior derecho",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 2
   },
   {
     "Number": 54,
     "Name": "Primer molar superior derecho",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 4
   },
   {
     "Number": 55,
     "Name": "Segundo molar superior derecho",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 4
   },
   {
     "Number": 61,
     "Name": "Incisivo central superior izquierdo",
+    "Odontogram": 1,
     "Type": 1
   },
   {
     "Number": 62,
     "Name": "Incisivo lateral superior izquierdo",
+    "Odontogram": 1,
     "Type": 1
   },
   {
     "Number": 63,
     "Name": "Canino superior izquierdo",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 2
   },
   {
     "Number": 64,
     "Name": "Primer molar superior izquierdo",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 4
   },
   {
     "Number": 65,
     "Name": "Segundo molar superior izquierdo",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 4
   },
   {
     "Number": 71,
     "Name": "Incisivo central inferior izquierdo",
+    "Odontogram": 1,
     "Type": 1
   },
   {
     "Number": 72,
     "Name": "Incisivo lateral inferior izquierdo",
+    "Odontogram": 1,
     "Type": 1
   },
   {
     "Number": 73,
     "Name": "Canino inferior izquierdo",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 2
   },
   {
     "Number": 74,
     "Name": "Primer molar inferior izquierdo",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 4
   },
   {
     "Number": 75,
     "Name": "Segundo molar inferior izquierdo",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 4
   },
   {
     "Number": 81,
     "Name": "Incisivo central inferior derecho",
+    "Odontogram": 1,
     "Type": 1
   },
   {
     "Number": 82,
     "Name": "Incisivo lateral inferior derecho",
+    "Odontogram": 1,
     "Type": 1
   },
   {
     "Number": 83,
     "Name": "Canino inferior derecho",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 2
   },
   {
     "Number": 84,
     "Name": "Primer molar inferior derecho",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 4
   },
   {
     "Number": 85,
     "Name": "Segundo molar inferior derecho",
-    "Type": 1
+    "Odontogram": 1,
+    "Type": 4
   }
 ]

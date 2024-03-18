@@ -2,12 +2,8 @@
 
 public enum MaritalStatus
 {
-    Soltero = 1,
-    Soltera,
-    Casado,
-    Casada,
-    Viudo,
-    Viuda,
-    Divorciado,
-    Divorciada
+    Single = 1,
+    Married,
+    Divorced,
+    Widowed
 }

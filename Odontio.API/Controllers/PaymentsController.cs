@@ -68,7 +68,7 @@ public class PaymentsController(IMediator mediator, IMapper mapper) : ApiControl
         var result = await mediator.Send(command, cancellationToken);
 
         return result.Match<IActionResult>(
-            result => Ok(result),
+            result => Ok(),
             errors => Problem(errors)
         );
     }

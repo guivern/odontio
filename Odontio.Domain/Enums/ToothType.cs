@@ -2,6 +2,8 @@
 
 public enum ToothType
 {
-    Children = 1,
-    Adult
+    Incisive = 1,
+    Canine,
+    Premolar,
+    Molar
 }

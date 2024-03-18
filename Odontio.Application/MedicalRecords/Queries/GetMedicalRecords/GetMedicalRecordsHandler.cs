@@ -42,6 +42,11 @@ public class GetMedicalRecordsHandler(IApplicationDbContext context, IMapper map
                 $"{nameof(MedicalRecord.PatientTreatment)}.{nameof(PatientTreatment.Budget)}.{nameof(Budget.Patient)}.{nameof(Patient.DocumentNumber)}"
             });
         }
+        
+        if (request.OrderBy != null && request.OrderBy.Count != 0)
+        {
+            query = query.OrderBy(request.OrderBy);
+        }
 
         var result = await PagedList<MedicalRecord>.CreateAsync(query, request.Page, request.PageSize);
         
