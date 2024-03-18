@@ -13,7 +13,6 @@ public class GetBudgetFullResult
     public decimal TotalCost { get; set; }
     public decimal TotalPayments { get; set; }
     public decimal Balance { get; set; }
-    
 
     public List<GetPatientTreatmentResultDto> PatientTreatments { get; set; } = new();
     public List<GetPaymentDto> Payments { get; set; } = new();
@@ -23,11 +22,11 @@ public class GetPatientTreatmentResultDto
 {
     public long Id { get; set; }
     public long TreatmentId { get; set; }
-    public long AppointmentId { get; set; }
     public string TreatmentName { get; set; }
     public long? ToothId { get; set; }
     public decimal Cost { get; set; }
     public string Status { get; set; }
+    public List<GetMedicalRecordResultDto> MedicalRecords { get; set; } = new();
 }
 
 public class GetPaymentDto

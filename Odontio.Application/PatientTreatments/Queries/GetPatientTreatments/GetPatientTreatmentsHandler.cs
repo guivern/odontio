@@ -7,9 +7,9 @@ using Odontio.Domain.Enums;
 namespace Odontio.Application.PatientTreatments.Queries.GetPatientTreatments;
 
 public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper mapper)
-    : IRequestHandler<GetPatientTreatmentsQuery, ErrorOr<PagedList<GetPatientTreatmentFullResult>>>
+    : IRequestHandler<GetPatientTreatmentsQuery, ErrorOr<PagedList<GetPatientTreatmentResult>>>
 {
-    public async Task<ErrorOr<PagedList<GetPatientTreatmentFullResult>>> Handle(GetPatientTreatmentsQuery request,
+    public async Task<ErrorOr<PagedList<GetPatientTreatmentResult>>> Handle(GetPatientTreatmentsQuery request,
         CancellationToken cancellationToken)
     {
         var query = context.PatientTreatments
@@ -17,7 +17,6 @@ public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper 
             .ThenInclude(x => x.Patient)
             .Include(x => x.Treatment)
             .Include(x => x.Tooth)
-            .Include(x => x.MedicalRecords)
             .Where(x => x.Budget.Patient.WorkspaceId == request.WorkspaceId)
             .AsQueryable();
         
@@ -57,7 +56,7 @@ public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper 
 
         var result = await PagedList<PatientTreatment>.CreateAsync(query, request.Page, request.PageSize);
         
-        var dto = mapper.Map<PagedList<GetPatientTreatmentFullResult>>(result);
+        var dto = mapper.Map<PagedList<GetPatientTreatmentResult>>(result);
         dto.PageSize = result.PageSize;
         dto.PageNumber = result.PageNumber;
         dto.TotalCount = result.TotalCount;

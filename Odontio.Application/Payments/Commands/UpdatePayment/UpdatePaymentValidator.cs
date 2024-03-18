@@ -36,7 +36,7 @@ public class UpdatePaymentValidator : AbstractValidator<UpdatePaymentCommand>
         
         var balance = totalCost - totalPayments;
         
-        return arg2 >= 0 && arg2 <= balance;
+        return arg2 <= balance;
     }
 
     private async Task<bool> BudgetExits(UpdatePaymentCommand arg1, long arg2, CancellationToken arg3)

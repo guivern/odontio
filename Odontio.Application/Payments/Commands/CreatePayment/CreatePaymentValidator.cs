@@ -34,7 +34,7 @@ public class CreatePaymentValidator : AbstractValidator<CreatePaymentCommand>
         
         var balance = totalCost - totalPayments;
         
-        return arg2 >= 0 && arg2 <= balance;
+        return arg2 <= balance;
     }
 
     private async Task<bool> BudgetExits(CreatePaymentCommand arg1, long arg2, CancellationToken arg3)

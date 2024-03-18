@@ -8,7 +8,7 @@ namespace Odontio.Application.PatientTreatments.Queries.GetPatientTreatments;
 
 [ValidateWorkspace]
 [RolesAuthorize(nameof(RolesEnum.Administrator))]
-public class GetPatientTreatmentsQuery: PagedListQueryBase, IRequest<ErrorOr<PagedList<GetPatientTreatmentFullResult>>>, IWorkspaceResource
+public class GetPatientTreatmentsQuery: PagedListQueryBase, IRequest<ErrorOr<PagedList<GetPatientTreatmentResult>>>, IWorkspaceResource
 {
     public long WorkspaceId { get; set; }
     public long? PatientId { get; set; }

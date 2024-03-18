@@ -1,6 +1,6 @@
 ﻿namespace Odontio.Application.Budgets.Common;
 
-public class GetBudgetResultDto
+public class GetBudgetResult
 {
     public long Id { get; set; }
     public DateOnly Date { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace Odontio.Application.PatientTreatments.Common;
 
-public class GetPatientTreatmentFullResult
+public class GetPatientTreatmentResult
 {
     public long Id { get; set; }
     public long TreatmentId { get; set; }
@@ -12,15 +12,4 @@ public class GetPatientTreatmentFullResult
     public string Status { get; set; }
     public long PatientId { get; set; }
     public string PatientName { get; set; }
-
-    public List<GetMedicalRecordResultDto> MedicalRecords { get; set; } = new();
-}
-
-public class GetMedicalRecordResultDto
-{
-    public long Id { get; set; }
-    public long AppointmentId { get; set; }
-    public DateTimeOffset Date {get; set;}
-    public string? Description { get; set; }
-    public string? Observations { get; set; }
 }
