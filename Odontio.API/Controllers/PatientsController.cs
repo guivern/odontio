@@ -7,6 +7,7 @@ using Odontio.Application.Patients.Commands.UpdatePatient;
 using Odontio.Application.Patients.Queries.GetPatientById;
 using Odontio.Application.Patients.Queries.GetPatients;
 using Odontio.Application.PatientTreatments.Queries.GetPatientTreatments;
+using Odontio.Application.Payments.Queries.GetPayments;
 
 namespace Odontio.API.Controllers;
 
@@ -14,7 +15,8 @@ namespace Odontio.API.Controllers;
 public class PatientsController(IMediator mediator, IMapper mapper) : ApiControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll(long workspaceId, PaginationQueryParams pagination, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAll(long workspaceId, PaginationQueryParams pagination,
+        CancellationToken cancellationToken)
     {
         var request = new GetPatientsQuery
         {
@@ -26,12 +28,12 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
         };
 
         var result = await mediator.Send(request, cancellationToken);
-        
+
         Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
-        
+
         return Ok(result);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(long id, long workspaceId, CancellationToken cancellationToken)
     {
@@ -89,7 +91,7 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
             errors => Problem(errors)
         );
     }
-    
+
     [HttpGet("{id}/PatientTreatments")]
     public async Task<IActionResult> GetPatientTreatments(long id, long workspaceId, PaginationQueryParams pagination,
         CancellationToken cancellationToken)
@@ -114,12 +116,37 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
             errors => Problem(errors)
         );
     }
-    
+
     [HttpGet("{id}/MedicalRecords")]
     public async Task<IActionResult> GetMedicalRecords(long id, long workspaceId, PaginationQueryParams pagination,
         CancellationToken cancellationToken)
     {
         var query = new GetMedicalRecordsQuery
+        {
+            WorkspaceId = workspaceId,
+            PatientId = id,
+            Page = pagination.Page,
+            PageSize = pagination.PageSize,
+            Filter = pagination.Filter,
+            OrderBy = pagination.OrderBy
+        };
+
+        var result = await mediator.Send(query, cancellationToken);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpGet("{id}/Payments")]
+    public async Task<IActionResult> GetPayments(long id, long workspaceId, PaginationQueryParams pagination,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetPaymentsQuery
         {
             WorkspaceId = workspaceId,
             PatientId = id,

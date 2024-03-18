@@ -8,7 +8,7 @@ namespace Odontio.Application.Budgets.Queries.GetBudgetById;
 [ValidateWorkspace]
 [ValidatePatient]
 [RolesAuthorize(nameof(Roles.Administrator))]
-public class GetBudgetByIdQuery: IRequest<ErrorOr<GetBudgetResult>>, IPatientResource
+public class GetBudgetByIdQuery: IRequest<ErrorOr<GetBudgetFullResult>>, IPatientResource
 {
     public long Id { get; set; }
     public long PatientId { get; set; }

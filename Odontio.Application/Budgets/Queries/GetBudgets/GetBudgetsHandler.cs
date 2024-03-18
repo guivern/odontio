@@ -5,12 +5,13 @@ using Odontio.Domain.Entities;
 
 namespace Odontio.Application.Budgets.Queries.GetBudgets;
 
-public class GetBudgetsHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetBudgetsQuery, ErrorOr<PagedList<GetBudgetResult>>>
+public class GetBudgetsHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetBudgetsQuery, ErrorOr<PagedList<GetBudgetResultDto>>>
 {
-    public async Task<ErrorOr<PagedList<GetBudgetResult>>> Handle(GetBudgetsQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PagedList<GetBudgetResultDto>>> Handle(GetBudgetsQuery request, CancellationToken cancellationToken)
     {
         var query = context.Budgets
             .Include(x => x.Patient)
+            .Include(x => x.Payments)
             .Include(x => x.PatientTreatments)
             .ThenInclude(x => x.Treatment)
             .AsNoTracking()
@@ -48,7 +49,7 @@ public class GetBudgetsHandler(IApplicationDbContext context, IMapper mapper) : 
         }
         
         var result = await PagedList<Budget>.CreateAsync(query, request.Page, request.PageSize);
-        var dto = mapper.Map<PagedList<GetBudgetResult>>(result);
+        var dto = mapper.Map<PagedList<GetBudgetResultDto>>(result);
         
         dto.PageSize = result.PageSize;
         dto.PageNumber = result.PageNumber;

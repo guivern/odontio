@@ -3,6 +3,7 @@ using Odontio.Application.Budgets.Queries.GetBudgets;
 using Odontio.Application.Common.Helpers;
 using Odontio.Application.MedicalRecords.Queries.GetMedicalRecords;
 using Odontio.Application.PatientTreatments.Queries.GetPatientTreatments;
+using Odontio.Application.Payments.Queries.GetPayments;
 using Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByWorkspace;
 
 namespace Odontio.API.Controllers;
@@ -101,12 +102,36 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
             errors => Problem(errors)
         );
     }
-    
+
     [HttpGet("{workspaceId}/MedicalRecords")]
     public async Task<IActionResult> GetMedicalRecords(long workspaceId,
         PaginationQueryParams pagination, CancellationToken cancellationToken)
     {
         var query = new GetMedicalRecordsQuery()
+        {
+            WorkspaceId = workspaceId,
+            Page = pagination.Page,
+            PageSize = pagination.PageSize,
+            Filter = pagination.Filter,
+            OrderBy = pagination.OrderBy,
+        };
+
+        var result = await mediator.Send(query, cancellationToken);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpGet("{workspaceId}/Payments")]
+    public async Task<IActionResult> GetPayments(long workspaceId,
+        PaginationQueryParams pagination, CancellationToken cancellationToken)
+    {
+        var query = new GetPaymentsQuery()
         {
             WorkspaceId = workspaceId,
             Page = pagination.Page,
