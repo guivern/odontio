@@ -1,8 +1,10 @@
-﻿using Odontio.Domain.Common;
+﻿using Odontio.Application.Common.Attributes;
+using Odontio.Application.Workspaces.Common;
 
-namespace Odontio.Domain.Entities;
+namespace Odontio.Application.Workspaces.Commands.UpdateWorkspace;
 
-public class Workspace: BaseAuditableEntity
+[RolesAuthorize(nameof(RolesEnum.Administrator))]
+public class UpdateWorkspaceCommand : IRequest<ErrorOr<UpsertWorkspaceResult>>
 {
     public long Id { get; set; }
     public string Name { get; set; } = null!;
@@ -12,8 +14,4 @@ public class Workspace: BaseAuditableEntity
     public string? Ruc { get; set; }
     public string? ContactName { get; set; }
     public string? ContactPhoneNumber { get; set; }
-
-    public ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
-    public ICollection<User> Users { get; set; } = new List<User>();
-    public ICollection<Patient> Patients { get; set; } = new List<Patient>();
 }

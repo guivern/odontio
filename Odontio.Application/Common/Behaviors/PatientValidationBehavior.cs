@@ -26,15 +26,11 @@ public class PatientValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
             // check if patient exists
             var patientId = request.PatientId;
             var patient = await _context.Patients.AsNoTracking()
+                .Where(x => x.WorkspaceId == request.WorkspaceId)
                 .FirstOrDefaultAsync(x => x.Id == patientId, cancellationToken);
             
             if (patient == null)
-                return (dynamic)Error.Custom((int)HttpStatusCode.NotFound, "NOT_FOUND", "Patient not found");
-            
-            // check if patient belongs to workspace
-            var workspaceId = request.WorkspaceId;
-            if (patient.WorkspaceId != workspaceId)
-                return (dynamic)Error.Custom((int)HttpStatusCode.BadRequest, "BAD_REQUEST", "Patient does not belong to workspace");
+                return (dynamic)Error.Custom((int)ErrorType.NotFound, "NOT_FOUND", "Patient not found");
         }
 
         return await next();
