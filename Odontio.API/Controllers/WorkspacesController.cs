@@ -86,13 +86,13 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
         );
     }
 
-    [HttpGet("{workspaceId}/ScheduledVisits")]
-    public async Task<IActionResult> GetScheduledVisits(long workspaceId, DateOnly? startDate, DateOnly? endDate,
+    [HttpGet("{id}/ScheduledVisits")]
+    public async Task<IActionResult> GetScheduledVisits(long id, DateOnly? startDate, DateOnly? endDate,
         CancellationToken cancellationToken)
     {
         var query = new GetScheduledVisitsByWorkspaceQuery
         {
-            WorkspaceId = workspaceId,
+            WorkspaceId = id,
             DateRange = new DateRange
             {
                 StartDate = startDate,
@@ -105,14 +105,13 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
         return Ok(result);
     }
 
-    [HttpGet("{workspaceId}/Appointments")]
-    public async Task<IActionResult> GetAppointments(long workspaceId,
-        PaginationQueryParams pagination,
+    [HttpGet("{id}/Appointments")]
+    public async Task<IActionResult> GetAppointments(long id, PaginationQueryParams pagination,
         CancellationToken cancellationToken)
     {
         var query = new GetAppointmentsQuery
         {
-            WorkspaceId = workspaceId,
+            WorkspaceId = id,
             Page = pagination.Page,
             PageSize = pagination.PageSize,
             Filter = pagination.Filter,
@@ -130,13 +129,13 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
         );
     }
 
-    [HttpGet("{workspaceId}/Budgets")]
-    public async Task<IActionResult> GetBudgets(long workspaceId, PaginationQueryParams pagination,
+    [HttpGet("{id}/Budgets")]
+    public async Task<IActionResult> GetBudgets(long id, PaginationQueryParams pagination,
         CancellationToken cancellationToken)
     {
         var query = new GetBudgetsQuery()
         {
-            WorkspaceId = workspaceId,
+            WorkspaceId = id,
             Page = pagination.Page,
             PageSize = pagination.PageSize,
             Filter = pagination.Filter,
@@ -154,13 +153,13 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
         );
     }
 
-    [HttpGet("{workspaceId}/PatientTreatments")]
-    public async Task<IActionResult> GetPatientTreatments(long workspaceId,
-        PaginationQueryParams pagination, CancellationToken cancellationToken)
+    [HttpGet("{id}/PatientTreatments")]
+    public async Task<IActionResult> GetPatientTreatments(long id, PaginationQueryParams pagination,
+        CancellationToken cancellationToken)
     {
         var query = new GetPatientTreatmentsQuery()
         {
-            WorkspaceId = workspaceId,
+            WorkspaceId = id,
             Page = pagination.Page,
             PageSize = pagination.PageSize,
             Filter = pagination.Filter,
@@ -178,13 +177,13 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
         );
     }
 
-    [HttpGet("{workspaceId}/MedicalRecords")]
-    public async Task<IActionResult> GetMedicalRecords(long workspaceId,
-        PaginationQueryParams pagination, CancellationToken cancellationToken)
+    [HttpGet("{id}/MedicalRecords")]
+    public async Task<IActionResult> GetMedicalRecords(long id, PaginationQueryParams pagination,
+        CancellationToken cancellationToken)
     {
         var query = new GetMedicalRecordsQuery()
         {
-            WorkspaceId = workspaceId,
+            WorkspaceId = id,
             Page = pagination.Page,
             PageSize = pagination.PageSize,
             Filter = pagination.Filter,
@@ -202,13 +201,13 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
         );
     }
 
-    [HttpGet("{workspaceId}/Payments")]
-    public async Task<IActionResult> GetPayments(long workspaceId,
-        PaginationQueryParams pagination, CancellationToken cancellationToken)
+    [HttpGet("{id}/Payments")]
+    public async Task<IActionResult> GetPayments(long id, PaginationQueryParams pagination,
+        CancellationToken cancellationToken)
     {
         var query = new GetPaymentsQuery()
         {
-            WorkspaceId = workspaceId,
+            WorkspaceId = id,
             Page = pagination.Page,
             PageSize = pagination.PageSize,
             Filter = pagination.Filter,
