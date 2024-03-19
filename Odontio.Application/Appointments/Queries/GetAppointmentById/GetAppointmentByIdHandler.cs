@@ -10,6 +10,7 @@ public class GetAppointmentByIdHandler(IApplicationDbContext context)
         CancellationToken cancellationToken)
     {
         var appointment = await context.Appointments
+            .AsNoTracking()
             .Include(x => x.MedicalRecords)
             .ThenInclude(x => x.PatientTreatment)
             .ThenInclude(x => x.Treatment)

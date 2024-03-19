@@ -34,7 +34,14 @@ public class DeletePatientTreatmentHandler(IApplicationDbContext context) : IReq
 
         context.PatientTreatments.Remove(patientTreatment);
 
-        await context.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateException e)
+        {
+            return Error.Conflict(description: "Can not delete patient treatment due to existing dependencies.");
+        }
 
         return Unit.Value;
     }

@@ -17,6 +17,7 @@ public class GetBudgetByIdHandler(IApplicationDbContext context): IRequestHandle
             .Where(x => x.Id == request.Id)
             .Where(x => x.PatientId == request.PatientId)
             .ProjectToType<GetBudgetFullResult>()
+            .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
 
         if (budget == null)

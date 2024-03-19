@@ -13,6 +13,7 @@ public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper 
         CancellationToken cancellationToken)
     {
         var query = context.PatientTreatments
+            .AsNoTracking()
             .Include(x => x.Budget)
             .ThenInclude(x => x.Patient)
             .Include(x => x.Treatment)

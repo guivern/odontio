@@ -10,6 +10,7 @@ public class GetDiagnosisByIdHandler(IApplicationDbContext context, IMapper mapp
         CancellationToken cancellationToken)
     {
         var result = await context.Diagnoses
+            .AsNoTracking()
             .Include(x => x.Tooth)
             .Where(x => x.Id == request.Id && x.PatientId == request.PatientId)
             .ProjectToType<UpsertDiagnosisResult>()

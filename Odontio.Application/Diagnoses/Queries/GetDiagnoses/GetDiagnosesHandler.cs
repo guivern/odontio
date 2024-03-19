@@ -8,6 +8,7 @@ public class GetDiagnosesHandler(IApplicationDbContext context): IRequestHandler
     public async Task<IEnumerable<UpsertDiagnosisResult>> Handle(GetDiagnosesQuery request, CancellationToken cancellationToken)
     {
         var diagnoses = await context.Diagnoses
+            .AsNoTracking()
             .Where(x => x.PatientId == request.PatientId)
             .ProjectToType<UpsertDiagnosisResult>()
             .ToListAsync(cancellationToken);

@@ -10,6 +10,7 @@ public class GetMedicalConditionsHandler(IApplicationDbContext context, IMapper 
         CancellationToken cancellationToken)
     {
         var medicalConditions = await context.MedicalConditions
+            .AsNoTracking()
             .Where(x => x.PatientId == request.PatientId)
             .ProjectToType<MedicalConditionResult>()
             .ToListAsync(cancellationToken);

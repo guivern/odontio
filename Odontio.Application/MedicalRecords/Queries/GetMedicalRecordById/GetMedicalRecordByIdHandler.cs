@@ -8,6 +8,7 @@ public class GetMedicalRecordByIdHandler(IApplicationDbContext context, IMapper 
     public async Task<ErrorOr<GetMedicalRecordFullResult>> Handle(GetMedicalRecordByIdQuery request, CancellationToken cancellationToken)
     {
         var medicalRecord = await context.MedicalRecords
+            .AsNoTracking()
             .Include(x => x.Appointment)
             .Include(x => x.PatientTreatment)
             .ThenInclude(x => x.Budget)

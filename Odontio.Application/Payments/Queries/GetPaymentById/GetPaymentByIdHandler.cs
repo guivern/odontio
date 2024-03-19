@@ -8,6 +8,7 @@ public class GetPaymentByIdHandler(IApplicationDbContext context, IMapper mapper
     public async Task<ErrorOr<GetPaymentResult>> Handle(GetPaymentByIdQuery request, CancellationToken cancellationToken)
     {
         var payment = await context.Payments
+            .AsNoTracking()
             .Include(x => x.Budget)
             .ThenInclude(x => x.Patient)
             .Where(x => x.Budget.PatientId == request.PatientId)

@@ -19,6 +19,7 @@ public class GetAppointmentsHandler(IApplicationDbContext context, IMapper mappe
         }
 
         var query = context.Appointments
+            .AsNoTracking()
             .Include(x => x.Patient)
             .Where(x => x.Patient.WorkspaceId == request.WorkspaceId);
         

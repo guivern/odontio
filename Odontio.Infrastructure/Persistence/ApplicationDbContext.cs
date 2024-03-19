@@ -60,6 +60,24 @@ public class ApplicationDbContext:  DbContext, IApplicationDbContext
             .WithOne(x => x.Patient)
             .OnDelete(DeleteBehavior.Restrict);
         
+        // cannot delete a patient if it has budgets
+        builder.Entity<Patient>()
+            .HasMany(x => x.Budgets)
+            .WithOne(x => x.Patient)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // cannot delete a budget if it has payments
+        builder.Entity<Budget>()
+            .HasMany(x => x.Payments)
+            .WithOne(x => x.Budget)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // cannot delete a patient treatment if it has medical records
+        builder.Entity<PatientTreatment>()
+            .HasMany(x => x.MedicalRecords)
+            .WithOne(x => x.PatientTreatment)
+            .OnDelete(DeleteBehavior.Restrict);
+        
         // cannot delete a role if it has users
         builder.Entity<Role>()
             .HasMany(x => x.Users)

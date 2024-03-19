@@ -9,7 +9,7 @@ public class GetTheethHandler(IApplicationDbContext context, IMapper mapper) : I
 {
     public async Task<ErrorOr<PagedList<GetThoothResult>>> Handle(GetTheethQuery request, CancellationToken cancellationToken)
     {
-        var query = context.Teeth.AsQueryable();
+        var query = context.Teeth.AsNoTracking().AsQueryable();
         
         if (request.Odontogram != null)
         {

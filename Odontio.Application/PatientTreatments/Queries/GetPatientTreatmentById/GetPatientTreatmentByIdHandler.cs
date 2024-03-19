@@ -10,6 +10,7 @@ public class GetPatientTreatmentByIdHandler(IApplicationDbContext context, IMapp
         CancellationToken cancellationToken)
     {
         var patientTreatment = await context.PatientTreatments
+            .AsNoTracking()
             .Include(x => x.Budget)
             .ThenInclude(x => x.Patient)
             .Include(x => x.Treatment)

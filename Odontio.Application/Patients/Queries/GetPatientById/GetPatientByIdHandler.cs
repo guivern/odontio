@@ -9,6 +9,7 @@ public class GetPatientByIdHandler(IApplicationDbContext context, IMapper mapper
         CancellationToken cancellationToken)
     {
         var patient = await context.Patients
+            .AsNoTracking()
             .Include(x => x.Referred)
             .Include(x => x.MedicalConditions)
             .Where(p => p.Id == request.Id && p.WorkspaceId == request.WorkspaceId)

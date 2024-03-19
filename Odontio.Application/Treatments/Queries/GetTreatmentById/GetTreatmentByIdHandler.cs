@@ -9,6 +9,7 @@ public class GetTreatmentByIdHandler(IApplicationDbContext context, IMapper mapp
         CancellationToken cancellationToken)
     {
         var treatment = context.Treatments
+            .AsNoTracking()
             .Where(x => x.WorkspaceId == request.WorkspaceId)
             .FirstOrDefault(x => x.Id == request.Id);
 

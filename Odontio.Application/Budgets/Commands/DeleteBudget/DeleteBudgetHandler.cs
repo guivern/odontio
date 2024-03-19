@@ -18,7 +18,14 @@ public class DeleteBudgetHandler(IApplicationDbContext context) : IRequestHandle
 
         context.Budgets.Remove(budget);
 
-        await context.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateException e)
+        {
+            return Error.Conflict(description: "Can not delete budget due to existing dependencies.");
+        }
 
         return Unit.Value;
     }

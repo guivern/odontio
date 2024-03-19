@@ -12,6 +12,7 @@ public class GetPaymentsHandler(IApplicationDbContext context, IMapper mapper)
         CancellationToken cancellationToken)
     {
         var query = context.Payments
+            .AsNoTracking()
             .Include(x => x.Budget)
             .ThenInclude(x => x.Patient)
             .Where(x => x.Budget.Patient.WorkspaceId == request.WorkspaceId);

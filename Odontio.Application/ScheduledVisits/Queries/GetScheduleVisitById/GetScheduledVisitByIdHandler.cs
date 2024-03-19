@@ -10,6 +10,7 @@ public class GetScheduledVisitByIdHandler(IApplicationDbContext context, IMapper
         CancellationToken cancellationToken)
     {
         var entity = await context.ScheduledVisits
+            .AsNoTracking()
             .Where(x => x.Id == query.Id && x.PatientId == query.PatientId)
             .ProjectToType<UpsertScheduledVisitResult>()
             .FirstOrDefaultAsync(cancellationToken);
