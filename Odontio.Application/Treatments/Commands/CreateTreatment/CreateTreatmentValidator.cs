@@ -17,11 +17,15 @@ public class CreateTreatmentValidator : AbstractValidator<CreateTreatmentCommand
 
     private async Task<bool> BeUniqueName(string arg1, CancellationToken arg2)
     {
-        return !await _context.Treatments.AnyAsync(x => x.Name.ToLower() == arg1.ToLower(), cancellationToken: arg2);
+        return !await _context.Treatments
+            .AsNoTracking()
+            .AnyAsync(x => x.Name.ToLower() == arg1.ToLower(), cancellationToken: arg2);
     }
 
     private async Task<bool> CategoryExists(long arg1, CancellationToken arg2)
     {
-        return await _context.Categories.AnyAsync(x => x.Id == arg1, cancellationToken: arg2);
+        return await _context.Categories
+            .AsNoTracking()
+            .AnyAsync(x => x.Id == arg1, cancellationToken: arg2);
     }
 }

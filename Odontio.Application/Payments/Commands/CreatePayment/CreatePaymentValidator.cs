@@ -24,23 +24,26 @@ public class CreatePaymentValidator : AbstractValidator<CreatePaymentCommand>
     private async Task<bool> LessThanOrEqualToBalance(CreatePaymentCommand arg1, decimal arg2, CancellationToken arg3)
     {
         var totalCost = await _context.Budgets
+            .AsNoTracking()
             .Include(x => x.PatientTreatments)
             .Where(x => x.Id == arg1.BudgetId)
             .SumAsync(x => x.PatientTreatments.Sum(x => x.Cost), cancellationToken: arg3);
-        
+
         var totalPayments = await _context.Payments
+            .AsNoTracking()
             .Where(x => x.BudgetId == arg1.BudgetId)
             .SumAsync(x => x.Amount, cancellationToken: arg3);
-        
+
         var balance = totalCost - totalPayments;
-        
+
         return arg2 <= balance;
     }
 
     private async Task<bool> BudgetExits(CreatePaymentCommand arg1, long arg2, CancellationToken arg3)
     {
         // validate if budget exists for the given id and patientId
-        var exists = await _context.Budgets.AnyAsync(x => x.Id == arg2 && x.PatientId == arg1.PatientId, arg3);
+        var exists = await _context.Budgets.AsNoTracking()
+            .AnyAsync(x => x.Id == arg2 && x.PatientId == arg1.PatientId, arg3);
 
         return exists;
     }

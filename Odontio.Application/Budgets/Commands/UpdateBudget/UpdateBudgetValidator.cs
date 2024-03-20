@@ -67,6 +67,7 @@ public class
         if (value.Id == 0) return true; // new patientTreatment
 
         var exists = await dbContext.PatientTreatments
+            .AsNoTracking()
             .AnyAsync(x => x.Id == value.Id && x.BudgetId == context.InstanceToValidate.Id, cancellation);
 
         if (!exists)

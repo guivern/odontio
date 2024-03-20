@@ -23,7 +23,7 @@ public class UpdatePatientValidator : AbstractValidator<UpdatePatientCommand>
             .WithMessage("Document number is required.")
             .MustAsync(BeUniqueDocumentNumber)
             .WithMessage(x => $"Document number {x.DocumentNumber} already exists.");
-        
+
         RuleFor(x => x.FirstName).NotEmpty().MaximumLength(248);
         RuleFor(x => x.LastName).NotEmpty().MaximumLength(248);
         RuleFor(x => x.Gender).NotEmpty().Must(BeValidGender).WithMessage("Invalid gender");
@@ -33,13 +33,13 @@ public class UpdatePatientValidator : AbstractValidator<UpdatePatientCommand>
     private async Task<bool> BeUniqueDocumentNumber(UpdatePatientCommand command, string arg1, CancellationToken arg2)
     {
         // validate if exists a patient with the same document number but different id
-        var exists = await _context.Patients.AnyAsync(
-            x => x.DocumentNumber.ToLower() == command.DocumentNumber.ToLower() &&
-                 x.Id != command.Id, arg2);
+        var exists = await _context.Patients
+            .AsNoTracking()
+            .AnyAsync(x => x.DocumentNumber.ToLower() == command.DocumentNumber.ToLower() && x.Id != command.Id, arg2);
 
         return !exists;
     }
-    
+
     private bool BeValidMaritalStatus(string? arg)
     {
         var result = Enum.TryParse<MaritalStatus>(arg, out _);

@@ -33,6 +33,7 @@ public class CreatePatientDiseaseValidator(IApplicationDbContext dbContext)
     {
         // validata each diseaseId is unique for the patient
         var exists = await dbContext.PatientDiseases
+            .AsNoTracking()
             .AnyAsync(x => x.DiseaseId == value && x.PatientId == context.InstanceToValidate.PatientId, cancellation);
 
 

@@ -17,12 +17,13 @@ public class UpdateTreatmentValidator : AbstractValidator<UpdateTreatmentCommand
 
     private async Task<bool> BeUniqueName(UpdateTreatmentCommand arg1, string arg2, CancellationToken arg3)
     {
-        return !await _context.Treatments.AnyAsync(x => x.Name.ToLower() == arg2.ToLower() && arg1.Id != x.Id,
-            cancellationToken: arg3);
+        return !await _context.Treatments
+            .AsNoTracking()
+            .AnyAsync(x => x.Name.ToLower() == arg2.ToLower() && arg1.Id != x.Id, cancellationToken: arg3);
     }
 
     private async Task<bool> CategoryExists(long arg1, CancellationToken arg2)
     {
-        return await _context.Categories.AnyAsync(x => x.Id == arg1, cancellationToken: arg2);
+        return await _context.Categories.AsNoTracking().AnyAsync(x => x.Id == arg1, cancellationToken: arg2);
     }
 }

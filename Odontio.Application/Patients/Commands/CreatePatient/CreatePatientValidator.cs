@@ -35,7 +35,8 @@ public class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
 
     private async Task<bool> BeUniqueDocumentNumber(string arg1, CancellationToken arg2)
     {
-        return !await _context.Patients.AnyAsync(x => x.DocumentNumber.ToLower() == arg1.ToLower(),
-            cancellationToken: arg2);
+        return !await _context.Patients
+            .AsNoTracking()
+            .AnyAsync(x => x.DocumentNumber.ToLower() == arg1.ToLower(), cancellationToken: arg2);
     }
 }

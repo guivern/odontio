@@ -18,6 +18,7 @@ public class CreateScheduledVisitValidator: AbstractValidator<CreateScheduleVisi
     {
         // validate if the date is available in the workspace
         var isAvailable = !await _context.ScheduledVisits
+            .AsNoTracking()
             .Include(x => x.Patient)
             .AnyAsync(x => x.Date == arg2 && x.Patient.WorkspaceId == arg1.WorkspaceId, arg4);
         

@@ -37,7 +37,9 @@ public class UpdateMedicalConditionValidator : AbstractValidator<UpdateMedicalCo
         CancellationToken cancellationToken)
     {
         // validate if exists a condition type with the same name but different id for the same patient
-        var exists = await _context.MedicalConditions.AnyAsync(
+        var exists = await _context.MedicalConditions
+            .AsNoTracking()
+            .AnyAsync(
             x => x.ConditionType.ToLower() == conditionType.ToLower() &&
                  x.PatientId == command.PatientId &&
                  x.Id != command.Id, cancellationToken);

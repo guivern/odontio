@@ -20,8 +20,9 @@ public class GetBudgetsHandler(IApplicationDbContext context, IMapper mapper) : 
 
         if (request.PatientId != null)
         {
-            var patientExits = await context.Patients.AnyAsync(x => x.Id == request.PatientId
-                && x.WorkspaceId == request.WorkspaceId, cancellationToken);
+            var patientExits = await context.Patients
+                .AsNoTracking()
+                .AnyAsync(x => x.Id == request.PatientId && x.WorkspaceId == request.WorkspaceId, cancellationToken);
 
             if (!patientExits)
                 return Error.NotFound(description: "Patient not found in this workspace");

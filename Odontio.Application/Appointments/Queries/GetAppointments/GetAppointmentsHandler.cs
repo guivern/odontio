@@ -5,15 +5,18 @@ using Odontio.Domain.Entities;
 
 namespace Odontio.Application.Appointments.Queries.GetAppointments;
 
-public class GetAppointmentsHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetAppointmentsQuery, ErrorOr<PagedList<GetAppointmentResult>>>
+public class GetAppointmentsHandler(IApplicationDbContext context, IMapper mapper)
+    : IRequestHandler<GetAppointmentsQuery, ErrorOr<PagedList<GetAppointmentResult>>>
 {
-    public async Task<ErrorOr<PagedList<GetAppointmentResult>>> Handle(GetAppointmentsQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PagedList<GetAppointmentResult>>> Handle(GetAppointmentsQuery request,
+        CancellationToken cancellationToken)
     {
         if (request.PatientId != null)
         {
-            var patientExits = await context.Patients.AnyAsync(x => x.Id == request.PatientId
-                && x.WorkspaceId == request.WorkspaceId, cancellationToken);
-            
+            var patientExits = await context.Patients
+                .AsNoTracking()
+                .AnyAsync(x => x.Id == request.PatientId && x.WorkspaceId == request.WorkspaceId, cancellationToken);
+
             if (!patientExits)
                 return Error.NotFound(description: "Patient not found in this workspace");
         }
@@ -22,12 +25,12 @@ public class GetAppointmentsHandler(IApplicationDbContext context, IMapper mappe
             .AsNoTracking()
             .Include(x => x.Patient)
             .Where(x => x.Patient.WorkspaceId == request.WorkspaceId);
-        
+
         if (request.PatientId != null)
         {
             query = query.Where(x => x.PatientId == request.PatientId);
         }
-        
+
         if (!string.IsNullOrEmpty(request.Filter))
         {
             if (request.PatientId == null)
@@ -40,7 +43,7 @@ public class GetAppointmentsHandler(IApplicationDbContext context, IMapper mappe
                 });
             }
         }
-        
+
         if (request.OrderBy != null && request.OrderBy.Count != 0)
         {
             query = query.OrderBy(request.OrderBy);
@@ -52,7 +55,7 @@ public class GetAppointmentsHandler(IApplicationDbContext context, IMapper mappe
         dto.PageNumber = result.PageNumber;
         dto.TotalCount = result.TotalCount;
         dto.TotalPages = result.TotalPages;
-        
+
         return dto;
     }
 }
