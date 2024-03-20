@@ -12,11 +12,23 @@ public class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
     {
         _context = context;
         RuleFor(x => x.WorkspaceId).NotEmpty().WithMessage("Workspace id is required");
-        RuleFor(x => x.FirstName).NotEmpty().MaximumLength(248);
-        RuleFor(x => x.LastName).NotEmpty().MaximumLength(248);
+        RuleFor(x => x.FirstName).NotEmpty().MaximumLength(100);
+        RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
+        RuleFor(x => x.DocumentNumber).MaximumLength(20);
+        RuleFor(x => x.Ruc).MaximumLength(20);
+        RuleFor(x => x.Address).MaximumLength(256);
+        RuleFor(x => x.WorkAddress).MaximumLength(256);
+        RuleFor(x => x.Email).MaximumLength(100).EmailAddress();
+        RuleFor(x => x.Phone).MaximumLength(20);
+        RuleFor(x => x.WorkPhone).MaximumLength(20);
+        RuleFor(x => x.Observations).MaximumLength(256);
+        RuleFor(x => x.Occupation).MaximumLength(48);
+        RuleFor(x => x.LastDentalVisit).MaximumLength(100);
+        RuleFor(x => x.ToothLossCause).MaximumLength(100);
         RuleFor(x => x.Gender).NotEmpty().Must(BeValidGender).WithMessage("Invalid gender");
         RuleFor(x => x.MaritalStatus).Must(BeValidMaritalStatus).WithMessage("Invalid marital status");
-        RuleFor(x => x.DocumentNumber).NotEmpty().MustAsync(BeUniqueDocumentNumber).WithMessage("Already exists");
+        RuleFor(x => x.DocumentNumber).NotEmpty().MustAsync(BeUniqueDocumentNumber).MaximumLength(20)
+            .WithMessage("Already exists");
         // RuleFor(x => x.MedicalConditions)
         //     .ForEach(x =>
         //         x.Must(mc => !string.IsNullOrEmpty(mc.ConditionType)).WithMessage("Is required"));

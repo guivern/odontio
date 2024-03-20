@@ -15,6 +15,8 @@ public class UpdateMedicalRecordValidator : AbstractValidator<UpdateMedicalRecor
         RuleFor(x => x.AppointmentId).NotEmpty();
         RuleFor(x => x.PatientTreatmentId).NotEmpty()
             .MustAsync(PatientTreatmentBelongsToPatient).WithMessage("Patient treatment not found");
+        RuleFor(x => x.Description).NotEmpty().MaximumLength(256);
+        RuleFor(x => x.Observations).MaximumLength(256);
     }
 
     private async Task<bool> PatientTreatmentBelongsToPatient(UpdateMedicalRecordCommand arg1, long arg2, CancellationToken arg3)

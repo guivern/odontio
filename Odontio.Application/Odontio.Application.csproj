@@ -19,6 +19,8 @@
   <ItemGroup>
     <Folder Include="Authentication\Commands\" />
     <Folder Include="MedicalConditions\Commands\" />
+    <Folder Include="Users\Common\" />
+    <Folder Include="Users\Queries\" />
   </ItemGroup>
 
   <PropertyGroup>

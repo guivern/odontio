@@ -10,7 +10,7 @@ public class CreateTreatmentValidator : AbstractValidator<CreateTreatmentCommand
     {
         _context = context;
         RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required").MustAsync(BeUniqueName)
-            .WithMessage("Already exists");
+            .WithMessage("Already exists").MaximumLength(100);
         RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Category is required").MustAsync(CategoryExists)
             .WithMessage($"Category does not exist");
     }

@@ -51,11 +51,18 @@ public class AddConditionTypeValidator(IApplicationDbContext dbContext)
     
         if (exists)
         {
-            context.MessageFormatter.AppendArgument("ErrorMessage",
-                $"Condition type {value.ConditionType} already exists for this patient.");
+            context.MessageFormatter.AppendArgument("ErrorMessage", $"Condition type {value.ConditionType} already exists for this patient.");
+            return false;
+        }
+        
+        // validate each description is 256 max length
+        if (value.Description?.Length > 256)
+        {
+            context.MessageFormatter.AppendArgument("ErrorMessage", $"Description must be less than 256 characters.");
+            return false;
         }
     
-        return !exists;
+        return true;
     }
 
     public string Name => nameof(AddConditionTypeValidator);

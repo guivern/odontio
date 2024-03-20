@@ -10,7 +10,8 @@ public class CreateMedicalRecordValidator : AbstractValidator<CreateMedicalRecor
     public CreateMedicalRecordValidator(IApplicationDbContext context)
     {
         _context = context;
-        RuleFor(x => x.Description).NotEmpty();
+        RuleFor(x => x.Description).NotEmpty().MaximumLength(256);
+        RuleFor(x => x.Observations).MaximumLength(256);
         
         // validate if PatientTreatment exists and belongs to the patient
         RuleFor(x => x.PatientTreatmentId)

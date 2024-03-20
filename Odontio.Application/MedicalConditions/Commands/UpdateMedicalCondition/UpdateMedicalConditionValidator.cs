@@ -29,8 +29,8 @@ public class UpdateMedicalConditionValidator : AbstractValidator<UpdateMedicalCo
             .WithMessage(x => $"Condition type {x.ConditionType} already exists for this patient.");
 
         RuleFor(x => x.Description)
-            .MaximumLength(500)
-            .WithMessage("Description must be less than 500 characters.");
+            .MaximumLength(256)
+            .WithMessage("Description must be less than 256 characters.");
     }
 
     private async Task<bool> BeUniqueConditionType(UpdateMedicalConditionCommand command, string conditionType,

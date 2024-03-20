@@ -23,6 +23,19 @@ public class CreateAppointmentValidator : AbstractValidator<CreateAppointmentCom
         RuleForEach(x => x.MedicalRecords)
             .MustAsync(PatientTreatmentNotFinished)
             .WithMessage("Patient treatment is finished");
+        
+        // validate that Description is required  and has a maximum length of 256 for each medical record
+        RuleForEach(command => command.MedicalRecords).SetValidator(new CreateMedicalRecordDtoValidator());
+    }
+    
+    public class CreateMedicalRecordDtoValidator : AbstractValidator<CreateMedicalRecordDto>
+    {
+        public CreateMedicalRecordDtoValidator()
+        {
+            RuleFor(dto => dto.PatientTreatmentId).NotEmpty();
+            RuleFor(dto => dto.Description).NotEmpty().MaximumLength(256);
+            RuleFor(dto => dto.Observations).MaximumLength(256);
+        }
     }
 
     private async Task<bool> PatientTreatmentNotFinished(CreateMedicalRecordDto arg1, CancellationToken arg2)

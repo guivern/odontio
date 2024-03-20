@@ -13,7 +13,7 @@ public class UpdateAppointmentCommand : IRequest<ErrorOr<UpsertAppointmentResult
     public long Id { get; set; }
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }
-    public DateTimeOffset? Date { get; set; }
+    public DateTimeOffset Date { get; set; }
     
     public ICollection<UpdateMedicalRecordDto> MedicalRecords { get; set; } = new List<UpdateMedicalRecordDto>();
 }

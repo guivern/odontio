@@ -21,7 +21,6 @@ public class UpdateAppointmentHandler(IApplicationDbContext context, IMapper map
         }
 
         mapper.Map(request, appointment);
-        appointment.Date = request.Date ?? dateTimeProvider.UtcNow;
         
         context.Appointments.Entry(appointment).State = EntityState.Modified;
 

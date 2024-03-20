@@ -29,6 +29,19 @@ public class UpdateAppointmentValidator: AbstractValidator<UpdateAppointmentComm
             .MustAsync(MedicalRecordBelongsToAppointment)
             .WithMessage($"Medical record does not belong to the appointment");
         
+        RuleForEach(command => command.MedicalRecords).SetValidator(new UpdateMeicalRecordDtoValidator());
+
+        RuleFor(x => x.Date).NotEmpty();
+    }
+    
+    public class UpdateMeicalRecordDtoValidator : AbstractValidator<UpdateMedicalRecordDto>
+    {
+        public UpdateMeicalRecordDtoValidator()
+        {
+            RuleFor(dto => dto.PatientTreatmentId).NotEmpty();
+            RuleFor(dto => dto.Description).NotEmpty().MaximumLength(256);
+            RuleFor(dto => dto.Observations).MaximumLength(256);
+        }
     }
 
     private async Task<bool> MedicalRecordBelongsToAppointment(UpdateAppointmentCommand arg1, UpdateMedicalRecordDto arg2, CancellationToken arg3)
