@@ -5,15 +5,16 @@ using Odontio.Application.Common.Interfaces;
 
 namespace Odontio.Application.Common.Behaviors;
 
-public class WorkspaceValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest: IWorkspaceResource
+public class WorkspaceValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IWorkspaceResource
 {
     private readonly IApplicationDbContext _context;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IAuthService _authService;
 
-    public WorkspaceValidationBehavior(IApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+    public WorkspaceValidationBehavior(IApplicationDbContext context, IAuthService authService)
     {
         _context = context;
-        _httpContextAccessor = httpContextAccessor;
+        _authService = authService;
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
@@ -24,22 +25,29 @@ public class WorkspaceValidationBehavior<TRequest, TResponse> : IPipelineBehavio
 
         if (attributeExists)
         {
-            // check if workspace exists
+            /* 1- check if workspace exists */
             var workspaceExists = await _context.Workspaces.AsNoTracking()
                 .AnyAsync(x => x.Id == request.WorkspaceId, cancellationToken);
-            
+
             if (!workspaceExists)
             {
                 return (dynamic)Error.NotFound(description: "Workspace not found");
             }
-            
-            // check if user has access to workspace
-            var user = _httpContextAccessor.HttpContext?.User;
-            var userWorkspaceId = user?.FindFirst("WorkspaceId")?.Value;
-            
-            if (userWorkspaceId == null || request.WorkspaceId != long.Parse(userWorkspaceId))
+
+            /* 2- check if user has access to workspace */
+            var userId = _authService.GetCurrentUserId();
+            var user = await _context.Users.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == userId && x.IsActive, cancellationToken);
+
+            // if user is an admin, allow access
+            if (user != null && user.RoleId == (int)RolesEnum.Administrator)
             {
-                return (dynamic)Error.Custom((int)HttpStatusCode.Forbidden, "FORBIDDEN",
+                return await next();
+            }
+
+            if (user == null || request.WorkspaceId != user?.WorkspaceId)
+            {
+                return (dynamic)Error.Custom((int)ErrorType.Unauthorized, "FORBIDDEN",
                     "User does not have access to this workspace");
             }
         }

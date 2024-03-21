@@ -1,12 +1,6 @@
-﻿using Odontio.Application.Common.Attributes;
-using Odontio.Application.Common.Interfaces;
-using Odontio.Application.Users.Common;
+﻿namespace Odontio.API.Contracts.Users;
 
-namespace Odontio.Application.Users.Commands.CreateUser;
-
-[ValidateWorkspace]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
-public class CreateUserCommand : IRequest<ErrorOr<UpsertUserResult>>, IWorkspaceResource
+public class CreateUserRequest
 {
     public string Username { get; set; } = null!;
     public string Password { get; set; } = null!;

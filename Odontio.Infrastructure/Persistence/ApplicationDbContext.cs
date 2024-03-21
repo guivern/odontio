@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Odontio.Application.Common.Interfaces;
 using Odontio.Domain.Common;
@@ -8,18 +6,18 @@ using Odontio.Domain.Entities;
 
 namespace Odontio.Infrastructure.Persistence;
 
-public class ApplicationDbContext:  DbContext, IApplicationDbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IAuthService _authService;
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
-        IHttpContextAccessor httpContextAccessor, IDateTimeProvider dateTimeProvider) : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTimeProvider dateTimeProvider,
+        IAuthService authService) : base(options)
     {
-        _httpContextAccessor = httpContextAccessor;
+        _authService = authService;
         _dateTimeProvider = dateTimeProvider;
     }
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -35,63 +33,68 @@ public class ApplicationDbContext:  DbContext, IApplicationDbContext
         //     });
         // }
         // #endregion
-        
+
         // cannot delete a workspace if it has patients
         builder.Entity<Workspace>()
             .HasMany(x => x.Patients)
             .WithOne(x => x.Workspace)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         // cannot delete a category if it has treatments
         builder.Entity<Category>()
             .HasMany(x => x.Treatments)
             .WithOne(x => x.Category)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         // cannot delete a treatment if it has patient treatments (in a budget)
         builder.Entity<Treatment>()
             .HasMany(x => x.PatientTreatments)
             .WithOne(x => x.Treatment)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         // cannot delete a patient if it has appointments
         builder.Entity<Patient>()
             .HasMany(x => x.Appointments)
             .WithOne(x => x.Patient)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         // cannot delete a patient if it has budgets
         builder.Entity<Patient>()
             .HasMany(x => x.Budgets)
             .WithOne(x => x.Patient)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         // cannot delete a budget if it has payments
         builder.Entity<Budget>()
             .HasMany(x => x.Payments)
             .WithOne(x => x.Budget)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         // cannot delete a patient treatment if it has medical records
         builder.Entity<PatientTreatment>()
             .HasMany(x => x.MedicalRecords)
             .WithOne(x => x.PatientTreatment)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         // cannot delete a role if it has users
         builder.Entity<Role>()
             .HasMany(x => x.Users)
             .WithOne(x => x.Role)
             .OnDelete(DeleteBehavior.Restrict);
         
+        // defult value for IsActive
+        builder.Entity<User>()
+            .Property(x => x.IsActive)
+            .HasDefaultValue(true);
+
         base.OnModelCreating(builder);
     }
-    
+
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var now = _dateTimeProvider.UtcNow;
-        var currentUsername = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
-        
+        var currentUsername = _authService.GetCurrentUserName();
+
         foreach (var entry in ChangeTracker.Entries())
         {
             if (entry.Entity is BaseAuditableEntity baseEntity)
@@ -110,10 +113,10 @@ public class ApplicationDbContext:  DbContext, IApplicationDbContext
                 }
             }
         }
-        
+
         return await base.SaveChangesAsync(cancellationToken);
     }
-    
+
     public DbSet<Disease> Diseases { get; set; }
     public DbSet<PatientTreatment> PatientTreatments { get; set; }
     public DbSet<Budget> Budgets { get; set; }

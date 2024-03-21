@@ -1,6 +1,8 @@
 ﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Moq;
+using Odontio.Application.Common.Interfaces;
 using Odontio.Domain.Entities;
 using Odontio.Infrastructure.Models;
 using Odontio.Infrastructure.Services;
@@ -12,26 +14,32 @@ public class AuthServiceTest
 {
     private readonly AuthService _authService;
     private readonly Mock<IOptions<JwtSettings>> _jwtSettingsMock;
+    private readonly Mock<IHttpContextAccessor> _httpContextAccessorMock;
 
     public AuthServiceTest()
     {
+        _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
         _jwtSettingsMock = new Mock<IOptions<JwtSettings>>();
         _jwtSettingsMock.Setup(x => x.Value).Returns(new JwtSettings
         {
-            Secret = "this is my custom Secret key for authnetication", 
-            Issuer = "YourIssuer", 
-            Audience = "YourAudience", 
+            Secret = "this is my custom Secret key for authnetication",
+            Issuer = "YourIssuer",
+            Audience = "YourAudience",
             ExpiryMinutes = 60
         });
 
-        _authService = new AuthService(_jwtSettingsMock.Object);
+        _authService = new AuthService(_jwtSettingsMock.Object, _httpContextAccessorMock.Object);
     }
 
     [Fact]
     public void GenerateJwtToken_ShouldReturnToken_WhenUserIsValid()
     {
         // Arrange
-        var user = new User { Id = 1, Username = "TestUser", Email = "test@test.com" };
+        var user = new User
+        {
+            Id = 1, Username = "TestUser", Email = "test@test.com", WorkspaceId = 1,
+            Role = new Role { Name = "Administrator" }
+        };
 
         // Act
         var token = _authService.GenerateJwtToken(user);
@@ -39,7 +47,6 @@ public class AuthServiceTest
         // Assert
         Assert.NotNull(token);
         Assert.IsType<string>(token);
-        
     }
 
     [Fact]
@@ -82,7 +89,7 @@ public class AuthServiceTest
         // Assert
         Assert.True(result);
     }
-    
+
     [Fact]
     public void GeneratePasswordHash_ShouldReturnDifferentHashes_ForDifferentPasswords()
     {

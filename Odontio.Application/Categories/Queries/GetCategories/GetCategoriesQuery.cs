@@ -5,7 +5,7 @@ using Odontio.Domain.Enums;
 namespace Odontio.Application.Categories.Queries.GetCategories;
 
 
-[RolesAuthorize(nameof(Roles.User), nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(Roles.Administrator))]
 public class GetCategoriesQuery : PagedListQueryBase, IRequest<ErrorOr<PagedList<GetCategoriesResult>>>
 {
 }

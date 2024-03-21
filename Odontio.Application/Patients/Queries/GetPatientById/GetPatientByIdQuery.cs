@@ -6,7 +6,7 @@ using Odontio.Domain.Enums;
 namespace Odontio.Application.Patients.Queries.GetPatientById;
 
 [ValidateWorkspace]
-[RolesAuthorize(nameof(Roles.User), nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(Roles.Administrator))]
 public class GetPatientByIdQuery : IRequest<ErrorOr<GetPatientByIdResult>>, IWorkspaceResource
 {
     public long Id { get; init; }

@@ -21,12 +21,12 @@ public class UpdatePatientValidator : AbstractValidator<UpdatePatientCommand>
         RuleFor(x => x.DocumentNumber)
             .NotEmpty()
             .WithMessage("Document number is required.")
+            .MaximumLength(20)
             .MustAsync(BeUniqueDocumentNumber)
             .WithMessage(x => $"Document number {x.DocumentNumber} already exists.");
 
         RuleFor(x => x.FirstName).NotEmpty().MaximumLength(100);
         RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.DocumentNumber).MaximumLength(20);
         RuleFor(x => x.Ruc).MaximumLength(20);
         RuleFor(x => x.Address).MaximumLength(256);
         RuleFor(x => x.WorkAddress).MaximumLength(256);

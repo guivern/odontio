@@ -8,12 +8,10 @@ namespace Odontio.Application.Common.Behaviors;
 public class PatientValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest: IPatientResource
 {
     private readonly IApplicationDbContext _context;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public PatientValidationBehavior(IApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+    public PatientValidationBehavior(IApplicationDbContext context)
     {
         _context = context;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,

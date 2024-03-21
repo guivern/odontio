@@ -171,8 +171,8 @@ public class DbContextInitializer
 
                 var user = new User
                 {
-                    Username = $"admin{workspace.Id}",
-                    RoleId = (long) Roles.Administrator,
+                    Username = $"user{workspace.Id}",
+                    RoleId = (long) Roles.Doctor,
                     WorkspaceId = workspace.Id,
                     PasswordSalt = passwordSalt,
                     PasswordHash = passwordHash,

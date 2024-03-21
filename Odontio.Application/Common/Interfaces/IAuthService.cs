@@ -8,4 +8,6 @@ public interface IAuthService
     byte[] GeneratePasswordSalt();
     byte[] GeneratePasswordHash(string password, byte[] salt);
     bool VerifyPassword(string password, byte[] passwordHash, byte[] passwordSalt);
+    long GetCurrentUserId();
+    string GetCurrentUserName();
 }

@@ -16,7 +16,8 @@ public class LoginHandler(IApplicationDbContext context, IAuthService authServic
         var user = await context.Users
             .AsNoTracking()
             .Include(x => x.Role)
-            .FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken: cancellationToken);
+            .FirstOrDefaultAsync(x => x.Username == request.Username && x.IsActive,
+                cancellationToken: cancellationToken);
 
         if (user == null)
             return Error.Custom(code: "INVALID_CREDENTIALS", description: "Invalid username or password",
