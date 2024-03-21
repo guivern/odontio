@@ -62,7 +62,8 @@ public class DbContextInitializer
         await SeedWorkspaces();
         await SeedCategories();
         await _context.SaveChangesAsync();
-        
+
+        await SeedAdmin();
         await SeedUsers();
         await SeedDiseases();
         await SeedTreatments();
@@ -180,6 +181,26 @@ public class DbContextInitializer
 
                 _context.Users.Add(user);
             }    
+        }
+    }
+    
+    private async Task SeedAdmin()
+    {
+        if (!await _context.Users.AsNoTracking().AnyAsync(x => x.RoleId == (long) Roles.Administrator))
+        {
+            var password = $@"changeThisPassword";
+            var passwordSalt = _authService.GeneratePasswordSalt();
+            var passwordHash = _authService.GeneratePasswordHash(password, passwordSalt);
+
+            var user = new User
+            {
+                Username = $"admin",
+                RoleId = (long) Roles.Administrator,
+                PasswordSalt = passwordSalt,
+                PasswordHash = passwordHash,
+            };
+
+            _context.Users.Add(user);
         }
     }
     

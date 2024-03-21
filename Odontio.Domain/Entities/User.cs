@@ -13,7 +13,7 @@ public class User: BaseAuditableEntity
     public byte[] PasswordHash { get; set; } = null!;
     public byte[] PasswordSalt { get; set; } = null!;
     
-    public long WorkspaceId { get; set; }
+    public long? WorkspaceId { get; set; }
     public Workspace Workspace { get; set; } = null!;
     
     public long RoleId { get; set; }

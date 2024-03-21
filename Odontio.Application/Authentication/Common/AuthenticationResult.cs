@@ -4,6 +4,7 @@ public record AuthenticationResult(
     long Id,
     string Username,
     string? Email,
-    string? PhotoUrl,
+    long? WorkspaceId,
+    long? RoleId,
     string Token
 );
