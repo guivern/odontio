@@ -18,8 +18,6 @@ public class CreateUserHandler (IApplicationDbContext context, IMapper mapper, I
 
         var result = mapper.Map<UpsertUserResult>(user);
         
-        result.Token = authService.GenerateJwtToken(user);
-        
         return result;
     }
 }

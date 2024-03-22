@@ -73,7 +73,7 @@ public class UsersController(IMediator mediator, IMapper mapper) : ApiController
         var command = new DeleteUserCommand { Id = id };
         var result = await mediator.Send(command, cancellationToken);
         return result.Match<IActionResult>(
-            result => Ok(result),
+            result => NoContent(),
             errors => Problem(errors)
         );
     }

@@ -20,6 +20,6 @@ public class AddMedicalConditionsCommand : IRequest<ErrorOr<List<MedicalConditio
 public class AddMedicalConditionDto
 {
     public string ConditionType { get; set; } = null!;
-    public bool HasCondition { get; set; }
+    public bool? HasCondition { get; set; }
     public string? Description { get; set; }
 }

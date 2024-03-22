@@ -13,8 +13,8 @@ public class GetUsersHandler(IApplicationDbContext context, IMapper mapper)
             .AsNoTracking()
             .Include(u => u.Workspace)
             .Include(u => u.Role)
-            .Where(u => u.IsActive);
-
+            .AsQueryable();
+        
         if (!string.IsNullOrEmpty(request.Filter))
         {
             query = query.Filter(request.Filter, new List<string>

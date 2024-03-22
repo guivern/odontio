@@ -10,6 +10,6 @@ public class UpdateUserRequest
     public string? LastName { get; set; }
     public string? PhotoUrl { get; set; }
     public long RoleId { get; set; }
-    public long WorkspaceId { get; set; }
+    public long? WorkspaceId { get; set; }
     public bool IsActive { get; set; }
 }

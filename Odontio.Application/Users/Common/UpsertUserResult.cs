@@ -10,5 +10,5 @@ public class UpsertUserResult
     public string? PhotoUrl { get; set; }
     public long WorkspaceId { get; set; }
     public long RoleId { get; set; }
-    public string Token { get; set; }
+    public bool IsActive { get; set; }
 }

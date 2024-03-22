@@ -4,9 +4,8 @@ using Odontio.Application.Users.Common;
 
 namespace Odontio.Application.Users.Commands.CreateUser;
 
-[ValidateWorkspace]
 [RolesAuthorize(nameof(RolesEnum.Administrator))]
-public class CreateUserCommand : IRequest<ErrorOr<UpsertUserResult>>, IWorkspaceResource
+public class CreateUserCommand : IRequest<ErrorOr<UpsertUserResult>>
 {
     public string Username { get; set; } = null!;
     public string Password { get; set; } = null!;
@@ -15,6 +14,6 @@ public class CreateUserCommand : IRequest<ErrorOr<UpsertUserResult>>, IWorkspace
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? PhotoUrl { get; set; }
-    public long WorkspaceId { get; set; }
+    public long? WorkspaceId { get; set; }
     public long RoleId { get; set; }
 }

@@ -12,7 +12,9 @@ public class ChangePasswordValidator : AbstractValidator<ChangePasswordCommand>
         RuleFor(v => v.OldPassword)
             .NotEmpty().WithMessage("Old password is required.");
         RuleFor(v => v.NewPassword)
-            .MinimumLength(8)
+            .NotEqual(v => v.OldPassword).WithMessage("New password must be different from the old password.")
+            .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$")
+            .WithMessage("Password must contain at least one uppercase letter, one lowercase letter, and one number.")
             .NotEmpty();
         RuleFor(x => x.ConfirmPassword)
             .NotEmpty()

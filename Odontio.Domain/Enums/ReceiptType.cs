@@ -2,7 +2,7 @@
 
 public enum ReceiptType
 {
-   Invoice = 1,
-   Receipt,
-   Other
+   Factura = 1,
+   Recibo,
+   Otro
 }

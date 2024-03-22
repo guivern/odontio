@@ -2,7 +2,8 @@
 
 public enum PaymentMethod
 {
-    Cash = 1,
-    Transfer,
-    Other
+    Efectivo = 1,
+    Transferencia,
+    Giro,
+    Otro
 }

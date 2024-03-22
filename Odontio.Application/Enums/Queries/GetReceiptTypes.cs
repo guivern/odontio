@@ -3,19 +3,14 @@ using Odontio.Domain.Enums;
 
 namespace Odontio.Application.Enums.Queries;
 
-public class GetReceiptTypes : IRequest<List<EnumValue>>
+public class GetReceiptTypes : IRequest<List<string>>
 { }
 
-public class GetReceiptTypesHandler : IRequestHandler<GetReceiptTypes, List<EnumValue>>
+public class GetReceiptTypesHandler : IRequestHandler<GetReceiptTypes, List<string>>
 {
-    public Task<List<EnumValue>> Handle(GetReceiptTypes request, CancellationToken cancellationToken)
+    public Task<List<string>> Handle(GetReceiptTypes request, CancellationToken cancellationToken)
     {
-        var result = new List<EnumValue>
-        {
-            new(nameof(ReceiptType.Invoice), "Factura"),
-            new(nameof(ReceiptType.Receipt), "Recibo"),
-            new(nameof(ReceiptType.Other), "Otro")
-        };
+        var result = Enum.GetNames(typeof(ReceiptType)).ToList();
 
         return Task.FromResult(result);
     }

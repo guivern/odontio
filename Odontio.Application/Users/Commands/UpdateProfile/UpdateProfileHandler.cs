@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Net;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Odontio.Application.Common.Interfaces;
 
@@ -16,20 +17,21 @@ public class UpdateProfileHandler(
         var userId = authService.GetCurrentUserId();
         if (request.Id != userId)
         {
-            return Error.Unauthorized();
+            return Error.Custom((int)HttpStatusCode.Forbidden, "FORBIDDEN",
+                "User is not authorized to perform this action.");
         }
-        
+
         var entity = await context.Users.FindAsync(request.Id);
-        
-        if (entity == null || !entity.IsActive)
+
+        if (entity == null)
         {
             return Error.NotFound();
         }
-        
+
         entity = mapper.Map(request, entity);
-        
+
         context.Users.Entry(entity).State = EntityState.Modified;
-        
+
         try
         {
             await context.SaveChangesAsync(cancellationToken);
@@ -38,9 +40,9 @@ public class UpdateProfileHandler(
         {
             return Error.Conflict(description: "The User was modified by another user");
         }
-        
+
         var result = mapper.Map<UpdateProfileResult>(entity);
-        
+
         return result;
     }
 }

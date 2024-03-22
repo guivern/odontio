@@ -1,4 +1,5 @@
-﻿using Odontio.Application.Authentication.Common;
+﻿using System.Net;
+using Odontio.Application.Authentication.Common;
 using Odontio.Application.Common.Interfaces;
 
 namespace Odontio.Application.Authentication.Commands.ChangePassword;
@@ -11,18 +12,20 @@ public class ChangePasswordHandler(IApplicationDbContext context, IMapper mapper
     {
         var userId = authService.GetCurrentUserId();
         var user = await context.Users
-            .FirstOrDefaultAsync(x => x.Username == request.Username && x.IsActive, cancellationToken);
-        
+            .Include(x => x.Role)
+            .FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken);
+
         if (user == null || user.Id != userId)
         {
-            return Error.Unauthorized();
+            return (dynamic)Error.Custom((int)HttpStatusCode.Forbidden, "FORBIDDEN",
+                "User is not authorized to perform this action.");
         }
 
         var isValidPassword = authService.VerifyPassword(request.OldPassword, user.PasswordHash, user.PasswordSalt);
 
         if (!isValidPassword)
         {
-            return Error.Unauthorized();
+            return Error.Validation(description: "Invalid password", code: "INVALID_PASSWORD");
         }
 
         user.PasswordSalt = authService.GeneratePasswordSalt();

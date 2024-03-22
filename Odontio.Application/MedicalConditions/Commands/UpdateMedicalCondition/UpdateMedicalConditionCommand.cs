@@ -12,7 +12,7 @@ public class UpdateMedicalConditionCommand: IRequest<ErrorOr<MedicalConditionRes
 {
     public long Id { get; set; }
     public string ConditionType { get; set; } = null!;
-    public bool HasCondition { get; set; }
+    public bool? HasCondition { get; set; }
     public string? Description { get; set; }
     public long PatientId { get; set; }
     public long WorkspaceId { get; set; }

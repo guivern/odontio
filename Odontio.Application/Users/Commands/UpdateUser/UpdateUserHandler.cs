@@ -3,15 +3,17 @@ using Odontio.Application.Users.Common;
 
 namespace Odontio.Application.Users.Commands.UpdateUser;
 
-public class UpdateUserHandler (IApplicationDbContext context, IMapper mapper, IAuthService authService) : IRequestHandler<UpdateUserCommand, ErrorOr<UpsertUserResult>>
+public class UpdateUserHandler(IApplicationDbContext context, IMapper mapper, IAuthService authService)
+    : IRequestHandler<UpdateUserCommand, ErrorOr<UpsertUserResult>>
 {
     public async Task<ErrorOr<UpsertUserResult>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var entity = await context.Users.FindAsync(request.Id);
+        var entity = await context.Users.AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-        if (entity == null || !entity.IsActive)
+        if (entity == null)
         {
-            return Error.NotFound();
+            return Error.NotFound(description: "User not found");
         }
 
         entity = mapper.Map(request, entity);
@@ -34,8 +36,6 @@ public class UpdateUserHandler (IApplicationDbContext context, IMapper mapper, I
         }
 
         var result = mapper.Map<UpsertUserResult>(entity);
-        
-        result.Token = authService.GenerateJwtToken(entity);
 
         return result;
     }

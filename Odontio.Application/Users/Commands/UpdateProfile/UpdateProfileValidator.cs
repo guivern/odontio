@@ -25,13 +25,17 @@ public class UpdateProfileValidator : AbstractValidator<UpdateProfileCommand>
     private async Task<bool> BeUniqueEmail(UpdateProfileCommand arg1, string arg2, CancellationToken arg3)
     {
         if (string.IsNullOrEmpty(arg2)) return true;
-        return await _context.Users.AsNoTracking()
-            .AllAsync(x => x.Id != arg1.Id && x.Email != null && x.Email.ToLower() != arg2.ToLower(), arg3);
+        var exists = await _context.Users.AsNoTracking()
+            .AnyAsync(x => x.Email != null && x.Email.ToLower() == arg2.ToLower() && x.Id != arg1.Id, arg3);
+        
+        return !exists;
     }
 
     private async Task<bool> BeUniqueUsername(UpdateProfileCommand arg1, string arg2, CancellationToken arg3)
     {
-        return await _context.Users.AsNoTracking()
-            .AllAsync(x => x.Id != arg1.Id && x.Username.ToLower() != arg2.ToLower(), arg3);
+        var exists = await _context.Users.AsNoTracking()
+            .AnyAsync(x => x.Username.ToLower() == arg2.ToLower() && x.Id != arg1.Id, arg3);
+        
+        return !exists;
     }
 }

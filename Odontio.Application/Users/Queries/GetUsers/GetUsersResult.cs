@@ -9,7 +9,8 @@ public class GetUsersResult
     public string? LastName { get; set; }
     public string? PhotoUrl { get; set; }
     public long WorkspaceId { get; set; }
-    public long WorkspaceName { get; set; }
+    public string WorkspaceName { get; set; }
     public long RoleId { get; set; }
-    public long RoleName { get; set; }
+    public string RoleName { get; set; }
+    public bool IsActive { get; set; }
 }

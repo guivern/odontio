@@ -3,9 +3,8 @@ using Odontio.Application.Common.Interfaces;
 
 namespace Odontio.Application.Users.Commands.UpdateProfile;
 
-[ValidateWorkspace]
 [RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.Doctor), nameof(RolesEnum.Assistant))]
-public class UpdateProfileCommand : IRequest<ErrorOr<UpdateProfileResult>>, IWorkspaceResource
+public class UpdateProfileCommand : IRequest<ErrorOr<UpdateProfileResult>>
 {
     public long Id { get; set; }
     public string Username { get; set; } = null!;
@@ -13,5 +12,4 @@ public class UpdateProfileCommand : IRequest<ErrorOr<UpdateProfileResult>>, IWor
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? PhotoUrl { get; set; }
-    public long WorkspaceId { get; set; }
 }

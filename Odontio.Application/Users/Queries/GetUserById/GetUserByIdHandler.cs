@@ -10,7 +10,6 @@ public class GetUserByIdHandler(IApplicationDbContext context, IMapper mapper) :
             .AsNoTracking()
             .Include(u => u.Workspace)
             .Include(u => u.Role)
-            .Where(x => x.IsActive)
             .FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
         if (user == null)

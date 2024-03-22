@@ -4,21 +4,16 @@ using Odontio.Domain.Enums;
 
 namespace Odontio.Application.Enums.Queries;
 
-public class GetPaymentMethodsQuery : IRequest<List<EnumValue>>
+public class GetPaymentMethodsQuery : IRequest<List<string>>
 {
 }
 
 public class GetPaymentMethodsQueryHandler(IApplicationDbContext context)
-    : IRequestHandler<GetPaymentMethodsQuery, List<EnumValue>>
+    : IRequestHandler<GetPaymentMethodsQuery, List<string>>
 {
-    public Task<List<EnumValue>> Handle(GetPaymentMethodsQuery request, CancellationToken cancellationToken)
+    public Task<List<string>> Handle(GetPaymentMethodsQuery request, CancellationToken cancellationToken)
     {
-        var result = new List<EnumValue>
-        {
-            new(nameof(PaymentMethod.Cash), "Efectivo"),
-            new(nameof(PaymentMethod.Transfer), "Transferencia"),
-            new(nameof(PaymentMethod.Other), "Otro")
-        };
+        var result = Enum.GetNames(typeof(PaymentMethod)).ToList();
 
         return Task.FromResult(result);
     }

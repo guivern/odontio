@@ -9,6 +9,6 @@ public class CreateUserRequest
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? PhotoUrl { get; set; }
-    public long WorkspaceId { get; set; }
+    public long? WorkspaceId { get; set; }
     public long RoleId { get; set; }
 }
