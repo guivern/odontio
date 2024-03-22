@@ -13,4 +13,5 @@ public class GetUserByIdResult
     public long RoleId { get; set; }
     public bool IsActive { get; set; }
     public string RoleName { get; set; }
+    public bool IsDoctor { get; set; }
 }
