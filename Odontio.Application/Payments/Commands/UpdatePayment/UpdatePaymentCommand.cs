@@ -6,7 +6,7 @@ namespace Odontio.Application.Payments.Commands.UpdatePayment;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class UpdatePaymentCommand : IRequest<ErrorOr<UpsertPaymentResult>>, IPatientResource
 {
     public long Id { get; set; }

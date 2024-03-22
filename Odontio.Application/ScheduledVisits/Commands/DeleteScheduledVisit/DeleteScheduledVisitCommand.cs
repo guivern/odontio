@@ -6,7 +6,7 @@ namespace Odontio.Application.ScheduledVisits.Commands.DeleteScheduledVisit;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class DeleteScheduledVisitCommand: IRequest<ErrorOr<Unit>>, IPatientResource
 {
     public long Id { get; set; }

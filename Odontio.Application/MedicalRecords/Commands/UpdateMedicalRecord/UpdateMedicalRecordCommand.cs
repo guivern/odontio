@@ -6,7 +6,7 @@ namespace Odontio.Application.MedicalRecords.Commands.UpdateMedicalRecord;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class UpdateMedicalRecordCommand : IRequest<ErrorOr<UpsertMedicalRecordResult>>, IPatientResource
 {
     public long Id { get; set; }

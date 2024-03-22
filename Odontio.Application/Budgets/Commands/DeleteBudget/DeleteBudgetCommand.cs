@@ -5,7 +5,7 @@ namespace Odontio.Application.Budgets.Commands.DeleteBudget;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class DeleteBudgetCommand : IRequest<ErrorOr<Unit>>, IPatientResource
 {
     public long Id { get; set; }

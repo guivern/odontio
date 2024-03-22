@@ -19,4 +19,5 @@ public class User: BaseAuditableEntity
     public long RoleId { get; set; }
     public Role Role { get; set; } = null!;
     public bool IsActive { get; set; } = true;
+    public bool IsDoctor { get; set; }
 }

@@ -1,9 +1,7 @@
 ﻿using System.Net;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using Odontio.Application.Common.Interfaces;
 
-namespace Odontio.Application.Users.Commands.UpdateProfile;
+namespace Odontio.Application.Profile.Commands.UpdateProfile;
 
 public class UpdateProfileHandler(
     IApplicationDbContext context,

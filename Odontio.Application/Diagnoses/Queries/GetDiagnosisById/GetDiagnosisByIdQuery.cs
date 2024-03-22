@@ -7,7 +7,7 @@ namespace Odontio.Application.Diagnoses.Queries.GetDiagnosisById;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class GetDiagnosisByIdQuery: IRequest<ErrorOr<UpsertDiagnosisResult>>, IPatientResource
 {
     public long Id { get; set; }

@@ -5,7 +5,7 @@ namespace Odontio.Application.MedicalConditions.Common.DeleteMedicalCondition;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class DeleteMedicalConditionCommand : IRequest<ErrorOr<Unit>>, IPatientResource
 {
     public long Id { get; set; }

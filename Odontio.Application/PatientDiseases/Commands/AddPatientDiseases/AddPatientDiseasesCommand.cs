@@ -6,7 +6,7 @@ namespace Odontio.Application.PatientDiseases.Commands.AddPatientDiseases;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class AddPatientDiseasesCommand: IRequest<ErrorOr<Unit>>, IPatientResource
 {
     public long PatientId { get; set; }

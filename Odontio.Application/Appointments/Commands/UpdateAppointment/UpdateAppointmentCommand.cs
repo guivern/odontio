@@ -7,7 +7,7 @@ namespace Odontio.Application.Appointments.Commands.UpdateAppointment;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class UpdateAppointmentCommand : IRequest<ErrorOr<UpsertAppointmentResult>>, IPatientResource
 {
     public long Id { get; set; }

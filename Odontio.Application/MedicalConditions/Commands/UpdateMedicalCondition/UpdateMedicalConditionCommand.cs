@@ -7,7 +7,7 @@ namespace Odontio.Application.MedicalConditions.UpdateMedicalCondition;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class UpdateMedicalConditionCommand: IRequest<ErrorOr<MedicalConditionResult>>, IPatientResource
 {
     public long Id { get; set; }

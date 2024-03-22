@@ -6,7 +6,7 @@ namespace Odontio.Application.Budgets.Commands.UpdateBudget;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class UpdateBudgetCommand : IRequest<ErrorOr<UpsertBudgetResult>>, IPatientResource
 {
     public long Id { get; set; }

@@ -5,7 +5,7 @@ namespace Odontio.Application.Appointments.Commands.DeleteAppointment;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class DeleteAppointmentCommand : IRequest<ErrorOr<Unit>>, IPatientResource
 {
     public long Id { get; set; }

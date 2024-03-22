@@ -16,4 +16,5 @@ public class CreateUserCommand : IRequest<ErrorOr<UpsertUserResult>>
     public string? PhotoUrl { get; set; }
     public long? WorkspaceId { get; set; }
     public long RoleId { get; set; }
+    public bool IsDoctor { get; set; }
 }

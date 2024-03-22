@@ -6,7 +6,7 @@ namespace Odontio.Application.PatientDiseases.Commands.DeletePatientDisease;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class DeletePatientDiseaseCommand : IRequest<ErrorOr<Unit>>, IPatientResource
 {
     public long Id { get; set; }

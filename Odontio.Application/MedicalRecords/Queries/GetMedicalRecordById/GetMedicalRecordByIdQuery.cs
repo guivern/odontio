@@ -7,7 +7,7 @@ namespace Odontio.Application.MedicalRecords.Queries.GetMedicalRecordById;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class GetMedicalRecordByIdQuery : IRequest<ErrorOr<GetMedicalRecordFullResult>>, IPatientResource
 {
     public long Id { get; set; }

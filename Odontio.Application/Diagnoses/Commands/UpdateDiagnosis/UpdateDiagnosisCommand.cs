@@ -7,7 +7,7 @@ namespace Odontio.Application.Diagnoses.Commands.UpdateDiagnosis;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class UpdateDiagnosisCommand: IRequest<ErrorOr<UpsertDiagnosisResult>>, IPatientResource
 {
     public long WorkspaceId { get; set; }

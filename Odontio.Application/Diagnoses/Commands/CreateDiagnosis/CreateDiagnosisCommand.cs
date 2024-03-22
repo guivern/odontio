@@ -7,7 +7,7 @@ namespace Odontio.Application.Diagnoses.Commands.CreateDiagnosis;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class CreateDiagnosisCommand: IRequest<ErrorOr<UpsertDiagnosisResult>>, IPatientResource
 {
     public DateOnly? Date { get; set; }

@@ -6,7 +6,7 @@ using Odontio.Application.Common.Interfaces;
 namespace Odontio.Application.Appointments.Queries.GetAppointments;
 
 [ValidateWorkspace]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class GetAppointmentsQuery : PagedListQueryBase, IRequest<ErrorOr<PagedList<GetAppointmentResult>>>, IWorkspaceResource
 {
     public long WorkspaceId { get; set; }

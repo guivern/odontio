@@ -18,4 +18,5 @@ public class UpdateUserCommand : IRequest<ErrorOr<UpsertUserResult>>
     public long RoleId { get; set; }
     public long? WorkspaceId { get; set; }
     public bool IsActive { get; set; }
+    public bool IsDoctor { get; set; }
 }

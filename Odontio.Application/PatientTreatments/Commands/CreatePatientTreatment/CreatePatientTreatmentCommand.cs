@@ -7,7 +7,7 @@ namespace Odontio.Application.PatientTreatments.Commands.CreatePatientTreatment;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class CreatePatientTreatmentCommand : IRequest<ErrorOr<UpsertPatientTreatmentResult>>, IPatientResource
 {
     public long WorkspaceId { get; set; }

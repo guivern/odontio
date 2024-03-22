@@ -1,9 +1,9 @@
 ﻿using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Interfaces;
 
-namespace Odontio.Application.Users.Commands.UpdateProfile;
+namespace Odontio.Application.Profile.Commands.UpdateProfile;
 
-[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.Doctor), nameof(RolesEnum.Assistant))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class UpdateProfileCommand : IRequest<ErrorOr<UpdateProfileResult>>
 {
     public long Id { get; set; }

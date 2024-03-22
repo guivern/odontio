@@ -6,7 +6,7 @@ using Odontio.Domain.Enums;
 namespace Odontio.Application.Treatments.Commands.CreateTreatment;
 
 [ValidateWorkspace]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class CreateTreatmentCommand : IRequest<ErrorOr<CreateTreatmentResult>>, IWorkspaceResource
 {
     public string Name { get; set; } = null!;

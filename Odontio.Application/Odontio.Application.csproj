@@ -18,6 +18,9 @@
 
   <ItemGroup>
     <Folder Include="MedicalConditions\Commands\" />
+    <Folder Include="Profile\Commands\" />
+    <Folder Include="Profile\Common\" />
+    <Folder Include="Profile\Queries\" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -6,7 +6,7 @@ namespace Odontio.Application.PatientTreatments.Commands.UpdatePatientTreatment;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class UpdatePatientTreatmentCommand : IRequest<ErrorOr<UpsertPatientTreatmentResult>>, IPatientResource
 {
     public long Id { get; set; }

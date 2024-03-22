@@ -5,7 +5,7 @@ namespace Odontio.Application.Payments.Commands.DeletePayment;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class DeletePaymentCommand : IRequest<ErrorOr<Unit>>, IPatientResource
 {
     public long Id { get; set; }

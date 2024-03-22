@@ -7,7 +7,7 @@ namespace Odontio.Application.MedicalConditions.Queries.GetMedicalConditions;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class GetMedicalConditionsQuery: IRequest<ErrorOr<List<MedicalConditionResult>>>, IPatientResource
 {
     public long PatientId { get; set; }

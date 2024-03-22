@@ -5,7 +5,7 @@ namespace Odontio.Application.MedicalRecords.Commands.DeleteMedicalRecord;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class DeleteMedicalRecordCommand : IRequest<ErrorOr<Unit>>, IPatientResource
 {
     public long Id { get; set; }

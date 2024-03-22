@@ -1,6 +1,6 @@
 ﻿using Odontio.Application.Common.Interfaces;
 
-namespace Odontio.Application.Users.Commands.UpdateProfile;
+namespace Odontio.Application.Profile.Commands.UpdateProfile;
 
 public class UpdateProfileValidator : AbstractValidator<UpdateProfileCommand>
 {

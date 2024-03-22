@@ -6,7 +6,7 @@ using Odontio.Domain.Enums;
 namespace Odontio.Application.Treatments.Commands.DeleteTreatment;
 
 [ValidateWorkspace]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class DeleteTreatmentCommand : IRequest<ErrorOr<Unit>>, IWorkspaceResource
 {
     public long Id { get; set; }

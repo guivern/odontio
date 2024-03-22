@@ -6,7 +6,7 @@ namespace Odontio.Application.PatientDiseases.Queries.GetPatientDiseases;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class GetPatientDiseasesQuery: IRequest<ErrorOr<List<GetPatientDiseaseResult>>>, IPatientResource
 {
     public long PatientId { get; set; }

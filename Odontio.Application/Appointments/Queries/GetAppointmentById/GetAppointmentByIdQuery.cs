@@ -6,7 +6,7 @@ namespace Odontio.Application.Appointments.Queries.GetAppointmentById;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class GetAppointmentByIdQuery : IRequest<ErrorOr<GetAppointmentFullResult>>, IPatientResource
 {
     public long Id { get; set; }

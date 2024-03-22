@@ -6,7 +6,7 @@ namespace Odontio.Application.Budgets.Commands.CreateBudget;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class CreateBudgetCommand: IRequest<ErrorOr<UpsertBudgetResult>>, IPatientResource
 {
     public DateOnly? Date { get; set; }

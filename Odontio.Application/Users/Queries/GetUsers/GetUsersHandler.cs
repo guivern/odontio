@@ -15,6 +15,11 @@ public class GetUsersHandler(IApplicationDbContext context, IMapper mapper)
             .Include(u => u.Role)
             .AsQueryable();
         
+        if (request.OnlyDoctors.HasValue)
+        {
+            query = query.Where(u => u.IsDoctor);
+        }
+        
         if (!string.IsNullOrEmpty(request.Filter))
         {
             query = query.Filter(request.Filter, new List<string>

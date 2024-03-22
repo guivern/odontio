@@ -6,7 +6,7 @@ namespace Odontio.Application.Payments.Commands.CreatePayment;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class CreatePaymentCommand : IRequest<ErrorOr<UpsertPaymentResult>>, IPatientResource
 {
     public DateTimeOffset? Date { get; set; }

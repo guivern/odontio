@@ -1,9 +1,9 @@
 ﻿using Odontio.API.Contracts.Users;
+using Odontio.Application.Profile.Commands.UpdateProfile;
+using Odontio.Application.Profile.Queries.GetProfile;
 using Odontio.Application.Users.Commands.CreateUser;
 using Odontio.Application.Users.Commands.DeleteUser;
-using Odontio.Application.Users.Commands.UpdateProfile;
 using Odontio.Application.Users.Commands.UpdateUser;
-using Odontio.Application.Users.Queries.GetProfile;
 using Odontio.Application.Users.Queries.GetUserById;
 using Odontio.Application.Users.Queries.GetUsers;
 
@@ -24,7 +24,8 @@ public class UsersController(IMediator mediator, IMapper mapper) : ApiController
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetUsers(PaginationQueryParams pagination, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetUsers(PaginationQueryParams pagination, [FromQuery] bool? onlyDoctors, 
+        CancellationToken cancellationToken)
     {
         var query = new GetUsersQuery
         {
@@ -32,6 +33,7 @@ public class UsersController(IMediator mediator, IMapper mapper) : ApiController
             PageSize = pagination.PageSize,
             Filter = pagination.Filter,
             OrderBy = pagination.OrderBy,
+            OnlyDoctors = onlyDoctors
         };
 
         var result = await mediator.Send(query, cancellationToken);

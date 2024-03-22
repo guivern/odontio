@@ -6,7 +6,7 @@ namespace Odontio.Application.MedicalRecords.Commands.CreateMedicalRecord;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(RolesEnum.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class CreateMedicalRecordCommand : IRequest<ErrorOr<UpsertMedicalRecordResult>>, IPatientResource
 {
     public long WorkspaceId { get; set; }
