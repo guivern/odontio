@@ -4,9 +4,9 @@ using Odontio.Application.MedicalConditions.Common;
 namespace Odontio.Application.MedicalConditions.Queries.GetMedicalConditions;
 
 public class GetMedicalConditionsHandler(IApplicationDbContext context, IMapper mapper)
-    : IRequestHandler<GetMedicalConditionsQuery, ErrorOr<IEnumerable<MedicalConditionResult>>>
+    : IRequestHandler<GetMedicalConditionsQuery, ErrorOr<List<MedicalConditionResult>>>
 {
-    public async Task<ErrorOr<IEnumerable<MedicalConditionResult>>> Handle(GetMedicalConditionsQuery request,
+    public async Task<ErrorOr<List<MedicalConditionResult>>> Handle(GetMedicalConditionsQuery request,
         CancellationToken cancellationToken)
     {
         var medicalConditions = await context.MedicalConditions

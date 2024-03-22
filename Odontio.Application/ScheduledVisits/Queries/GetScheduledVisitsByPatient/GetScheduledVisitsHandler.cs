@@ -3,9 +3,9 @@ using Odontio.Application.ScheduledVisits.Common;
 
 namespace Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByPatient;
 
-public class GetScheduledVisitsHandler(IApplicationDbContext context): IRequestHandler<GetScheduledVisitsQuery, IEnumerable<UpsertScheduledVisitResult>>
+public class GetScheduledVisitsHandler(IApplicationDbContext context): IRequestHandler<GetScheduledVisitsQuery, ErrorOr<IEnumerable<UpsertScheduledVisitResult>>>
 {
-    public async Task<IEnumerable<UpsertScheduledVisitResult>> Handle(GetScheduledVisitsQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<IEnumerable<UpsertScheduledVisitResult>>> Handle(GetScheduledVisitsQuery request, CancellationToken cancellationToken)
     {
         var query = context.ScheduledVisits
             .Include(x => x.Patient)

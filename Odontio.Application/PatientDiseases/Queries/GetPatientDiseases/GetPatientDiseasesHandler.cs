@@ -3,9 +3,9 @@
 namespace Odontio.Application.PatientDiseases.Queries.GetPatientDiseases;
 
 public class GetPatientDiseasesHandler(IApplicationDbContext context, IMapper mapper)
-    : IRequestHandler<GetPatientDiseasesQuery, List<GetPatientDiseaseResult>>
+    : IRequestHandler<GetPatientDiseasesQuery, ErrorOr<List<GetPatientDiseaseResult>>>
 {
-    public async Task<List<GetPatientDiseaseResult>> Handle(GetPatientDiseasesQuery request,
+    public async Task<ErrorOr<List<GetPatientDiseaseResult>>> Handle(GetPatientDiseasesQuery request,
         CancellationToken cancellationToken)
     {
         var result = await context.PatientDiseases

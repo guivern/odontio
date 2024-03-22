@@ -29,9 +29,14 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
 
         var result = await mediator.Send(request, cancellationToken);
 
-        Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
-
-        return Ok(result);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
     }
 
     [HttpGet("{id}")]

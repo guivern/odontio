@@ -4,9 +4,9 @@ using Odontio.Application.ScheduledVisits.Common;
 namespace Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByWorkspace;
 
 public class GetScheduledVisitByWorkspaceHandler(IApplicationDbContext context)
-    : IRequestHandler<GetScheduledVisitsByWorkspaceQuery, IEnumerable<UpsertScheduledVisitResult>>
+    : IRequestHandler<GetScheduledVisitsByWorkspaceQuery, ErrorOr<List<UpsertScheduledVisitResult>>>
 {
-    public async Task<IEnumerable<UpsertScheduledVisitResult>> Handle(
+    public async Task<ErrorOr<List<UpsertScheduledVisitResult>>> Handle(
         GetScheduledVisitsByWorkspaceQuery request, CancellationToken cancellationToken)
     {
         var query = context.ScheduledVisits

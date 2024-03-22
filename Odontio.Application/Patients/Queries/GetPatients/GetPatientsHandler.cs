@@ -5,9 +5,9 @@ using Odontio.Domain.Entities;
 namespace Odontio.Application.Patients.Queries.GetPatients;
 
 public class GetPatientsHandler(IApplicationDbContext context)
-    : IRequestHandler<GetPatientsQuery, PagedList<GetPatientsResult>>
+    : IRequestHandler<GetPatientsQuery, ErrorOr<PagedList<GetPatientsResult>>>
 {
-    public async Task<PagedList<GetPatientsResult>> Handle(GetPatientsQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PagedList<GetPatientsResult>>> Handle(GetPatientsQuery request, CancellationToken cancellationToken)
     {
         var query = context.Patients
             .AsNoTracking()

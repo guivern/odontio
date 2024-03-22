@@ -5,9 +5,9 @@ using Odontio.Domain.Entities;
 
 namespace Odontio.Application.Workspaces.Queries.GetWorkspaces;
 
-public class GetWorkspacesHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetWorkspacesQuery, PagedList<UpsertWorkspaceResult>>
+public class GetWorkspacesHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetWorkspacesQuery, ErrorOr<PagedList<UpsertWorkspaceResult>>>
 {
-    public async Task<PagedList<UpsertWorkspaceResult>> Handle(GetWorkspacesQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PagedList<UpsertWorkspaceResult>>> Handle(GetWorkspacesQuery request, CancellationToken cancellationToken)
     {
         var query = context.Workspaces.AsNoTracking();
 

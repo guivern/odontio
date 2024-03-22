@@ -42,8 +42,14 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
 
         var result = await mediator.Send(query, cancellationToken);
 
-        Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
-        return Ok(result);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
     }
 
     [HttpPost]

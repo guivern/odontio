@@ -8,7 +8,7 @@ namespace Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByWorksp
 
 [ValidateWorkspace]
 [RolesAuthorize(nameof(Roles.Administrator))]
-public class GetScheduledVisitsByWorkspaceQuery: IRequest<IEnumerable<UpsertScheduledVisitResult>>, IWorkspaceResource
+public class GetScheduledVisitsByWorkspaceQuery: IRequest<ErrorOr<List<UpsertScheduledVisitResult>>>, IWorkspaceResource
 {
     public long WorkspaceId { get; set; }
     public DateRange DateRange { get; set; }

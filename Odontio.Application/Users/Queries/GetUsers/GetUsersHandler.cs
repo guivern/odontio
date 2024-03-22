@@ -5,9 +5,9 @@ using Odontio.Domain.Entities;
 namespace Odontio.Application.Users.Queries.GetUsers;
 
 public class GetUsersHandler(IApplicationDbContext context, IMapper mapper)
-    : IRequestHandler<GetUsersQuery, PagedList<GetUsersResult>>
+    : IRequestHandler<GetUsersQuery, ErrorOr<PagedList<GetUsersResult>>>
 {
-    public async Task<PagedList<GetUsersResult>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PagedList<GetUsersResult>>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
         var query = context.Users
             .AsNoTracking()

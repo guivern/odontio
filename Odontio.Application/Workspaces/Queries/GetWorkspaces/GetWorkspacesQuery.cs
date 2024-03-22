@@ -3,6 +3,6 @@ using Odontio.Application.Workspaces.Common;
 
 namespace Odontio.Application.Workspaces.Queries.GetWorkspaces;
 
-public class GetWorkspacesQuery : PagedListQueryBase, IRequest<PagedList<UpsertWorkspaceResult>>
+public class GetWorkspacesQuery : PagedListQueryBase, IRequest<ErrorOr<PagedList<UpsertWorkspaceResult>>>
 {
 }
