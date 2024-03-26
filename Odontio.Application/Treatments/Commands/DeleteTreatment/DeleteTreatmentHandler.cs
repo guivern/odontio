@@ -23,7 +23,7 @@ public class DeleteTreatmentHandler(IApplicationDbContext context)
         {
             await context.SaveChangesAsync(cancellationToken);
         }
-        catch (DbUpdateException e)
+        catch (DbUpdateException)
         {
             return Error.Conflict(description: "Can not delete treatment due to existing dependencies.");
         }
