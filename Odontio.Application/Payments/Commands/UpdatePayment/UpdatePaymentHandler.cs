@@ -9,7 +9,12 @@ public class UpdatePaymentHandler(IApplicationDbContext context, IMapper mapper,
     public async Task<ErrorOr<UpsertPaymentResult>> Handle(UpdatePaymentCommand request,
         CancellationToken cancellationToken)
     {
-        var payment = await context.Payments.FindAsync(request.Id);
+        var payment = await context.Payments.AsNoTracking()
+            .Include(x => x.Budget)
+            .Where(x => x.BudgetId == request.BudgetId)
+            .Where(x => x.Budget.PatientId == request.PatientId)
+            .Where(x => x.Id == request.Id)
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         if (payment == null)
         {

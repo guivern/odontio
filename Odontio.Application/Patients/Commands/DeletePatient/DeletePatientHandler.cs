@@ -6,7 +6,8 @@ public class DeletePatientHandler(IApplicationDbContext context) : IRequestHandl
 {
     public async Task<ErrorOr<Unit>> Handle(DeletePatientCommand request, CancellationToken cancellationToken)
     {
-        var patient = await context.Patients.FindAsync(request.Id);
+        var patient = await context.Patients
+            .FirstOrDefaultAsync(x => x.Id == request.Id && x.WorkspaceId == request.WorkspaceId, cancellationToken);
 
         if (patient == null)
         {

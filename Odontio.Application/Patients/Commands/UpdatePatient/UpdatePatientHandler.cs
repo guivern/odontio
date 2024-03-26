@@ -8,7 +8,8 @@ public class UpdatePatientHandler(IApplicationDbContext context, IMapper mapper)
 {
     public async Task<ErrorOr<UpsertPatientResult>> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
     {
-        var patient = await context.Patients.FindAsync(request.Id);
+        var patient = await context.Patients
+            .FirstOrDefaultAsync(x => x.Id == request.Id && x.WorkspaceId == request.WorkspaceId, cancellationToken);
         
         if (patient == null)
         {

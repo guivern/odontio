@@ -11,4 +11,5 @@ public class DeletePaymentCommand : IRequest<ErrorOr<Unit>>, IPatientResource
     public long Id { get; set; }
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }
+    public long BudgetId { get; set; }
 }

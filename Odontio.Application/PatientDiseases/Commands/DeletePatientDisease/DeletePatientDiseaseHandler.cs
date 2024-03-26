@@ -1,4 +1,5 @@
 ﻿using Odontio.Application.Common.Interfaces;
+using Odontio.Domain.Entities;
 
 namespace Odontio.Application.PatientDiseases.Commands.DeletePatientDisease;
 
@@ -8,7 +9,9 @@ public class DeletePatientDiseaseHandler(IApplicationDbContext context)
     public async Task<ErrorOr<Unit>> Handle(DeletePatientDiseaseCommand request, CancellationToken cancellationToken)
     {
         var entity = await context.PatientDiseases
-            .FindAsync(request.Id);
+            .Include(x => x.Patient)
+            .Where(x => x.Patient.Id == request.PatientId)
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (entity == null)
         {

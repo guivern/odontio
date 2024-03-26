@@ -6,7 +6,12 @@ public class DeletePaymentHandler(IApplicationDbContext context) : IRequestHandl
 {
     public async Task<ErrorOr<Unit>> Handle(DeletePaymentCommand request, CancellationToken cancellationToken)
     {
-        var payment = await context.Payments.FindAsync(request.Id);
+        var payment = await context.Payments
+            .Include(x => x.Budget)
+            .Where(x => x.Id == request.Id)
+            .Where(x => x.BudgetId == request.BudgetId)
+            .Where(x => x.Budget.PatientId == request.PatientId)
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (payment == null)
         {

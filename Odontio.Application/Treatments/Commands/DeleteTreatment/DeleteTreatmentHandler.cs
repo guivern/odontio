@@ -7,7 +7,10 @@ public class DeleteTreatmentHandler(IApplicationDbContext context)
 {
     public async Task<ErrorOr<Unit>> Handle(DeleteTreatmentCommand request, CancellationToken cancellationToken)
     {
-        var treatment = await context.Treatments.FindAsync(request.Id);
+        var treatment = await context.Treatments
+            .Where(x => x.Id == request.Id)
+            .Where(x => x.WorkspaceId == request.WorkspaceId)
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (treatment is null)
         {

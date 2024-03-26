@@ -2,11 +2,16 @@
 
 namespace Odontio.Application.Treatments.Commands.UpdateTreatment;
 
-public class UpdateTreatmentHandler(IApplicationDbContext context, IMapper mapper): IRequestHandler<UpdateTreatmentCommand, ErrorOr<UpdateTreatmentResult>>
+public class UpdateTreatmentHandler(IApplicationDbContext context, IMapper mapper)
+    : IRequestHandler<UpdateTreatmentCommand, ErrorOr<UpdateTreatmentResult>>
 {
-    public async Task<ErrorOr<UpdateTreatmentResult>> Handle(UpdateTreatmentCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<UpdateTreatmentResult>> Handle(UpdateTreatmentCommand request,
+        CancellationToken cancellationToken)
     {
-        var treatment = await context.Treatments.FindAsync(request.Id);
+        var treatment = await context.Treatments
+            .Where(x => x.Id == request.Id)
+            .Where(x => x.WorkspaceId == request.WorkspaceId)
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (treatment is null)
         {

@@ -10,7 +10,11 @@ public class UpdateMedicalRecordHandler(IApplicationDbContext context, IMapper m
         CancellationToken cancellationToken)
     {
         var entity = await context.MedicalRecords
-            .FirstAsync(x => x.Id == request.Id, cancellationToken);
+            .Include(x => x.PatientTreatment)
+            .ThenInclude(x => x.Budget)
+            .Where(x => x.AppointmentId == request.AppointmentId)
+            .Where(x => x.PatientTreatment.Budget.PatientId == request.PatientId)
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         entity = mapper.Map(request, entity);
 

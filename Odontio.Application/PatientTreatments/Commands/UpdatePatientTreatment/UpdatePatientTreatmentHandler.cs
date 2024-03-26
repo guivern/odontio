@@ -4,14 +4,20 @@ using Odontio.Application.PatientTreatments.Common;
 
 namespace Odontio.Application.PatientTreatments.Commands.UpdatePatientTreatment;
 
-public class UpdatePatientTreatmentHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<UpdatePatientTreatmentCommand, ErrorOr<UpsertPatientTreatmentResult>>
+public class UpdatePatientTreatmentHandler(IApplicationDbContext context, IMapper mapper)
+    : IRequestHandler<UpdatePatientTreatmentCommand, ErrorOr<UpsertPatientTreatmentResult>>
 {
-    public async Task<ErrorOr<UpsertPatientTreatmentResult>> Handle(UpdatePatientTreatmentCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<UpsertPatientTreatmentResult>> Handle(UpdatePatientTreatmentCommand request,
+        CancellationToken cancellationToken)
     {
-        var patientTreatment = await context.PatientTreatments.FirstAsync(x => x.Id == request.Id, cancellationToken);
+        var patientTreatment = await context.PatientTreatments
+            .Include(x => x.Budget)
+            .Where(x => x.BudgetId == request.BudgetId && x.Budget.PatientId == request.PatientId)
+            .Where(x => x.Id == request.Id)
+            .FirstOrDefaultAsync(cancellationToken);
 
         patientTreatment = mapper.Map(request, patientTreatment);
-        
+
         context.PatientTreatments.Entry(patientTreatment).State = EntityState.Modified;
 
         try
@@ -24,7 +30,7 @@ public class UpdatePatientTreatmentHandler(IApplicationDbContext context, IMappe
         }
 
         var result = mapper.Map<UpsertPatientTreatmentResult>(patientTreatment);
-        
+
         return result;
     }
 }

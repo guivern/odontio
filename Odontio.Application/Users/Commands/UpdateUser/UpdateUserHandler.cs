@@ -8,7 +8,7 @@ public class UpdateUserHandler(IApplicationDbContext context, IMapper mapper, IA
 {
     public async Task<ErrorOr<UpsertUserResult>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var entity = await context.Users.AsNoTracking()
+        var entity = await context.Users
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (entity == null)

@@ -64,7 +64,7 @@ public class PaymentsController(IMediator mediator, IMapper mapper) : ApiControl
         CancellationToken cancellationToken)
     {
         var command = new DeletePaymentCommand
-            { Id = id, WorkspaceId = workspaceId, PatientId = patientId };
+            { Id = id, WorkspaceId = workspaceId, PatientId = patientId, BudgetId = budgetId};
         var result = await mediator.Send(command, cancellationToken);
 
         return result.Match<IActionResult>(

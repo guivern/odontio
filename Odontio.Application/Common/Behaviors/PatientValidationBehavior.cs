@@ -21,7 +21,7 @@ public class PatientValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
         var attributeExists = Attribute.IsDefined(requestType, typeof(ValidatePatientAttribute));
         if (attributeExists)
         {
-            // check if patient exists
+            // check if patient exists in the workspace
             var patientId = request.PatientId;
             var patient = await _context.Patients.AsNoTracking()
                 .Where(x => x.WorkspaceId == request.WorkspaceId)
