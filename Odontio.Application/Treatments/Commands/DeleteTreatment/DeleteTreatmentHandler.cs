@@ -12,7 +12,7 @@ public class DeleteTreatmentHandler(IApplicationDbContext context)
             .Where(x => x.WorkspaceId == request.WorkspaceId)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (treatment is null) 
+        if (treatment is null)  
         {
             return Error.NotFound(description: "Treatment not found");
         }
