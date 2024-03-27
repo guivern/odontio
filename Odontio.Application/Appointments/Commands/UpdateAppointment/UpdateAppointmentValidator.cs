@@ -10,6 +10,8 @@ public class UpdateAppointmentValidator: AbstractValidator<UpdateAppointmentComm
     public UpdateAppointmentValidator(IApplicationDbContext context)
     {
         _context = context;
+        RuleFor(x => x.WorkspaceId).NotEmpty();
+        RuleFor(x => x.PatientId).NotEmpty();
         RuleFor(x => x.MedicalRecords)
             .NotEmpty()
             .WithMessage("Medical records are required");
@@ -73,10 +75,10 @@ public class UpdateAppointmentValidator: AbstractValidator<UpdateAppointmentComm
     private async Task<bool> PatientTreatmentBelongsToPatient(UpdateAppointmentCommand arg1, UpdateMedicalRecordDto arg2, CancellationToken arg3)
     {
         var patientTreatment = await _context.PatientTreatments
+            .AsNoTracking()
             .Include(x => x.Budget)
             .Where(x => x.Id == arg2.PatientTreatmentId)
             .Where(x => x.Budget.PatientId == arg1.PatientId)
-            .AsNoTracking()
             .FirstOrDefaultAsync(arg3);
         
         return patientTreatment is not null;

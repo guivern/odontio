@@ -43,7 +43,9 @@ public class CreatePaymentValidator : AbstractValidator<CreatePaymentCommand>
     {
         // validate if budget exists for the given id and patientId
         var exists = await _context.Budgets.AsNoTracking()
-            .AnyAsync(x => x.Id == arg2 && x.PatientId == arg1.PatientId, arg3);
+            .Where(x => x.Id == arg2)
+            .Where(x => x.PatientId == arg1.PatientId)
+            .AnyAsync(arg3);
 
         return exists;
     }

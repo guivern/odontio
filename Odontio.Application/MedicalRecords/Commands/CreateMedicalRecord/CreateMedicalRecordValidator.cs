@@ -39,10 +39,10 @@ public class CreateMedicalRecordValidator : AbstractValidator<CreateMedicalRecor
     private async Task<bool> PatientTreatmentExits(CreateMedicalRecordCommand arg1, long arg2, CancellationToken arg3)
     {
         var exits = await _context.PatientTreatments
+            .AsNoTracking()
             .Include(x => x.Budget)
             .Where(x => x.Id == arg2)
             .Where(x => x.Budget.PatientId == arg1.PatientId)
-            .AsNoTracking()
             .AnyAsync(arg3);
         
         return exits;

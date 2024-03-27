@@ -10,8 +10,9 @@ public class DeletePatientDiseaseHandler(IApplicationDbContext context)
     {
         var entity = await context.PatientDiseases
             .Include(x => x.Patient)
+            .Where(x => x.Id == request.Id)
             .Where(x => x.Patient.Id == request.PatientId)
-            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (entity == null)
         {

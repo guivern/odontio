@@ -52,6 +52,7 @@ public class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
     {
         return !await _context.Patients
             .AsNoTracking()
-            .AnyAsync(x => x.DocumentNumber.ToLower() == arg1.ToLower(), cancellationToken: arg2);
+            .Where(x => x.DocumentNumber.ToLower() == arg1.ToLower())
+            .AnyAsync(arg2);
     }
 }

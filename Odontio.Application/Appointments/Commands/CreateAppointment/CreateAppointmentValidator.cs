@@ -10,6 +10,8 @@ public class CreateAppointmentValidator : AbstractValidator<CreateAppointmentCom
     public CreateAppointmentValidator(IApplicationDbContext context)
     {
         _context = context;
+        RuleFor(x => x.WorkspaceId).NotEmpty();
+        RuleFor(x => x.PatientId).NotEmpty();
         RuleFor(x => x.MedicalRecords)
             .NotEmpty()
             .WithMessage("Medical records are required");

@@ -13,6 +13,7 @@ public class CreatePatientTreatmentHandler(IApplicationDbContext context, IMappe
         var budget = await context.Budgets
             .Include(b => b.PatientTreatments)
             .Where(b => b.Id == request.BudgetId)
+            .Where(b => b.PatientId == request.PatientId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (budget == null)

@@ -11,8 +11,7 @@ public class CreatePatientTreatmentValidator : AbstractValidator<CreatePatientTr
         _context = context;
         RuleFor(x => x.WorkspaceId).NotEmpty();
         RuleFor(x => x.PatientId).NotEmpty();
-        RuleFor(x => x.BudgetId).NotEmpty()
-            .MustAsync(BudgetBelongsToPatient).WithMessage("Budget not found or does not belong to patient");
+        RuleFor(x => x.BudgetId).NotEmpty();
         RuleFor(x => x.TreatmentId).NotEmpty()
             .MustAsync(TreatmentExists).WithMessage("Treatment not found");
         RuleFor(x => x.Cost)
@@ -37,13 +36,5 @@ public class CreatePatientTreatmentValidator : AbstractValidator<CreatePatientTr
             .FirstOrDefaultAsync(x => x.Id == arg1, arg2);
         
         return treatment != null;
-    }
-
-    private async Task<bool> BudgetBelongsToPatient(CreatePatientTreatmentCommand arg1, long arg2, CancellationToken arg3)
-    {
-        var budget = await _context.Budgets.AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == arg2 && x.PatientId == arg1.PatientId, arg3);
-        
-        return budget != null;
     }
 }

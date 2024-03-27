@@ -10,9 +10,10 @@ public class DeleteMedicalRecordHandler(IApplicationDbContext context)
         var medicalRecord = await context.MedicalRecords
             .Include(x => x.PatientTreatment)
             .ThenInclude(x => x.Budget)
+            .Where(x => x.Id == request.Id)
             .Where(x => x.AppointmentId == request.AppointmentId)
             .Where(x => x.PatientTreatment.Budget.PatientId == request.PatientId)
-            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (medicalRecord is null)
         {

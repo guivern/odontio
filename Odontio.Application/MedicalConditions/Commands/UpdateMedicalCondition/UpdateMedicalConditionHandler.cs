@@ -10,17 +10,19 @@ public class UpdateMedicalConditionHandler(IApplicationDbContext context, IMappe
         CancellationToken cancellationToken)
     {
         var medicalCondition = await context.MedicalConditions
-            .FirstOrDefaultAsync(x => x.Id == request.Id && x.PatientId == request.PatientId, cancellationToken);
-        
+            .Where(x => x.Id == request.Id)
+            .Where(x => x.PatientId == request.PatientId)
+            .FirstOrDefaultAsync(cancellationToken);
+
         if (medicalCondition == null)
         {
             return Error.NotFound(description: "Medical condition not found");
         }
-        
+
         medicalCondition = mapper.Map(request, medicalCondition);
-        
+
         context.MedicalConditions.Entry(medicalCondition).State = EntityState.Modified;
-        
+
         try
         {
             await context.SaveChangesAsync(cancellationToken);
@@ -29,9 +31,9 @@ public class UpdateMedicalConditionHandler(IApplicationDbContext context, IMappe
         {
             return Error.Conflict(description: "The medical condition was modified by another user");
         }
-        
+
         var result = mapper.Map<MedicalConditionResult>(medicalCondition);
-        
+
         return result;
     }
 }

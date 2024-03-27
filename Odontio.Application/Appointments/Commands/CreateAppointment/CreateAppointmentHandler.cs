@@ -12,6 +12,7 @@ public class CreateAppointmentHandler(IApplicationDbContext context, IMapper map
         CancellationToken cancellationToken)
     {
         var appointment = mapper.Map<Appointment>(request);
+        
         appointment.Date = request.Date ?? dateTimeProvider.UtcNow;
 
         context.Appointments.Add(appointment);
