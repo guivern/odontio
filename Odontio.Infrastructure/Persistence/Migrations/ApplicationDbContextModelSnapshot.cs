@@ -201,7 +201,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.ToTable("MedicalConditions");
                 });
 
-            modelBuilder.Entity("Odontio.Domain.Entities.MedicalRecord", b =>
+            modelBuilder.Entity("Odontio.Domain.Entities.MedicalNote", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -239,7 +239,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PatientTreatmentId");
 
-                    b.ToTable("MedicalRecords");
+                    b.ToTable("MedicalNotes");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Patient", b =>
@@ -721,16 +721,16 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("Odontio.Domain.Entities.MedicalRecord", b =>
+            modelBuilder.Entity("Odontio.Domain.Entities.MedicalNote", b =>
                 {
                     b.HasOne("Odontio.Domain.Entities.Appointment", "Appointment")
-                        .WithMany("MedicalRecords")
+                        .WithMany("MedicalNotes")
                         .HasForeignKey("AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Odontio.Domain.Entities.PatientTreatment", "PatientTreatment")
-                        .WithMany("MedicalRecords")
+                        .WithMany("MedicaNotes")
                         .HasForeignKey("PatientTreatmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -861,7 +861,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Odontio.Domain.Entities.Appointment", b =>
                 {
-                    b.Navigation("MedicalRecords");
+                    b.Navigation("MedicalNotes");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Budget", b =>
@@ -893,7 +893,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Odontio.Domain.Entities.PatientTreatment", b =>
                 {
-                    b.Navigation("MedicalRecords");
+                    b.Navigation("MedicaNotes");
                 });
 
             modelBuilder.Entity("Odontio.Domain.Entities.Role", b =>

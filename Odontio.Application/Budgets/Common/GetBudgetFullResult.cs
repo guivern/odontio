@@ -26,7 +26,7 @@ public class GetPatientTreatmentResultDto
     public long? ToothId { get; set; }
     public decimal Cost { get; set; }
     public string Status { get; set; }
-    public List<GetMedicalRecordResultDto> MedicalRecords { get; set; } = new();
+    public List<GetMedicalNoteResultDto> MedicalNotes { get; set; } = new();
 }
 
 public class GetPaymentDto

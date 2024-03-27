@@ -1,0 +1,120 @@
+@using Odontio.Application.Common.ViewModels
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var model = (MedicalRecordViewModel)ViewData.Model;
+}
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Historia Clínica</h1>
+<table>
+    <thead>
+    <tr class="table-header">
+        <th colspan="4">Información Personal</th>
+    </tr>
+    </thead>
+    <tbody>
+     <tr>
+        <td><b>Nombres:</b></td>
+        <td>@(model.FirstName)</td>
+        <td><b>Apellidos:</b></td>
+        <td>@(model.LastName)</td>
+    </tr>
+    <tr>
+        <td><b>Género:</b></td>
+        <td>@(model.Gender)</td>
+        <td><b>Nro. Documento:</b></td>
+        <td>@(model.DocumentNumber)</td>
+    </tr>
+    <tr>
+        <td><b>Fecha de Nacimiento:</b></td>
+        <td>@(model.Birthdate)</td>
+        <td><b>Estado Civil:</b></td>
+        <td>@(model.MaritalStatus)</td>
+    </tr>
+    <tr>
+        <td><b>Dirección Particular:</b></td>
+        <td>@(model.Address)</td>
+    </tr>
+    <tr>
+        <td><b>Teléfono Particular:</b></td>
+        <td>@(model.Phone)</td>
+        <td><b>Correo Electrónico:</b></td>
+        <td>@(model.Email)</td>
+    </tr>
+    <tr>
+        <td><b>Ocupación:</b></td>
+        <td>@(model.Occupation)</td>
+        <td><b>Teléfono laboral:</b></td>
+        <td>@(model.WorkPhone)</td>
+    </tr>
+    <tr>
+        <td><b>Dirección laboral:</b></td>
+        <td>@(model.WorkAddress)</td>
+    </tr>
+    <tr>
+        <td><b>Referente:</b></td>
+        <td>@(model.ReferrerName)</td>
+    </tr>
+    </tbody>
+</table>
+<table>
+    <thead>
+    <tr class="table-header">
+        <th colspan="4">Antecedentes Odontológicos</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><b>Última visita al dentista:</b></td>
+        <td>@(model.LastDentalVisit)</td>
+    </tr>
+    <tr>
+        <td><b>Causa de pérdida de dientes:</b> </td>
+        <td>@(model.ToothLossCause)</td>
+    </tr>
+    <tr>
+        <td><b>Frecuencia de cepillado:</b></td>
+        <td>@(model.BrushingFrequency)</td>
+    </tr>
+    <tr>
+        <td><b>Observaciones:</b></td>
+        <td>@(model.Observations)</td>
+    </tr>
+    </tbody>
+</table>
+<table>
+    <thead>
+    <tr class="table-header">
+        <th colspan="4">Historia Médica</th>
+    </tr>
+    </thead>
+    <tbody>
+    <table>
+        <tr>
+            <td colspan="4"><b>Fue afectado o es portador de alguna de las siguientes efermedades?</b></td>
+        </tr>
+         @for (int i = 0; i < model.Diseases.Count; i += 3)
+            {
+                <tr>
+                    @for (int j = 0; j < 3; j++)
+                    {
+                        if (i + j < model.Diseases.Count)
+                        {
+                            <td>@(model.Diseases[i + j].Name)</td>
+                            <td>@(model.Diseases[i + j].HasCondition ? "(x)" : "( )")</td>
+                        }
+                        @* else *@
+                        @* { *@
+                        @*     <td style="background: yellow"></td> *@
+                        @*     <td style="background: yellow"></td> *@
+                        @* } *@
+                    }
+                </tr>
+            }
+    </table>
+    </tbody>
+</table>
+</body>
+</html>

@@ -42,8 +42,14 @@ public static class DependencyInjection
         // instance of the service is created every time it is requested.
         services.AddTransient<IDateTimeProvider, DateTimeProvider>();
         
+        services.AddMvcCore().AddRazorViewEngine();
+        
+        services.AddControllersWithViews();
+        services.AddRazorPages();
+        
         services.AddHttpContextAccessor();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IPdfRenderer, PdfRenderer>();
 
         return services;
     }

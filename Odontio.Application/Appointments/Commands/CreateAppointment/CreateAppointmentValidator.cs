@@ -12,27 +12,27 @@ public class CreateAppointmentValidator : AbstractValidator<CreateAppointmentCom
         _context = context;
         RuleFor(x => x.WorkspaceId).NotEmpty();
         RuleFor(x => x.PatientId).NotEmpty();
-        RuleFor(x => x.MedicalRecords)
+        RuleFor(x => x.MedicalNotes)
             .NotEmpty()
             .WithMessage("Medical records are required");
 
         // validate if PatientTreatment exists and belongs to the patient
-        RuleForEach(x => x.MedicalRecords)
+        RuleForEach(x => x.MedicalNotes)
             .MustAsync(PatientTreatmentExits)
             .WithMessage("Patient treatment not found");
         
         // validate if the PatientTreatment status is not finished
-        RuleForEach(x => x.MedicalRecords)
+        RuleForEach(x => x.MedicalNotes)
             .MustAsync(PatientTreatmentNotFinished)
             .WithMessage("Patient treatment is finished");
         
         // validate that Description is required  and has a maximum length of 256 for each medical record
-        RuleForEach(command => command.MedicalRecords).SetValidator(new CreateMedicalRecordDtoValidator());
+        RuleForEach(command => command.MedicalNotes).SetValidator(new CreateMedicalNoteDtoValidator());
     }
     
-    public class CreateMedicalRecordDtoValidator : AbstractValidator<CreateMedicalRecordDto>
+    public class CreateMedicalNoteDtoValidator : AbstractValidator<CreateMedicalNoteDto>
     {
-        public CreateMedicalRecordDtoValidator()
+        public CreateMedicalNoteDtoValidator()
         {
             RuleFor(dto => dto.PatientTreatmentId).NotEmpty();
             RuleFor(dto => dto.Description).NotEmpty().MaximumLength(256);
@@ -40,7 +40,7 @@ public class CreateAppointmentValidator : AbstractValidator<CreateAppointmentCom
         }
     }
 
-    private async Task<bool> PatientTreatmentNotFinished(CreateMedicalRecordDto arg1, CancellationToken arg2)
+    private async Task<bool> PatientTreatmentNotFinished(CreateMedicalNoteDto arg1, CancellationToken arg2)
     {
         var patientTreatment = await _context.PatientTreatments
             .Where(x => x.Id == arg1.PatientTreatmentId)
@@ -52,7 +52,7 @@ public class CreateAppointmentValidator : AbstractValidator<CreateAppointmentCom
         return patientTreatment.Status != TreatmentStatus.Finished;
     }
 
-    private async Task<bool> PatientTreatmentExits(CreateAppointmentCommand arg1, CreateMedicalRecordDto arg2, CancellationToken arg3)
+    private async Task<bool> PatientTreatmentExits(CreateAppointmentCommand arg1, CreateMedicalNoteDto arg2, CancellationToken arg3)
     {
         var patientTreatment = await _context.PatientTreatments
             .Include(x => x.Budget)

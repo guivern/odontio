@@ -15,10 +15,10 @@ public class UpdateAppointmentCommand : IRequest<ErrorOr<UpsertAppointmentResult
     public long PatientId { get; set; }
     public DateTimeOffset Date { get; set; }
     
-    public ICollection<UpdateMedicalRecordDto> MedicalRecords { get; set; } = new List<UpdateMedicalRecordDto>();
+    public ICollection<UpdateMedicalNoteDto> MedicalNotes { get; set; } = new List<UpdateMedicalNoteDto>();
 }
 
-public class UpdateMedicalRecordDto : CreateMedicalRecordDto
+public class UpdateMedicalNoteDto : CreateMedicalNoteDto
 {
     public long Id { get; set; }
 }

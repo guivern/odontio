@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <style type="text/css">
+        body {
+           font-family: sans-serif
+          }
+          table{
+            width:100%
+          }
+          table, th, td {
+            /*border: 1px solid #ddd;*/
+            text-align: justify;
+            border-collapse: collapse;
+          }
+          th, td {
+            padding: 4px;
+          }
+          h1 {
+            text-align: center;
+          }
+          .table-header {
+            font-size: 1.2em;
+            border-top: solid 1px black;
+            border-bottom: solid 1px black;
+           }
+           .table-footer {
+              border-top: 1px solid black;
+           }
+           .box {
+              margin-bottom: 10px;
+              border: solid 1px black; border-collapse: separate; padding: 5px 20px;
+            }
+            .keep-together {
+                page-break-inside: avoid;
+            }
+            
+            .break-before {
+                page-break-before: always;
+            }
+            
+            .break-after {
+                page-break-after: always;
+            }
+            .recibo-row-value {
+                background: lightgray;
+                padding: 5px;
+                border-bottom: solid 4px white;
+                border-radius: 5px;
+            }
+            .recibo-monto {
+                background: lightgray;
+                padding: 10px;
+                border-radius: 5px;
+            }
+    </style>
+</head>
+
+<body>
+<div>
+    @RenderBody()
+</div>
+</body>
+</html>

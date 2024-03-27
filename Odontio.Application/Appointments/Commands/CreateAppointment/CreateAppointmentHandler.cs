@@ -17,11 +17,11 @@ public class CreateAppointmentHandler(IApplicationDbContext context, IMapper map
 
         context.Appointments.Add(appointment);
         
-        foreach (var medicalRecord in appointment.MedicalRecords)
+        foreach (var medicalNote in appointment.MedicalNotes)
         {
             var patientTreatment = await context.PatientTreatments
                 .Include(x => x.Budget)
-                .FirstAsync(x => x.Id == medicalRecord.PatientTreatmentId, cancellationToken);
+                .FirstAsync(x => x.Id == medicalNote.PatientTreatmentId, cancellationToken);
             
             patientTreatment.Status = TreatmentStatus.InProgress;
             patientTreatment.Budget.Status = BudgetStatus.Approved;

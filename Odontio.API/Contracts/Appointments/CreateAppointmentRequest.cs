@@ -4,10 +4,10 @@ public class CreateAppointmentRequest
 {
     public DateTimeOffset? Date {get; set;}
     
-    public ICollection<CreateMedicalRecordRequest> MedicalRecords { get; set; } = new List<CreateMedicalRecordRequest>();
+    public ICollection<CreateMedicalNoteRequest> MedicalNotes { get; set; } = new List<CreateMedicalNoteRequest>();
 }
 
-public class CreateMedicalRecordRequest
+public class CreateMedicalNoteRequest
 {
     public long PatientTreatmentId { get; set; }
     public string Description {get; set;} = null!;

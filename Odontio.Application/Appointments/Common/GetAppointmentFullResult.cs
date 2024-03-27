@@ -7,10 +7,10 @@ public class GetAppointmentFullResult
     public long PatientId { get; set; }
     public string PatientName { get; set; }
     
-    public ICollection<GetMedicalRecordResult> MedicalRecords { get; set; } = new List<GetMedicalRecordResult>();
+    public ICollection<GetMedicalNoteResult> MedicalNotes { get; set; } = new List<GetMedicalNoteResult>();
 }
 
-public class GetMedicalRecordResult
+public class GetMedicalNoteResult
 {
     public long Id { get; set; }
     public long PatientTreatmentId { get; set; }

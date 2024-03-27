@@ -1,6 +1,5 @@
 ﻿using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Interfaces;
-using Odontio.Domain.Enums;
 
 namespace Odontio.Application.PatientDiseases.Commands.AddPatientDiseases;
 

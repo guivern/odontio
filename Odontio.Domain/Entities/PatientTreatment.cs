@@ -20,5 +20,5 @@ public class PatientTreatment: BaseAuditableEntity
 
     public TreatmentStatus Status { get; set; }
     
-    public ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
+    public ICollection<MedicalNote> MedicaNotes { get; set; } = new List<MedicalNote>();
 }

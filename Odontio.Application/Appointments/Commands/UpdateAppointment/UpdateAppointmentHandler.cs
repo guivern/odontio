@@ -8,7 +8,7 @@ public class UpdateAppointmentHandler(IApplicationDbContext context, IMapper map
     public async Task<ErrorOr<UpsertAppointmentResult>> Handle(UpdateAppointmentCommand request, CancellationToken cancellationToken)
     {
         var appointment = await context.Appointments
-            .Include(x => x.MedicalRecords)
+            .Include(x => x.MedicalNotes)
             .ThenInclude(x => x.PatientTreatment)
             .ThenInclude(x => x.Treatment)
             .Include(x => x.Patient)

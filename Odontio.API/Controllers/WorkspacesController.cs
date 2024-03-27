@@ -2,7 +2,7 @@
 using Odontio.Application.Appointments.Queries.GetAppointments;
 using Odontio.Application.Budgets.Queries.GetBudgets;
 using Odontio.Application.Common.Helpers;
-using Odontio.Application.MedicalRecords.Queries.GetMedicalRecords;
+using Odontio.Application.MedicalNotes.Queries.GetMedicalNotes;
 using Odontio.Application.PatientTreatments.Queries.GetPatientTreatments;
 using Odontio.Application.Payments.Queries.GetPayments;
 using Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByWorkspace;
@@ -183,11 +183,11 @@ public class WorkspacesController(IMediator mediator, IMapper mapper) : ApiContr
         );
     }
 
-    [HttpGet("{id}/MedicalRecords")]
-    public async Task<IActionResult> GetMedicalRecords(long id, PaginationQueryParams pagination,
+    [HttpGet("{id}/MedicalNotes")]
+    public async Task<IActionResult> GetMedicalNotes(long id, PaginationQueryParams pagination,
         CancellationToken cancellationToken)
     {
-        var query = new GetMedicalRecordsQuery()
+        var query = new GetMedicalNotesQuery()
         {
             WorkspaceId = id,
             Page = pagination.Page,

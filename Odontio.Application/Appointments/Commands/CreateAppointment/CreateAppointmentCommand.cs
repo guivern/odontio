@@ -13,10 +13,10 @@ public class CreateAppointmentCommand: IRequest<ErrorOr<UpsertAppointmentResult>
     public long PatientId { get; set; }
     public DateTimeOffset? Date {get; set;}
     
-    public ICollection<CreateMedicalRecordDto> MedicalRecords { get; set; } = new List<CreateMedicalRecordDto>();
+    public ICollection<CreateMedicalNoteDto> MedicalNotes { get; set; } = new List<CreateMedicalNoteDto>();
 }
 
-public class CreateMedicalRecordDto
+public class CreateMedicalNoteDto
 {
     public long PatientTreatmentId { get; set; }
     public string? Description {get; set;}

@@ -72,7 +72,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
         // cannot delete a patient treatment if it has medical records
         builder.Entity<PatientTreatment>()
-            .HasMany(x => x.MedicalRecords)
+            .HasMany(x => x.MedicaNotes)
             .WithOne(x => x.PatientTreatment)
             .OnDelete(DeleteBehavior.Restrict);
 
@@ -120,7 +120,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Disease> Diseases { get; set; }
     public DbSet<PatientTreatment> PatientTreatments { get; set; }
     public DbSet<Budget> Budgets { get; set; }
-    public DbSet<MedicalRecord> MedicalRecords { get; set; }
+    public DbSet<MedicalNote> MedicalNotes { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<MedicalCondition> MedicalConditions { get; set; }
     public DbSet<Diagnosis> Diagnoses { get; set; }

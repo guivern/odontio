@@ -6,10 +6,10 @@ public class UpsertAppointmentResult
     public DateTimeOffset Date {get; set;}
     public long PatientId { get; set; }
     
-    public ICollection<MedicalRecordResult> MedicalRecords { get; set; } = new List<MedicalRecordResult>();
+    public ICollection<MedicalNoteResult> MedicalNotes { get; set; } = new List<MedicalNoteResult>();
 }
 
-public class MedicalRecordResult
+public class MedicalNoteResult
 {
     public long Id { get; set; }
     public long PatientTreatmentId { get; set; }

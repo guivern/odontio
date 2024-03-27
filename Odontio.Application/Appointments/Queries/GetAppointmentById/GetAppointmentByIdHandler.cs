@@ -11,7 +11,7 @@ public class GetAppointmentByIdHandler(IApplicationDbContext context)
     {
         var appointment = await context.Appointments
             .AsNoTracking()
-            .Include(x => x.MedicalRecords)
+            .Include(x => x.MedicalNotes)
             .ThenInclude(x => x.PatientTreatment)
             .ThenInclude(x => x.Treatment)
             .Include(x => x.Patient)

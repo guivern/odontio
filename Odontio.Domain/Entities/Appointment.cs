@@ -8,5 +8,5 @@ public class Appointment : BaseAuditableEntity
     public DateTimeOffset Date {get; set;}
     public long PatientId { get; set; }
     public Patient Patient { get; set; } = null!;
-    public ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
+    public ICollection<MedicalNote> MedicalNotes { get; set; } = new List<MedicalNote>();
 }

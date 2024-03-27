@@ -1,9 +1,11 @@
-﻿using MapsterMapper;
+﻿using System.Net.Mime;
+using MapsterMapper;
 using Odontio.API.Contracts.Patients;
-using Odontio.Application.MedicalRecords.Queries.GetMedicalRecords;
+using Odontio.Application.MedicalNotes.Queries.GetMedicalNotes;
 using Odontio.Application.Patients.Commands.CreatePatient;
 using Odontio.Application.Patients.Commands.DeletePatient;
 using Odontio.Application.Patients.Commands.UpdatePatient;
+using Odontio.Application.Patients.Queries.GetMedicalRecordPdf;
 using Odontio.Application.Patients.Queries.GetPatientById;
 using Odontio.Application.Patients.Queries.GetPatients;
 using Odontio.Application.PatientTreatments.Queries.GetPatientTreatments;
@@ -122,11 +124,11 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
         );
     }
 
-    [HttpGet("{id}/MedicalRecords")]
-    public async Task<IActionResult> GetMedicalRecords(long id, long workspaceId, PaginationQueryParams pagination,
+    [HttpGet("{id}/MedicalNotes")]
+    public async Task<IActionResult> GetMedicalNotes(long id, long workspaceId, PaginationQueryParams pagination,
         CancellationToken cancellationToken)
     {
-        var query = new GetMedicalRecordsQuery
+        var query = new GetMedicalNotesQuery
         {
             WorkspaceId = workspaceId,
             PatientId = id,
@@ -168,6 +170,22 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
                 Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
                 return Ok(result);
             },
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpGet("{id}/MedicalRecordPdf")]
+    public async Task<IActionResult> GetMedicalRecordPdf(long id, long workspaceId, CancellationToken cancellationToken)
+    {
+        var query = new GetMedicalRecordPdfQuery
+        {
+            WorkspaceId = workspaceId,
+            Id = id
+        };
+
+        var result = await mediator.Send(query, cancellationToken);
+        return result.Match<IActionResult>(
+            result => File(result, MediaTypeNames.Application.Pdf, $"Historia Clinica {id}.pdf"),
             errors => Problem(errors)
         );
     }

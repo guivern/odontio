@@ -12,7 +12,7 @@ public class MappingConfig : IRegister
         config.NewConfig<Appointment, GetAppointmentResult>()
             .Map(dest => dest.PatientName, src => $"{src.Patient.FirstName} {src.Patient.LastName}");
 
-        config.NewConfig<MedicalRecord, GetMedicalRecordResult>()
+        config.NewConfig<MedicalNote, GetMedicalNoteResult>()
             .Map(dest => dest.TreatmentName, src => src.PatientTreatment.Treatment.Name)
             .Map(dest => dest.BudgetId, src => src.PatientTreatment.BudgetId);
     }

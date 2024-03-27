@@ -13,10 +13,10 @@ public class GetPatientTreatmentFullResult
     public long PatientId { get; set; }
     public string PatientName { get; set; }
 
-    public List<GetMedicalRecordResultDto> MedicalRecords { get; set; } = new();
+    public List<GetMedicalNoteResultDto> MedicalNotes { get; set; } = new();
 }
 
-public class GetMedicalRecordResultDto
+public class GetMedicalNoteResultDto
 {
     public long Id { get; set; }
     public long AppointmentId { get; set; }

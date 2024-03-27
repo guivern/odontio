@@ -15,7 +15,7 @@ public class GetPatientTreatmentByIdHandler(IApplicationDbContext context, IMapp
             .ThenInclude(x => x.Patient)
             .Include(x => x.Treatment)
             .Include(x => x.Tooth)
-            .Include(x => x.MedicalRecords)
+            .Include(x => x.MedicaNotes)
             .ThenInclude(x => x.Appointment)
             .Where(x => x.BudgetId == request.BudgetId)
             .Where(x => x.Budget.PatientId == request.PatientId)
