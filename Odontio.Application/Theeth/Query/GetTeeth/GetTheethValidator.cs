@@ -12,6 +12,6 @@ public class GetTheethValidator : AbstractValidator<GetTheethQuery>
 
     private bool ValidOdontogram(string arg)
     {
-        return arg == null || arg == nameof(Odontogram.Child) || arg == nameof(Odontogram.Adult);
+        return arg == null || arg == nameof(OdontogramType.Niño) || arg == nameof(OdontogramType.Adulto);
     }
 }

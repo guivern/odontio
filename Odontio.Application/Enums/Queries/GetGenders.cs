@@ -3,19 +3,15 @@ using Odontio.Domain.Enums;
 
 namespace Odontio.Application.Enums.Queries;
 
-public class GetGenders : IRequest<List<EnumValue>>
+public class GetGenders : IRequest<List<string>>
 {
 }
 
-public class GetGendersHandler : IRequestHandler<GetGenders, List<EnumValue>>
+public class GetGendersHandler : IRequestHandler<GetGenders, List<string>>
 {
-    public Task<List<EnumValue>> Handle(GetGenders request, CancellationToken cancellationToken)
+    public Task<List<string>> Handle(GetGenders request, CancellationToken cancellationToken)
     {
-        var result = new List<EnumValue>
-        {
-            new(nameof(Gender.Male), "Masculino"),
-            new(nameof(Gender.Female), "Femenino")
-        };
+        var result = Enum.GetNames(typeof(Gender)).ToList();
 
         return Task.FromResult(result);
     }

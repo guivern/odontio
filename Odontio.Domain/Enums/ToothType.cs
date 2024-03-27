@@ -2,8 +2,8 @@
 
 public enum ToothType
 {
-    Incisive = 1,
-    Canine,
+    Incisivo = 1,
+    Canino,
     Premolar,
     Molar
 }

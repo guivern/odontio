@@ -3,21 +3,15 @@ using Odontio.Domain.Enums;
 
 namespace Odontio.Application.Enums.Queries;
 
-public class GetToothTypes : IRequest<List<EnumValue>>
+public class GetToothTypes : IRequest<List<string>>
 {
 }
 
-public class GetToothTypesHandler : IRequestHandler<GetToothTypes, List<EnumValue>>
+public class GetToothTypesHandler : IRequestHandler<GetToothTypes, List<string>>
 {
-    public Task<List<EnumValue>> Handle(GetToothTypes request, CancellationToken cancellationToken)
+    public Task<List<string>> Handle(GetToothTypes request, CancellationToken cancellationToken)
     {
-        var result = new List<EnumValue>
-        {
-            new(nameof(ToothType.Incisive), "Incisivo"),
-            new(nameof(ToothType.Canine), "Canino"),
-            new(nameof(ToothType.Premolar), "Premolar"),
-            new(nameof(ToothType.Molar), "Molar")
-        };
+        var result = Enum.GetNames(typeof(ToothType)).ToList();
 
         return Task.FromResult(result);
     }

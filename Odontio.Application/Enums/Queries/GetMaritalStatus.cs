@@ -3,37 +3,35 @@ using Odontio.Domain.Enums;
 
 namespace Odontio.Application.Enums.Queries;
 
-public class GetMaritalStatus : IRequest<ErrorOr<List<EnumValue>>>
+public class GetMaritalStatus : IRequest<ErrorOr<List<string>>>
 {
     public string Gender { get; set; }
 }
 
-public class GetMaritalStatusHandler : IRequestHandler<GetMaritalStatus, ErrorOr<List<EnumValue>>>
+public class GetMaritalStatusHandler : IRequestHandler<GetMaritalStatus, ErrorOr<List<string>>>
 {
-    public async Task<ErrorOr<List<EnumValue>>> Handle(GetMaritalStatus request,
+    public async Task<ErrorOr<List<string>>> Handle(GetMaritalStatus request,
         CancellationToken cancellationToken)
     {
-        var result = new List<EnumValue>();
+        var result = new List<string>();
         
-        var validGenders = new[] { "Male", "Female" };
+        var validGenders = new[] { "Masculino", "Femenino" };
         if (!validGenders.Contains(request.Gender))
         {
             return Error.Validation(description: "Gender is invalid. Valid values are: Male, Female.");
         }
 
-        if (request.Gender == "Male")
+        var maritalStatus =  Enum.GetNames(typeof(MaritalStatus)).ToList();
+
+        if (request.Gender == nameof(Gender.Masculino))
         {
-            result.Add(new(nameof(MaritalStatus.Single), "Soltero"));
-            result.Add(new(nameof(MaritalStatus.Married), "Casado"));
-            result.Add(new(nameof(MaritalStatus.Divorced), "Divorciado"));
-            result.Add(new(nameof(MaritalStatus.Widowed), "Viudo"));
+            // from 0 to 3
+            result = maritalStatus.GetRange(0, 4);
         }
         else
         {
-            result.Add(new(nameof(MaritalStatus.Single), "Soltera"));
-            result.Add(new(nameof(MaritalStatus.Married), "Casada"));
-            result.Add(new(nameof(MaritalStatus.Divorced), "Divorciada"));
-            result.Add(new(nameof(MaritalStatus.Widowed), "Viuda"));
+            // from 4 to 7
+            result = maritalStatus.GetRange(4, 4);
         }
 
         return result;

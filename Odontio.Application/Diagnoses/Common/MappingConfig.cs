@@ -9,6 +9,6 @@ public class MappingConfig : IRegister
         config.NewConfig<Diagnosis, UpsertDiagnosisResult>()
             .Map(dest => dest.ToothName, src => src.Tooth.Name)
             .Map(dest => dest.ToothType, src => src.Tooth.Type)
-            .Map(dest => dest.Odontogram, src => src.Tooth.Odontogram);
+            .Map(dest => dest.Odontogram, src => src.Tooth.OdontogramType);
     }
 }

@@ -13,8 +13,8 @@ public class GetTheethHandler(IApplicationDbContext context, IMapper mapper) : I
         
         if (request.Odontogram != null)
         {
-            var odontogram = request.Odontogram == "Adult" ? Odontogram.Adult : Odontogram.Child;
-            query = query.Where(x => x.Odontogram == odontogram);
+            var odontogram = request.Odontogram == "Adult" ? OdontogramType.Adulto : OdontogramType.Niño;
+            query = query.Where(x => x.OdontogramType == odontogram);
         }
 
         if (!string.IsNullOrEmpty(request.Filter))

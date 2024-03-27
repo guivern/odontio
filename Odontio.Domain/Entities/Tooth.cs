@@ -7,6 +7,6 @@ public class Tooth
     public long Id {get; set;}
     public string Name {get; set;}
     public int Number {get; set;}
-    public Odontogram Odontogram {get; set;}
+    public OdontogramType OdontogramType {get; set;}
     public ToothType Type {get; set;}
 }
