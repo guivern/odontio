@@ -8,6 +8,7 @@
 <html>
 <body>
 <h1>Historia Clínica</h1>
+<span>Paciente #@(model.Id.ToString().PadLeft(4, '0'))</span>
 <table>
     <thead>
     <tr class="table-header">
@@ -67,19 +68,19 @@
     </thead>
     <tbody>
     <tr>
-        <td><b>Última visita al dentista:</b></td>
+        <td>Última visita al dentista:</td>
         <td>@(model.LastDentalVisit)</td>
     </tr>
     <tr>
-        <td><b>Causa de pérdida de dientes:</b> </td>
+        <td>Causa de pérdida de dientes: </td>
         <td>@(model.ToothLossCause)</td>
     </tr>
     <tr>
-        <td><b>Frecuencia de cepillado:</b></td>
+        <td>Frecuencia de cepillado:</td>
         <td>@(model.BrushingFrequency)</td>
     </tr>
     <tr>
-        <td><b>Observaciones:</b></td>
+        <td>Observaciones:</td>
         <td>@(model.Observations)</td>
     </tr>
     </tbody>
@@ -95,26 +96,57 @@
         <tr>
             <td colspan="4"><b>Fue afectado o es portador de alguna de las siguientes efermedades?</b></td>
         </tr>
-         @for (int i = 0; i < model.Diseases.Count; i += 3)
-            {
-                <tr>
-                    @for (int j = 0; j < 3; j++)
+        @for (int i = 0; i < model.Diseases.Count; i += 3)
+        {
+            <tr>
+                @for (int j = 0; j < 3; j++)
+                {
+                    if (i + j < model.Diseases.Count)
                     {
-                        if (i + j < model.Diseases.Count)
-                        {
-                            <td>@(model.Diseases[i + j].Name)</td>
-                            <td>@(model.Diseases[i + j].HasCondition ? "(x)" : "( )")</td>
-                        }
-                        @* else *@
-                        @* { *@
-                        @*     <td style="background: yellow"></td> *@
-                        @*     <td style="background: yellow"></td> *@
-                        @* } *@
+                        <td>@(model.Diseases[i + j].Name)</td>
+                        <td>@(model.Diseases[i + j].HasCondition ? "(x)" : "( )")</td>
                     }
-                </tr>
-            }
+                }
+            </tr>
+        }
+    </table>
+    <br/>
+    <table style="border-top: solid 1px black;">
+        <tr>
+            <td colspan="3"><b>Posee alguna de las siguientes condiciones?</b></td>
+        </tr>
+        @foreach (var t in model.MedicalConditions)
+        {
+            <tr>
+                <td>@t.ConditionType</td>
+                <td>@(t.HasCondition == true ? "(x)" : "( )")</td>
+                <td>@t.Description</td>
+            </tr>
+        }
     </table>
     </tbody>
 </table>
+
+<div style="margin: auto; border-top: solid 1px black;" class="keep-together">
+    <h3 style="text-align: center">AUTORIZACION PARA TRATAMIENTOS Y COMPROMISO DE PAGO</h3>
+    <p style="text-align: justify">Por este instrumento de autorización por mi firmado, doy pleno consentimiento, al profesional odontólogo y a sus asistentes, hacer diagnósticos, plan de tratamiento, y tratamientos odontológicos acorde a los conocimientos encuadrados dentro de la especialidad.</p>
+    <p style="text-align: justify">Concuerdo con el presupesto detallado y me comprometo a pagar en su totalidad por cada tratamiento concluido, de no ser así el profesional tiene la autoridad de detener el procedimiento operatorio donde crea necesario y reusarse a la atención futura hasta que yo me ponga al día con mi compromiso de pago.</p>
+    <h3 style="text-align: center;">DECLARO QUE TODAS LAS INFORMACIONES SON VERDADERAS</h3>
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <div style="text-align: left; margin: auto;width: 40%">
+                    <b>..................................................................</b> <br>
+                <b>Firma del Paciente o Responsable</b> <br/><br/>
+                <b>Aclaración: ............................................</b> <br/><br/>
+                <b>C.I. Nro. ...................................................</b>
+                </div>
+            </td>
+            
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
