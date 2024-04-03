@@ -1,5 +1,4 @@
 ﻿using System.Net.Mime;
-using MapsterMapper;
 using Odontio.API.Contracts.Patients;
 using Odontio.Application.MedicalNotes.Queries.GetMedicalNotes;
 using Odontio.Application.Patients.Commands.CreatePatient;

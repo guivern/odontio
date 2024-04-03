@@ -213,6 +213,19 @@ public class DbContextInitializer
         var data = await File.ReadAllTextAsync(filePath);
         var diseases = JsonSerializer.Deserialize<List<Disease>>(data);
         
-        await _context.Diseases.AddRangeAsync(diseases);
+        var workspaces = await _context.Workspaces.AsNoTracking().ToListAsync();
+        foreach (var workspace in workspaces)
+        {
+            if (!await _context.Diseases.AsNoTracking().AnyAsync(x => x.WorkspaceId == workspace.Id))
+            {
+                var diseasesToAdd = diseases.Select(x => new Disease
+                {
+                    Name = x.Name,
+                    WorkspaceId = workspace.Id,
+                });
+                
+                await _context.Diseases.AddRangeAsync(diseasesToAdd);
+            }    
+        }
     }
 }

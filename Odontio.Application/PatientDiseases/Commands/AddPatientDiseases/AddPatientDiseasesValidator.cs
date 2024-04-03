@@ -18,6 +18,16 @@ public class AddPatientDiseasesValidator : AbstractValidator<AddPatientDiseasesC
         RuleForEach(x => x.DiseaseIds)
             .SetAsyncValidator(new CreatePatientDiseaseValidator(_context));
         
+        // validate each diseaseId exists in the workspace
+        RuleForEach(x => x.DiseaseIds)
+            .MustAsync(async (diseaseId, cancellation) =>
+            {
+                return await _context.Diseases
+                    .AsNoTracking()
+                    .AnyAsync(x => x.Id == diseaseId && x.WorkspaceId == x.WorkspaceId, cancellation);
+            })
+            .WithMessage("Disease not found in the workspace.");
+        
         // validate repeated diseaseIds
         RuleFor(x => x.DiseaseIds)
             .Must(x => x.Count == x.Distinct().Count())

@@ -82,6 +82,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             .WithOne(x => x.Role)
             .OnDelete(DeleteBehavior.Restrict);
         
+        // cannot delete a disease if it has patients
+        builder.Entity<Disease>()
+            .HasMany(x => x.PatientDiseases)
+            .WithOne(x => x.Disease)
+            .OnDelete(DeleteBehavior.Restrict);
+        
         // defult value for IsActive
         builder.Entity<User>()
             .Property(x => x.IsActive)

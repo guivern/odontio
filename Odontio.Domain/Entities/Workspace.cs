@@ -16,4 +16,5 @@ public class Workspace: BaseAuditableEntity
     public ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
     public ICollection<User> Users { get; set; } = new List<User>();
     public ICollection<Patient> Patients { get; set; } = new List<Patient>();
+    public ICollection<Disease> Diseases { get; set; } = new List<Disease>();
 }
