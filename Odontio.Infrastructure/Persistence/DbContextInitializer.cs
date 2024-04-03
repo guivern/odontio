@@ -66,9 +66,33 @@ public class DbContextInitializer
         await SeedAdmin();
         await SeedUsers();
         await SeedDiseases();
+        await SeedMedicalConditionQuestions();
         await SeedTreatments();
         await SeedTeeth();
         await _context.SaveChangesAsync();
+    }
+
+    private async Task SeedMedicalConditionQuestions()
+    {
+        // path: Odontio.Infrastructure/Persistence/Data/Diseases.json
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/SeedDiseases.json");
+        var data = await File.ReadAllTextAsync(filePath);
+        var questions = JsonSerializer.Deserialize<List<MedicalConditionQuestion>>(data);
+        
+        var workspaces = await _context.Workspaces.AsNoTracking().ToListAsync();
+        foreach (var workspace in workspaces)
+        {
+            if (!await _context.MedicalConditionQuestions.AsNoTracking().AnyAsync(x => x.WorkspaceId == workspace.Id))
+            {
+                var questionToAdd = questions.Select(x => new MedicalConditionQuestion
+                {
+                    Name = x.Name,
+                    WorkspaceId = workspace.Id,
+                });
+                
+                await _context.MedicalConditionQuestions.AddRangeAsync(questionToAdd);
+            }    
+        }
     }
 
     private async Task SeedTeeth()
@@ -206,8 +230,6 @@ public class DbContextInitializer
     
     private async Task SeedDiseases()
     {
-        if (await _context.Diseases.AsNoTracking().AnyAsync()) return;
-        
         // path: Odontio.Infrastructure/Persistence/Data/Diseases.json
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/SeedDiseases.json");
         var data = await File.ReadAllTextAsync(filePath);

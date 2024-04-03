@@ -94,7 +94,7 @@ public class DiseasesController(IMediator mediator, IMapper mapper) : ApiControl
         var result = await mediator.Send(command, cancellationToken);
 
         return result.Match<IActionResult>(
-            result => Ok(result),
+            result => NoContent(),
             errors => Problem(errors)
         );
     }

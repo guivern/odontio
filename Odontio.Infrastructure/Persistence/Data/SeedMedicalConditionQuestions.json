@@ -1,0 +1,32 @@
+﻿[
+  {
+    "Name": "¿Está siendo sometido a algún tratamiento médico actualmente?"
+  },
+  {
+    "Name": "¿Está haciendo uso de algún medicamento?"
+  },
+  {
+    "Name": "¿Necesitó o necesita periódicamente de transfusión sanguínea o derivados?"
+  },
+  {
+    "Name": "¿Fue sometido a alguna cirugía?"
+  },
+  {
+    "Name": "¿Sangra por mucho tiempo después de una extracción o corte?"
+  },
+  {
+    "Name": "¿Fuma?"
+  },
+  {
+    "Name": "¿Toma bebidas alcohólicas?"
+  },
+  {
+    "Name": "¿Declara estar embarazada?"
+  },
+  {
+    "Name": "¿Tolera la anestesia de uso odontológico?"
+  },
+  {
+    "Name": "¿Se hizo alguna vez test de Elisa?"
+  }
+]

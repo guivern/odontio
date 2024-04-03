@@ -129,6 +129,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<MedicalNote> MedicalNotes { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<MedicalCondition> MedicalConditions { get; set; }
+    public DbSet<MedicalConditionQuestion> MedicalConditionQuestions { get; set; }
     public DbSet<Diagnosis> Diagnoses { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<PatientDisease> PatientDiseases { get; set; }

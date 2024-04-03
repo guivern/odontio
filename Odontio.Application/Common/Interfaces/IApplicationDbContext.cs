@@ -15,6 +15,7 @@ public interface IApplicationDbContext
     DbSet<MedicalNote> MedicalNotes { get; set; }
     DbSet<Appointment> Appointments { get; set; }
     DbSet<MedicalCondition> MedicalConditions { get; set; }
+    DbSet<MedicalConditionQuestion> MedicalConditionQuestions { get; set; }
     DbSet<Diagnosis> Diagnoses { get; set; }
     DbSet<Patient> Patients { get; set; }
     DbSet<PatientDisease> PatientDiseases { get; set; }
