@@ -75,7 +75,7 @@ public class DbContextInitializer
     private async Task SeedMedicalConditionQuestions()
     {
         // path: Odontio.Infrastructure/Persistence/Data/Diseases.json
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/SeedDiseases.json");
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "../Odontio.Infrastructure/Persistence/Data/SeedMedicalConditionQuestions.json");
         var data = await File.ReadAllTextAsync(filePath);
         var questions = JsonSerializer.Deserialize<List<MedicalConditionQuestion>>(data);
         
