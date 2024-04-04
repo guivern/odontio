@@ -11,8 +11,11 @@ public class CreateDiseaseHandler(IApplicationDbContext context, IMapper mapper)
         var entity = mapper.Map<Disease>(request);
 
         context.Diseases.Add(entity);
+        
         await context.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<UpsertDiseaseResult>(entity);
+        var result = mapper.Map<UpsertDiseaseResult>(entity);
+
+        return result;
     }
 }

@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MedicalConditionQuestions\" />
     <Folder Include="MedicalConditions\Commands\" />
     <Folder Include="Profile\Commands\" />
     <Folder Include="Profile\Common\" />
