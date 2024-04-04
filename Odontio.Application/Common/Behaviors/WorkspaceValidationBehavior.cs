@@ -25,7 +25,7 @@ public class WorkspaceValidationBehavior<TRequest, TResponse> : IPipelineBehavio
 
         if (attributeExists)
         {
-            /* 1- check if workspace exists */
+            /* 1- check if workspace exists */ 
             var workspaceExists = await _context.Workspaces.AsNoTracking()
                 .AnyAsync(x => x.Id == request.WorkspaceId, cancellationToken);
 
