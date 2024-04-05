@@ -32,6 +32,7 @@ public static class DependencyInjection
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<DbContextInitializer>();
+        services.AddScoped<ISeedDataInitializer, DbContextInitializer>();
 
         return services;
     }

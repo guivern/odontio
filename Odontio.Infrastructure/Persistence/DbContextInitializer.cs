@@ -8,7 +8,7 @@ using Odontio.Domain.Enums;
 
 namespace Odontio.Infrastructure.Persistence;
 
-public class DbContextInitializer
+public class DbContextInitializer : ISeedDataInitializer
 {
     private readonly ApplicationDbContext _context;
     private readonly ILogger<DbContextInitializer> _logger;
