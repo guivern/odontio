@@ -47,11 +47,6 @@ public class ApiControllerBase: ControllerBase
 
     private IActionResult Problem(Error error)
     {
-        if (error.NumericType == 401)
-        {
-            return Unauthorized(error);
-        }
-        
         if (error.NumericType == 403)
         {
             return Problem(statusCode: 403, title: error.Description);
