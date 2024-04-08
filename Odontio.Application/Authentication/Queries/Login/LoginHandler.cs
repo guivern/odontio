@@ -21,13 +21,13 @@ public class LoginHandler(IApplicationDbContext context, IAuthService authServic
 
         if (user == null)
             return Error.Custom(code: "INVALID_CREDENTIALS", description: "Invalid username or password",
-                type: (int)HttpStatusCode.Unauthorized);
+                type: (int)ErrorType.Unauthorized);
 
         var isValidPassword = authService.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt);
 
         if (!isValidPassword)
             return Error.Custom(code: "INVALID_CREDENTIALS", description: "Invalid username or password",
-                type: (int)HttpStatusCode.Unauthorized);
+                type: (int)ErrorType.Unauthorized);
 
         var token = authService.GenerateJwtToken(user);
         var result = mapper.Map<AuthenticationResult>(user);
