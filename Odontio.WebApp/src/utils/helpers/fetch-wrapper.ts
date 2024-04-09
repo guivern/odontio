@@ -38,6 +38,7 @@ function authHeader(url: string) {
 
 function handleResponse(response: any) {
   return response.text().then((text: string) => {
+    // console.log(response.headers.get('x-pagination'));
     const data = text && JSON.parse(text);
 
     if (!response.ok) {
@@ -51,6 +52,6 @@ function handleResponse(response: any) {
       return Promise.reject(error);
     }
 
-    return data;
+    return { data, headers: response.headers, status: response.status };
   });
 }

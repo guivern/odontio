@@ -40,7 +40,8 @@ const sidebarMenu = computed(() => {
     <!---Logo part -->
     <div class="pl-3 py-5 d-flex align-center">
       <Logo />
-      <span class="text-h3" v-show="!customizer.mini_sidebar" :style="{ color: $vuetify.theme.current.colors.primary }">Odontio</span>
+      <span class="text-h3" v-show="!customizer.mini_sidebar" :style="{ color: $vuetify.theme.global.current.colors.primary }"
+      >Odontio</span>
     </div>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->

@@ -46,7 +46,7 @@ const BlueTheme: ThemeTypes = {
     'carousel-control-size': 10
   },
   colors: {
-    primary: '#283593',
+    primary: '#3949AB',
     secondary: '#EF6C00',
     accent: '#FFC107',
     error: '#f44336',

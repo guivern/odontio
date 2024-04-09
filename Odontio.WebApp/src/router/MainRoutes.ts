@@ -22,19 +22,24 @@ const MainRoutes = {
         {
           path: '',
           name: 'workspaces',
-          component: () => import('@/views/Workspaces.vue')
+          component: () => import('@/views/workspaces/Workspaces.vue')
         },
         {
           path: 'create',
           name: 'create-workspace',
-          component: () => import('@/views/CreateWorkspace.vue')
+          component: () => import('@/views/workspaces/CreateWorkspace.vue')
         },
         {
           path: ':id',
           name: 'workspace-detail',
-          component: () => import('@/views/WorkspaceDetail.vue')
+          component: () => import('@/views/workspaces/WorkspaceDetail.vue')
         }
       ]
+    },
+    {
+      name: 'app-error',
+      path: '/pages/app-error',
+      component: () => import('@/views/pages/maintenance/error/Error.vue')
     },
     {
       name: 'Default',

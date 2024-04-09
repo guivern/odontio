@@ -15,14 +15,14 @@ export const useAuthStore = defineStore({
   }),
   actions: {
     async login(username: string, password: string) {
-      const user = await fetchWrapper.post(`${baseUrl}/v1/auth/login`, { username, password });
-
-      // update pinia state
-      this.user = user;
-      // store user details and jwt in local storage to keep user logged in between page refreshes
-      localStorage.setItem('user', JSON.stringify(user));
-      // redirect to previous url or default to home page
-      router.push(this.returnUrl || '/workspaces');
+      await fetchWrapper.post(`${baseUrl}/v1/auth/login`, { username, password }).then((response) => {
+        // update pinia state
+        this.user = response.data;
+        // store user details and jwt in local storage to keep user logged in between page refreshes
+        localStorage.setItem('user', JSON.stringify(this.user));
+        // redirect to previous url or default to home page
+        router.push(this.returnUrl || '/workspaces');
+      });
     },
     logout() {
       this.user = null;
