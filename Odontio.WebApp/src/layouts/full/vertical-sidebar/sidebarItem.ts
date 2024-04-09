@@ -8,7 +8,9 @@ import {
   BugIcon,
   DashboardIcon,
   BrandChromeIcon,
-  HelpIcon
+  HelpIcon,
+  AffiliateIcon,
+  UsersIcon
 } from 'vue-tabler-icons';
 
 export interface menu {
@@ -112,17 +114,12 @@ const NoWorkspaceItems: menu[] = [
   
   {
     title: 'Worskpaces',
-    icon: KeyIcon,
+    icon: AffiliateIcon,
     to: '/workspaces',
   },
   {
     title: 'Users',
-    icon: BugIcon,
-    to: '/starter'
-  },
-  {
-    title: 'Settings',
-    icon: TypographyIcon,
+    icon: UsersIcon,
     to: '/starter'
   },
 ];

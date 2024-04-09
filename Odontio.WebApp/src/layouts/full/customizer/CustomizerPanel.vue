@@ -10,7 +10,7 @@ const fontFamily = ref(['Roboto', 'Poppins', 'Inter']);
 
 function clearoptions() {
   customizer.inputBg = false;
-  customizer.fontTheme = 'Roboto';
+  customizer.fontTheme = 'Poppins';
 }
 </script>
 

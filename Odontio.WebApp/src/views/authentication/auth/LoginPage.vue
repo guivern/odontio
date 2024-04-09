@@ -18,8 +18,16 @@ import AuthLogin from '../authForms/AuthLogin.vue';
                     <v-row>
                       <v-col cols="12" class="text-center">
                         <!-- <Logo /> -->
-                        <h2 class="text-secondary text-h2 mt-8">Hi, Welcome Back</h2>
-                        <h4 class="text-disabled text-h4 mt-3">Enter your credentials to continue</h4>
+                        <!-- <div d-flex align-center>
+                          <Logo />
+                          <span class="text-h3" style="color: #283593">Odontio</span>
+                        </div> -->
+                        <div class="d-flex justify-center align-center">
+                          <Logo />
+                          <span class="text-h3" style="color: #283593">Odontio</span>
+                        </div>
+                        <h2 class="text-secondary text-h2 mt-3">Hola, Bienvenido! 👋</h2>
+                        <h4 class="text-disabled text-h4 mt-3">Ingresa tus credenciales para continuar</h4>
                       </v-col>
                     </v-row>
                     <!---Left Part Logo -->
