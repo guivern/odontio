@@ -1,23 +1,53 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
 // Icon Imports
 import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon } from 'vue-tabler-icons';
+import { useDisplay } from 'vuetify';
 
 // dropdown imports
 import NotificationDD from './NotificationDD.vue';
 import ProfileDD from './ProfileDD.vue';
 import Searchbar from './SearchBarPanel.vue';
+import { onMounted } from 'vue';
 
 const customizer = useCustomizerStore();
 const showSearch = ref(false);
 function searchbox() {
   showSearch.value = !showSearch.value;
 }
+
+const { name } = useDisplay();
+// watch name and console log it
+
+onMounted(() => {
+  console.log('name', name.value);
+  if (name.value == 'sm' || name.value == 'xs') {
+    customizer.SET_SIDEBAR_DRAWER();
+  }
+});
+
+watch(name, (newVal, oldVal) => {
+  console.log('name changed', newVal, oldVal);
+
+  // if the name is mobile then close the search box
+  if (newVal == 'xs')
+  {
+    customizer.SET_MINI_SIDEBAR(true);
+  }
+  else if (newVal == 'sm') {
+    console.log('mobile');
+    // customizer.SET_SIDEBAR_DRAWER();
+    customizer.SET_MINI_SIDEBAR(true);
+  }
+  else {
+    customizer.SET_MINI_SIDEBAR(false);
+  }
+});
 </script>
 
 <template>
-  <v-app-bar elevation="0" height="80">
+  <v-app-bar color="primary" flat>
     <v-btn
       class="hidden-md-and-down text-secondary"
       color="lightsecondary"
@@ -61,7 +91,7 @@ function searchbox() {
     <!-- ---------------------------------------------- -->
     <!-- Search part -->
     <!-- ---------------------------------------------- -->
-    <v-sheet class="mx-3 v-col-3 v-col-xl-2 v-col-lg-4 d-none d-lg-block">
+    <v-sheet class="mx-3 v-col-3 v-col-xl-2 v-col-lg-4 d-none d-lg-block" color="primary">
       <Searchbar />
     </v-sheet>
 

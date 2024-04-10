@@ -21,13 +21,13 @@ const MainRoutes = {
       children: [
         {
           path: '',
-          name: 'workspaces',
-          component: () => import('@/views/workspaces/Workspaces.vue')
+          name: 'workspace-list',
+          component: () => import('@/views/workspaces/WorkspaceList.vue')
         },
         {
           path: 'create',
-          name: 'create-workspace',
-          component: () => import('@/views/workspaces/CreateWorkspace.vue')
+          name: 'workspace-create',
+          component: () => import('@/views/workspaces/WorkspaceCreate.vue')
         },
         {
           path: ':id',

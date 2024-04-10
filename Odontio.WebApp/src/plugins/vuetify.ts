@@ -3,10 +3,14 @@ import '@mdi/font/css/materialdesignicons.css';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { PurpleTheme, BlueTheme } from '@/theme/LightTheme';
+import { VFab } from 'vuetify/labs/VFab'
 
 export default createVuetify({
-  components,
   directives,
+  components: {
+    ...components,
+    VFab
+  },
 
   theme: {
     defaultTheme: 'BlueTheme',

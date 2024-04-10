@@ -22,8 +22,8 @@
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="icon icon-tabler icon-tabler-dental"
-        width="38"
-        height="38"
+        :width="width"
+        :height="height"
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="#283593"
@@ -41,8 +41,22 @@
   </div>
 </template>
 <script setup lang="ts">
+import { he } from 'date-fns/locale';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 const primary = ref('rgb(var(--v-theme-primary))');
 const secondary = ref('rgb(var(--v-theme-secondary))');
+
+// width and height of the logo from props
+const props = defineProps({
+  width: {
+    type: String,
+    default: '38',
+  },
+  height: {
+    type: String,
+    default: '38',
+  },
+});
+
 </script>

@@ -9,7 +9,7 @@
           <v-col cols="12" lg="6" md="6">
             <base-input
               v-if="!hideSearchInput"
-              label="Search"
+              label="Buscar"
               v-model="searchCopy"
               prepend-inner-icon="mdi-magnify"
               type="search"
@@ -19,9 +19,9 @@
 
           <slot name="prepend-actions"></slot>
           <slot name="actions">
-            <v-col cols="4" lg="3" md="3">
-              <slot name="prepend-create-button"></slot>
-              <v-btn
+            <!-- <v-col cols="4" lg="3" md="3"> -->
+              <!-- <slot name="prepend-create-button"></slot> -->
+              <!-- <v-btn
                 v-if="!hideCreateButton"
                 color="primary"
                 @click="onCreateClick"
@@ -30,9 +30,9 @@
                 flat
               >
               Nuevo
-              </v-btn>
-              <slot name="append-create-button"></slot>
-            </v-col>
+              </v-btn> -->
+              <!-- <slot name="append-create-button"></slot> -->
+            <!-- </v-col> -->
           </slot>
           <slot name="append-actions"></slot>
         </v-row>
@@ -57,8 +57,6 @@
 import { ref } from "vue";
 import { computed } from "vue";
 import { useDisplay } from "vuetify";
-import BaseCard from "./BaseCard.vue";
-import BaseInput from "./BaseInput.vue";
 
 const { mobile } = useDisplay();
 
@@ -88,7 +86,7 @@ const emits = defineEmits([
 ]);
 
 const onRowClick = (event: any, { item }: { item: any }) => {
-  emits("click:row", item.selectable);
+  emits("click:row", item);
 };
 
 const onCreateClick = () => {

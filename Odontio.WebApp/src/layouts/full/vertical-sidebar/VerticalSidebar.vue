@@ -2,7 +2,7 @@
 import { useCustomizerStore } from '../../../stores/customizer';
 import { WorkspaceItems, NoWorkspaceItems } from './sidebarItem';
 import { useRouter } from 'vue-router';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import NavGroup from './NavGroup/NavGroup.vue';
 import NavItem from './NavItem/NavItem.vue';
 import NavCollapse from './NavCollapse/NavCollapse.vue';
@@ -10,6 +10,8 @@ import Logo from '../logo/LogoMain.vue';
 
 const customizer = useCustomizerStore();
 // const sidebarMenu = shallowRef(WorkspaceItems);
+
+const isNavCollapsed = ref(false);
 
 // check if the current route is /workspace
 const router = useRouter();
@@ -29,25 +31,30 @@ const sidebarMenu = computed(() => {
   <v-navigation-drawer
     left
     v-model="customizer.Sidebar_drawer"
-    elevation="1"
+    elevation="0"
     rail-width="75"
-    mobile-breakpoint="960"
+    :mobile-breakpoint="960"
     app
     class="leftSidebar"
     :rail="customizer.mini_sidebar"
-    expand-on-hover
+    :expand-on-hover="customizer.mini_sidebar"
   >
     <!---Logo part -->
-    <div class="pl-3 py-5 d-flex align-center">
+    <div class="pl-3 pt-3 d-flex align-center" style="background-color: #EEF2F6; height: 64px">
       <Logo />
       <span class="text-h3" v-show="!customizer.mini_sidebar" :style="{ color: $vuetify.theme.global.current.colors.primary }"
-      >Odontio</span>
+        >Odontio</span
+      >
     </div>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->
     <!-- ---------------------------------------------- -->
     <perfect-scrollbar class="scrollnavbar">
-      <v-list class="px-4">
+      <v-list class="px-4 pt-4">
+        <!-- <template v-show="!customizer.mini_sidebar">
+          <v-list-item title="My Application" subtitle="Vuetify"></v-list-item>
+          <v-divider class="my-3"></v-divider>
+        </template> -->
         <!---Menu Loop -->
         <template v-for="(item, i) in sidebarMenu" :key="i">
           <!---Item Sub Header -->

@@ -23,7 +23,7 @@ import AuthLogin from '../authForms/AuthLogin.vue';
                           <span class="text-h3" style="color: #283593">Odontio</span>
                         </div> -->
                         <div class="d-flex justify-center align-center">
-                          <Logo />
+                          <Logo width="44" height="44" />
                           <span class="text-h3" style="color: #283593">Odontio</span>
                         </div>
                         <h2 class="text-secondary text-h2 mt-3">Hola, Bienvenido! 👋</h2>
