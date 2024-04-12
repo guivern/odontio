@@ -27,12 +27,13 @@ const MainRoutes = {
         {
           path: 'create',
           name: 'workspace-create',
-          component: () => import('@/views/workspaces/WorkspaceCreate.vue')
+          component: () => import('@/views/workspaces/WorkspaceForm.vue')
         },
         {
           path: ':id',
           name: 'workspace-detail',
-          component: () => import('@/views/workspaces/WorkspaceDetail.vue')
+          component: () => import('@/views/workspaces/WorkspaceForm.vue'),
+          props: (route: any) => ({ id: Number(route.params.id) })
         }
       ]
     },

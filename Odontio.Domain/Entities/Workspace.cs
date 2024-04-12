@@ -12,6 +12,7 @@ public class Workspace: BaseAuditableEntity
     public string? Ruc { get; set; }
     public string? ContactName { get; set; }
     public string? ContactPhoneNumber { get; set; }
+    public string? BusinessName { get; set; }
 
     public ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
     public ICollection<User> Users { get; set; } = new List<User>();

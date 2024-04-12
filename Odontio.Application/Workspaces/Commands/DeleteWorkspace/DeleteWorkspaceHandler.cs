@@ -22,7 +22,7 @@ public class DeleteWorkspaceHandler(IApplicationDbContext context)
         }
         catch (DbUpdateException e) // TODO: REPLICAR EN LOS OTROS ENTITIES QUE TIENEN DEPENDENCIAS
         {
-            return Error.Conflict(description: "Can not delete workspace due to existing dependencies.");
+            return Error.Conflict(description: "No se puede eliminar el workspace porque tiene dependencias.");
         }
 
         return Unit.Value;

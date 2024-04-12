@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Odontio.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Odontio.Infrastructure.Persistence;
 namespace Odontio.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240412162014_BusinessNameMigration")]
+    partial class BusinessNameMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -904,8 +907,7 @@ namespace Odontio.Infrastructure.Persistence.Migrations
 
                     b.HasOne("Odontio.Domain.Entities.Workspace", "Workspace")
                         .WithMany("Users")
-                        .HasForeignKey("WorkspaceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("WorkspaceId");
 
                     b.Navigation("Role");
 

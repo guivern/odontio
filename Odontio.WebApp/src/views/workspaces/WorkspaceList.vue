@@ -1,7 +1,9 @@
 <template>
   <v-row>
     <v-col cols="12">
+      <error-card v-if="fetchError" :with-retry="true" @on:retry="getItems" />
       <base-pagination-table
+        v-else
         v-model:items-per-page="pageSize"
         v-model:sort-by="sortby"
         v-model:page="page"
@@ -40,7 +42,10 @@ import { DEFAULT_PAGE_SIZE } from '@/types/constants';
 import type { GetWorkspaceDto } from '@/types/workspace';
 import WorskapceService from '@/services/WorkspaceService';
 import { onMounted } from 'vue';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
+const fetchError = ref(false);
 const router = useRouter();
 const search = ref('');
 const items = ref<GetWorkspaceDto[]>([]);
@@ -71,6 +76,7 @@ const sortby = ref<any>([]);
 
 const getItems = async () => {
   loading.value = true;
+  fetchError.value = false;
 
   await WorskapceService.getAll(page.value, pageSize.value, search.value, sortby.value)
     .then((response) => {
@@ -80,15 +86,8 @@ const getItems = async () => {
       items.value = response.data as GetWorkspaceDto[];
     })
     .catch((error) => {
-      loading.value = false;
-      // toast.error("Error fetching bots");
-      router.push({
-        name: 'app-error',
-        query: {
-          code: error.response?.status,
-          message: error.response?.data.title
-        }
-      });
+      toast.error('Ocurrió un error');
+      fetchError.value = true;
     })
     .finally(() => {
       loading.value = false;

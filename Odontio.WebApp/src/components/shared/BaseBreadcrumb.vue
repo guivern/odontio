@@ -1,20 +1,33 @@
 <script setup lang="ts">
-import { ChevronRightIcon } from 'vue-tabler-icons';
+import { ChevronRightIcon, ArrowLeftIcon } from 'vue-tabler-icons';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
 const props = defineProps({
   title: String,
   /* eslint-disable @typescript-eslint/no-explicit-any */
   breadcrumbs: Array as any,
   icon: String
 });
+
+const navigateTo = (path: string) => {
+  router.push(path);
+};
+
+const goBack = () => {
+  router.back();
+};
+
 </script>
 
-// ===============================|| Theme Breadcrumb ||=============================== //
 <template>
   <v-row class="page-breadcrumb mb-1 mt-1">
     <v-col cols="12" md="12">
       <v-card variant="outlined" elevation="0" class="px-4 py-3 withbg">
         <v-row no-gutters class="align-center">
-          <v-col md="5">
+          <v-col md="5" class="d-flex align-center">
+            <ArrowLeftIcon size="24" @click="goBack" class="mr-2" style="cursor: pointer;" />
             <h3 class="text-h3">{{ props.title }}</h3>
           </v-col>
 
@@ -26,10 +39,15 @@ const props = defineProps({
                 </div>
               </template>
               <template v-slot:prepend>
-                <v-icon size="small" icon="mdi-home" class="text-secondary mr-2"></v-icon>
+                <v-icon size="small" icon="mdi-home" class="text-secondary mr-2" @click="navigateTo('/')"></v-icon>
                 <div class="d-flex align-center">
                   <ChevronRightIcon size="17" />
                 </div>
+              </template>
+              <template v-slot:item="{ item }">
+                <v-breadcrumbs-item :disabled="item.disabled" @click="navigateTo(item.href) ">
+                  {{ item.title }}
+                </v-breadcrumbs-item>
               </template>
             </v-breadcrumbs>
           </v-col>
@@ -45,4 +63,10 @@ const props = defineProps({
     background: transparent;
   }
 }
+.v-breadcrumbs-item {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 </style>

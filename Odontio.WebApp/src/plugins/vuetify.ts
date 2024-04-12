@@ -15,7 +15,8 @@ export default createVuetify({
   theme: {
     defaultTheme: 'BlueTheme',
     themes: {
-      BlueTheme
+      BlueTheme,
+      PurpleTheme
     }
   },
   defaults: {

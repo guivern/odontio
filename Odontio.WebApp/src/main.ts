@@ -8,6 +8,7 @@ import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import VueApexCharts from 'vue3-apexcharts';
 import VueTablerIcons from 'vue-tabler-icons';
 import { registerComponents } from '@/plugins/globalComponents';
+import { registerToast } from './plugins/vueToastification';
 
 // import { fakeBackend } from '@/utils/helpers/fake-backend';
 
@@ -17,6 +18,7 @@ import print from 'vue3-print-nb';
 const app = createApp(App);
 
 registerComponents(app);
+registerToast(app);
 
 // fakeBackend();
 app.use(router);

@@ -10,4 +10,5 @@ public class UpsertWorkspaceResult
     public string? Ruc { get; set; }
     public string? ContactName { get; set; }
     public string? ContactPhoneNumber { get; set; }
+    public string? BusinessName { get; set; }
 }

@@ -4,6 +4,7 @@ export const fetchWrapper = {
   get: request('GET'),
   post: request('POST'),
   put: request('PUT'),
+  patch: request('PATCH'),
   delete: request('DELETE')
 };
 
@@ -38,7 +39,6 @@ function authHeader(url: string) {
 
 function handleResponse(response: any) {
   return response.text().then((text: string) => {
-    // console.log(response.headers.get('x-pagination'));
     const data = text && JSON.parse(text);
 
     if (!response.ok) {
@@ -48,7 +48,7 @@ function handleResponse(response: any) {
         logout();
       }
 
-      const error = (data && data.title) || response.statusText;
+      const error = { data, status: response.status, message: response.statusText };
       return Promise.reject(error);
     }
 

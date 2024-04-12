@@ -33,6 +33,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         //     });
         // }
         // #endregion
+        
+        // delete cascade for workspace and user relationship
+        builder.Entity<Workspace>()
+            .HasMany(x => x.Users)
+            .WithOne(x => x.Workspace)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // cannot delete a workspace if it has patients
         builder.Entity<Workspace>()

@@ -21,5 +21,17 @@ export default {
     if (sortByString) apiUrl += `&orderBy=${sortByString}`;
 
     return fetchWrapper.get(apiUrl);
+  },
+  get(id: number) {
+    return fetchWrapper.get(`${endpoint}/${id}`);
+  },
+  create(body: any) {
+    return fetchWrapper.post(endpoint, body);
+  },
+  update(id: number, body: any) {
+    return fetchWrapper.patch(`${endpoint}/${id}`, body);
+  },
+  delete(id: number) {
+    return fetchWrapper.delete(`${endpoint}/${id}`);
   }
 };

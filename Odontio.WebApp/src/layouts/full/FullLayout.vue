@@ -21,17 +21,7 @@ const customizer = useCustomizerStore();
       <v-main>
         <v-container fluid class="page-wrapper">
           <div>
-            <RouterView />
-            <!-- <v-btn
-              class="customizer-btn"
-              size="large"
-              icon
-              variant="flat"
-              color="secondary"
-              @click.stop="customizer.SET_CUSTOMIZER_DRAWER(!customizer.Customizer_drawer)"
-            >
-              <SettingsIcon class="icon" />
-            </v-btn> -->
+            <RouterView :key="$router.currentRoute.value.fullPath" />
           </div>
         </v-container>
       </v-main>

@@ -9,6 +9,8 @@ import BaseCheckbox from "@/components/base/BaseCheckbox.vue";
 import BaseCard from "@/components/base/BaseCard.vue";
 import BaseAutocomplete from "@/components/base/BaseAutocomplete.vue";
 import BasePaginationTable from "@/components/base/BasePaginationTable.vue";
+import ErrorCard from "@/components/shared/ErrorCard.vue";
+import DeleteDialog from "@/components/shared/DeleteDialog.vue";
 
 export function registerComponents(app: App) {
   app.component("BaseInput", BaseInput);
@@ -18,4 +20,6 @@ export function registerComponents(app: App) {
   app.component("BaseCard", BaseCard);
   app.component("BaseAutocomplete", BaseAutocomplete);
   app.component("BasePaginationTable", BasePaginationTable);
+  app.component("ErrorCard", ErrorCard);
+  app.component("DeleteDialog", DeleteDialog);
 }
