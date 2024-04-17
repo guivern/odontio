@@ -6,7 +6,7 @@ public class MappingConfig: IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<ScheduledVisit, UpsertScheduledVisitResult>()
+        config.NewConfig<ScheduledVisit, GetScheduledVisitResult>()
             .Map(dest => dest.PatientName, src => $"{src.Patient.FirstName} {src.Patient.LastName}");
     }
 }

@@ -3,14 +3,14 @@ using Odontio.Application.ScheduledVisits.Common;
 
 namespace Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByPatient;
 
-public class GetScheduledVisitsHandler(IApplicationDbContext context): IRequestHandler<GetScheduledVisitsQuery, ErrorOr<IEnumerable<UpsertScheduledVisitResult>>>
+public class GetScheduledVisitsHandler(IApplicationDbContext context): IRequestHandler<GetScheduledVisitsQuery, ErrorOr<IEnumerable<GetScheduledVisitResult>>>
 {
-    public async Task<ErrorOr<IEnumerable<UpsertScheduledVisitResult>>> Handle(GetScheduledVisitsQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<IEnumerable<GetScheduledVisitResult>>> Handle(GetScheduledVisitsQuery request, CancellationToken cancellationToken)
     {
         var query = context.ScheduledVisits
             .Include(x => x.Patient)
             .Where(x => x.PatientId == request.PatientId)
-            .ProjectToType<UpsertScheduledVisitResult>()
+            .ProjectToType<GetScheduledVisitResult>()
             .AsNoTracking()
             .AsQueryable();
 

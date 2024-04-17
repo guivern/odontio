@@ -20,9 +20,9 @@ public class DeleteWorkspaceHandler(IApplicationDbContext context)
         {
             await context.SaveChangesAsync(cancellationToken);
         }
-        catch (DbUpdateException e) // TODO: REPLICAR EN LOS OTROS ENTITIES QUE TIENEN DEPENDENCIAS
+        catch (DbUpdateException e)
         {
-            return Error.Conflict(description: "No se puede eliminar el workspace porque tiene dependencias.");
+            return Error.Conflict(description: "No fue posible eliminar el workspace debido a que tiene pacientes asociados. Para poder eliminarlo, primero elimine todos los pacientes asociados.");
         }
 
         return Unit.Value;

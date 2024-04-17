@@ -1,6 +1,6 @@
-﻿using System.Reflection;
-using FluentValidation;
-using MediatR;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Odontio.Application.Common.Behaviors;
 using Odontio.Application.Common.Mapping;
@@ -24,7 +24,23 @@ public static class DependencyInjection
         services.AddMapping(); // add mapster
         services.AddSignalR();
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+        
+        SetDefaultCulture(services);
 
         return services;
+    }
+
+    private static void SetDefaultCulture(IServiceCollection services)
+    {
+        services.Configure<RequestLocalizationOptions>(options =>
+        {
+            var supportedCultures = new[]
+            {
+                new CultureInfo("es-PY"),
+            };
+            options.DefaultRequestCulture = new RequestCulture("es-PY");
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+        });
     }
 }

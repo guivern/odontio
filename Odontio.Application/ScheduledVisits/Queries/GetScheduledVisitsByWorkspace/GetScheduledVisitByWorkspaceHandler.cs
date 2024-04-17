@@ -4,15 +4,15 @@ using Odontio.Application.ScheduledVisits.Common;
 namespace Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByWorkspace;
 
 public class GetScheduledVisitByWorkspaceHandler(IApplicationDbContext context)
-    : IRequestHandler<GetScheduledVisitsByWorkspaceQuery, ErrorOr<List<UpsertScheduledVisitResult>>>
+    : IRequestHandler<GetScheduledVisitsByWorkspaceQuery, ErrorOr<List<GetScheduledVisitResult>>>
 {
-    public async Task<ErrorOr<List<UpsertScheduledVisitResult>>> Handle(
+    public async Task<ErrorOr<List<GetScheduledVisitResult>>> Handle(
         GetScheduledVisitsByWorkspaceQuery request, CancellationToken cancellationToken)
     {
         var query = context.ScheduledVisits
             .Include(x => x.Patient)
             .Where(x => x.Patient.WorkspaceId == request.WorkspaceId)
-            .ProjectToType<UpsertScheduledVisitResult>()
+            .ProjectToType<GetScheduledVisitResult>()
             .AsNoTracking()
             .AsQueryable();
 

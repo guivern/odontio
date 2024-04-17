@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using Odontio.API;
 using Odontio.Application;
 using Odontio.Infrastructure;
@@ -11,6 +12,9 @@ builder.Services
     .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(locOptions.Value);
 
 if (app.Environment.IsDevelopment())
 {

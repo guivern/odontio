@@ -10,7 +10,7 @@ public class UpdateWorkspaceValidator : AbstractValidator<UpdateWorkspaceCommand
     {
         _context = context;
         RuleFor(x => x.Name).NotEmpty().MaximumLength(100).MustAsync(BeUniqueName)
-            .WithMessage("The name is already in use.");
+            .WithMessage("El nombre ya está en uso.");
         RuleFor(x => x.BusinessName).MaximumLength(100);
         RuleFor(x => x.Address).MaximumLength(256);
         RuleFor(x => x.PhoneNumber).MaximumLength(20);
