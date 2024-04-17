@@ -1,7 +1,5 @@
 <script setup>
 import { SearchIcon, AdjustmentsHorizontalIcon, XIcon } from 'vue-tabler-icons';
-import BaseAutocomplete from '@/components/base/BaseAutocomplete.vue';
-import BaseInput from '@/components/base/BaseInput.vue';
 
 
 const props = defineProps({

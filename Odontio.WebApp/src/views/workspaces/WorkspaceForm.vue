@@ -51,7 +51,7 @@ const model: Ref<UpsertWorkspaceDto> = ref({
   businessName: null
 });
 // email rules is no required but must be valid
-const emailRules = ref([(v: string) => !v || /.+@.+\..+/.test(v) || 'E-mail must be valid']);
+const emailRules = ref([(v: string) => !v || /.+@.+\..+/.test(v) || 'Correo inválido']);
 
 onMounted(async () => {
   if (props.id) {
@@ -110,7 +110,7 @@ const submitForm = async () => {
           if (error.status === 400) {
             validationErrors.value = error.data.errors;
           } else {
-            // generalError.value = error.message;
+            generalError.value = error.data?.title || error.message;
           }
         })
         .finally(() => {
@@ -128,7 +128,7 @@ const submitForm = async () => {
           if (error.status === 400) {
             validationErrors.value = error.data.errors;
           } else {
-            // generalError.value = error.message;
+            generalError.value = error.data?.title || error.message;
           }
         })
         .finally(() => {
@@ -137,7 +137,6 @@ const submitForm = async () => {
     }
   }
 };
-
 </script>
 
 <template>
@@ -148,35 +147,41 @@ const submitForm = async () => {
       <v-col cols="12" md="12">
         <UiParentCard title="Datos Básicos" :loading="loading" :with-actions="true">
           <template v-if="props.id" #actions-header>
-            <v-btn class="ml-2" color="white" @click="readMode = !readMode" :prepend-icon="readMode ? 'mdi-pencil' : 'mdi-eye'" small flat>
-              {{ readMode ? 'Modo edición' : 'Modo lectura' }}
-            </v-btn>
+            <v-checkbox
+              v-model="readMode"
+              label="Modo lectura"
+              class="ml-2"
+              color="info"
+              hide-details
+              v-if="!loading"
+              density="compact"
+            ></v-checkbox>
           </template>
           <v-row>
             <v-col cols="12" md="6">
-              <BaseInput
+              <base-text-input
                 label="Nombre"
                 v-model="model.name"
-                :rules="[(v: any) => !!v || 'Name is required']"
+                :rules="[(v: any) => !!v || 'Es requerido']"
                 required
                 :error-messages="validationErrors['Name']"
                 :readonly="readMode"
               />
             </v-col>
             <v-col cols="12" md="6">
-              <BaseInput label="Nro. de Teléfono" v-model="model.phoneNumber" :readonly="readMode" />
+              <base-text-input label="Nro. de Teléfono" v-model="model.phoneNumber" :readonly="readMode" />
             </v-col>
             <v-col cols="12" md="6">
-              <BaseInput label="Nomre de Contacto" v-model="model.contactName" :readonly="readMode" />
+              <base-text-input label="Nomre de Contacto" v-model="model.contactName" :readonly="readMode" />
             </v-col>
             <v-col cols="12" md="6">
-              <BaseInput label="Teléfono de Contacto" v-model="model.contactPhoneNumber" :readonly="readMode" />
+              <base-text-input label="Teléfono de Contacto" v-model="model.contactPhoneNumber" :readonly="readMode" />
             </v-col>
             <v-col cols="12" md="6">
-              <BaseInput label="Dirección" v-model="model.address" :readonly="readMode" />
+              <base-text-input label="Dirección" v-model="model.address" :readonly="readMode" />
             </v-col>
             <v-col cols="12" md="6">
-              <BaseInput
+              <base-text-input
                 label="Email"
                 v-model="model.email"
                 :readonly="readMode"
@@ -185,10 +190,10 @@ const submitForm = async () => {
               />
             </v-col>
             <v-col cols="12" md="6">
-              <BaseInput label="Razón Social" v-model="model.businessName" :readonly="readMode" />
+              <base-text-input label="Razón Social" v-model="model.businessName" :readonly="readMode" />
             </v-col>
             <v-col cols="12" md="6">
-              <BaseInput label="Ruc" v-model="model.ruc" :readonly="readMode" />
+              <base-text-input label="Ruc" v-model="model.ruc" :readonly="readMode" />
             </v-col>
           </v-row>
 

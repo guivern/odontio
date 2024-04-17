@@ -2,7 +2,7 @@ import vuetify from "./vuetify";
 import type { App } from "vue";
 
 // Components
-import BaseInput from "@/components/base/BaseInput.vue";
+import BaseTextInput from "@/components/base/BaseTextInput.vue";
 import BaseSelect from "@/components/base/BaseSelect.vue";
 import BaseTextarea from "@/components/base/BaseTextarea.vue";
 import BaseCheckbox from "@/components/base/BaseCheckbox.vue";
@@ -13,7 +13,7 @@ import ErrorCard from "@/components/shared/ErrorCard.vue";
 import DeleteDialog from "@/components/shared/DeleteDialog.vue";
 
 export function registerComponents(app: App) {
-  app.component("BaseInput", BaseInput);
+  app.component("BaseTextInput", BaseTextInput);
   app.component("BaseSelect", BaseSelect);
   app.component("BaseTextarea", BaseTextarea);
   app.component("BaseCheckbox", BaseCheckbox);

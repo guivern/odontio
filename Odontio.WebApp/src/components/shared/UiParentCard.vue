@@ -9,10 +9,10 @@ const props = defineProps({
 <template>
   <v-card variant="outlined" elevation="0" class="withbg">
         <v-card-title
+          class="d-flex justify-space-between align-center"
           >{{ props.title }}
           <slot name="actions-header"></slot>
         </v-card-title>
-        <slot name="action"></slot>
     <v-divider></v-divider>
     <v-card-text>
       <slot />

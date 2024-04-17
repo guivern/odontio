@@ -51,7 +51,7 @@ const BlueTheme: ThemeTypes = {
     accent: '#FFC107',
     error: '#f44336',
     warning: '#ffeb3b',
-    info: '#2196F3',
+    info: '#00ACC1',
     success: '#4caf50',
     lightprimary: '#eef2f6',
     lightsecondary: '#ede7f6',
