@@ -22,7 +22,7 @@ public class DeleteWorkspaceHandler(IApplicationDbContext context)
         }
         catch (DbUpdateException e)
         {
-            return Error.Conflict(description: "No fue posible eliminar el workspace debido a que tiene pacientes asociados. Para poder eliminarlo, primero elimine todos los pacientes asociados.");
+            return Error.Conflict(description: "No fue posible eliminar el workspace debido a que tiene pacientes asociados. Primero elimine todos los pacientes del workspace.");
         }
 
         return Unit.Value;
