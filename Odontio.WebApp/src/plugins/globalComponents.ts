@@ -13,6 +13,7 @@ import ErrorCard from "@/components/shared/ErrorCard.vue";
 import DeleteDialog from "@/components/shared/DeleteDialog.vue";
 import ToggleReadMode from '@/components/shared/ToggleReadMode.vue';
 import ErrorAlert from '@/components/shared/ErrorAlert.vue';
+import FormActions from "@/components/shared/FormActions.vue";
 
 export function registerComponents(app: App) {
   app.component("BaseTextInput", BaseTextInput);
@@ -26,4 +27,5 @@ export function registerComponents(app: App) {
   app.component("DeleteDialog", DeleteDialog);
   app.component("ToggleReadMode", ToggleReadMode);
   app.component("ErrorAlert", ErrorAlert);
+  app.component("FormActions", FormActions);
 }

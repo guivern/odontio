@@ -209,16 +209,7 @@ const submitForm = async () => {
           </v-row>
 
           <template #actions>
-            <v-row no-gutters>
-              <v-col :cols="12" md="6">
-                <v-btn color="primary" prepend-icon="mdi-send" @click="submitForm" block :disabled="readMode || loading">Guardar</v-btn>
-              </v-col>
-              <v-col :cols="12" md="6">
-                <v-btn v-if="props.id" color="error" prepend-icon="mdi-delete" @click="showDeleteDialog = true" block :disabled="loading"
-                  >Eliminar</v-btn
-                >
-              </v-col>
-            </v-row>
+            <form-actions :loading="loading" @on:submit="submitForm" @on:delete="showDeleteDialog = !!props.id" />
           </template>
         </UiParentCard>
       </v-col>
