@@ -111,7 +111,7 @@ const fetchData = async () => {
 const submitForm = async () => {
   validationErrors.value = [];
   cleanAlert();
-  
+
   await form.value.validate();
   if (valid.value) {
     loading.value = true;
@@ -210,10 +210,10 @@ const submitForm = async () => {
 
           <template #actions>
             <v-row no-gutters>
-              <v-col cols="6">
+              <v-col :cols="12" md="6">
                 <v-btn color="primary" prepend-icon="mdi-send" @click="submitForm" block :disabled="readMode || loading">Guardar</v-btn>
               </v-col>
-              <v-col cols="6">
+              <v-col :cols="12" md="6">
                 <v-btn v-if="props.id" color="error" prepend-icon="mdi-delete" @click="showDeleteDialog = true" block :disabled="loading"
                   >Eliminar</v-btn
                 >

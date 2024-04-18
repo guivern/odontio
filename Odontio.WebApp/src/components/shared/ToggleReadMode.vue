@@ -7,7 +7,7 @@
       ...$attrs,
       modelValue
     }"
-    label="Modo lectura"
+    :label="isMoble ? null : 'Modo lectura'"
     density="compact"
     color="info"
     hide-details
@@ -17,6 +17,7 @@
 </template>
 <script>
 import { useUUID } from '@/composables/useUUID';
+import { useDisplay } from 'vuetify';
 
 export default {
   props: {
@@ -31,7 +32,11 @@ export default {
   },
   setup() {
     const uuid = useUUID();
-    return { uuid };
+
+    const { name } = useDisplay();
+    const isMoble = name.value == 'sm' || name.value == 'xs';
+
+    return { uuid, isMoble };
   }
 };
 </script>
