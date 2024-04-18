@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref, shallowRef } from 'vue';
-import type { Ref } from 'vue';
+import type { Ref, ShallowReactive } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import type { UpsertWorkspaceDto } from '@/types/workspace';
 import WorkspaceService from '@/services/WorkspaceService';
 import { useToast } from 'vue-toastification';
-import ErrorCard from '@/components/shared/ErrorCard.vue';
+import type { UpsertWorkspaceDto } from '@/types/workspace';
+import type { AlertInfo } from '@/types/alert';
 
 const props = defineProps({
   id: {
@@ -36,7 +36,6 @@ const valid = ref(false);
 const loading = ref(false);
 const readMode = ref(false);
 const validationErrors = ref<any>([]);
-const generalError = ref('');
 const fetchError = ref(false);
 const showDeleteDialog = ref(false);
 const form: any = ref(null);
@@ -52,6 +51,13 @@ const model: Ref<UpsertWorkspaceDto> = ref({
 });
 // email rules is no required but must be valid
 const emailRules = ref([(v: string) => !v || /.+@.+\..+/.test(v) || 'Correo inválido']);
+const alert: ShallowReactive<AlertInfo> = {
+  show: false,
+  message: '',
+  type: null,
+  color: null,
+  title: null
+};
 
 onMounted(async () => {
   if (props.id) {
@@ -60,10 +66,17 @@ onMounted(async () => {
   }
 });
 
+const cleanAlert = () => {
+  alert.show = false;
+  alert.message = '';
+  alert.type = null;
+  alert.color = null;
+  alert.title = null;
+};
+
 const deleteWorkspace = async () => {
-  // TODO: Probar la eliminacion cuando el workspace tiene dependencias
   loading.value = true;
-  generalError.value = '';
+  cleanAlert();
   await WorkspaceService.delete(props.id as number)
     .then(() => {
       toast.success('Eliminado correctamente');
@@ -71,7 +84,9 @@ const deleteWorkspace = async () => {
     })
     .catch((error) => {
       toast.error('Ocurrió un error');
-      generalError.value = error.data.title;
+      alert.message = error.data.title;
+      alert.title = 'Error de Eliminación';
+      alert.show = true;
     })
     .finally(() => {
       loading.value = false;
@@ -94,8 +109,9 @@ const fetchData = async () => {
 };
 
 const submitForm = async () => {
-  generalError.value = '';
   validationErrors.value = [];
+  cleanAlert();
+  
   await form.value.validate();
   if (valid.value) {
     loading.value = true;
@@ -110,7 +126,9 @@ const submitForm = async () => {
           if (error.status === 400) {
             validationErrors.value = error.data.errors;
           } else {
-            generalError.value = error.data?.title || error.message;
+            alert.message = error.data?.title || error.message;
+            alert.title = 'Error de Actualización';
+            alert.show = true;
           }
         })
         .finally(() => {
@@ -120,7 +138,6 @@ const submitForm = async () => {
       await WorkspaceService.create(model.value)
         .then((resp) => {
           toast.success('Creado correctamente');
-          // go to detail
           router.replace({ name: 'workspace-detail', params: { id: resp.data.id } });
         })
         .catch((error) => {
@@ -128,7 +145,9 @@ const submitForm = async () => {
           if (error.status === 400) {
             validationErrors.value = error.data.errors;
           } else {
-            generalError.value = error.data?.title || error.message;
+            alert.message = error.data?.title || error.message;
+            alert.title = 'Error de Creación';
+            alert.show = true;
           }
         })
         .finally(() => {
@@ -147,15 +166,7 @@ const submitForm = async () => {
       <v-col cols="12" md="12">
         <UiParentCard title="Datos Básicos" :loading="loading" :with-actions="true">
           <template v-if="props.id" #actions-header>
-            <v-checkbox
-              v-model="readMode"
-              label="Modo lectura"
-              class="ml-2"
-              color="info"
-              hide-details
-              v-if="!loading"
-              density="compact"
-            ></v-checkbox>
+            <toggle-read-mode v-model="readMode" v-if="!loading"></toggle-read-mode>
           </template>
           <v-row>
             <v-col cols="12" md="6">
@@ -213,7 +224,7 @@ const submitForm = async () => {
       </v-col>
     </v-row>
   </v-form>
-  <v-alert v-if="generalError" class="mt-4" color="error" variant="tonal" border="start" type="error">{{ generalError }}</v-alert>
+  <error-alert v-if="alert.show" :text="alert.message" class="mt-4" :title="alert.title" />
   <delete-dialog
     v-model="showDeleteDialog"
     @onDelete="deleteWorkspace"

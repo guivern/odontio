@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-col cols="12" md="8">
       <v-card elevation="0">
-        <v-card-title class="px-6 text-h3"> Oops! Algo salió mal 😥 </v-card-title>
+        <v-card-title class="px-6 text-h3"> Oops! Algo salió mal... 😥</v-card-title>
         <v-card-text>
           <v-row>
             <v-col cols="12">

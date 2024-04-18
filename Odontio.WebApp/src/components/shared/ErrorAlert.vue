@@ -1,0 +1,11 @@
+<template>
+  <v-alert
+    color="error"
+    variant="tonal"
+    border="start"
+    type="error"
+    v-bind="{
+      ...$attrs
+    }"
+  ></v-alert>
+</template>
