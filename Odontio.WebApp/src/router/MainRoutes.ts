@@ -1,5 +1,4 @@
 import { useAuthStore } from '@/stores/auth';
-import path from 'path';
 
 const isAdmin = async () => {
   const authStore = await useAuthStore();
@@ -45,7 +44,6 @@ const MainRoutes = {
           }
         }
       },
-
       children: [
         {
           path: 'workspaces',
