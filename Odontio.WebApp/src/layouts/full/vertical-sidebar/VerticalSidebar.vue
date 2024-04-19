@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useCustomizerStore } from '../../../stores/customizer';
-import { WorkspaceItems, NoWorkspaceItems } from './sidebarItem';
+import { AdminNavItems, WorkspaceNavItems } from './sidebarItem';
 import { useRouter } from 'vue-router';
 import { computed, ref } from 'vue';
 import NavGroup from './NavGroup/NavGroup.vue';
@@ -19,10 +19,10 @@ const router = useRouter();
 
 // validatae if the current route is child of /workspace
 const sidebarMenu = computed(() => {
-  if (router.currentRoute.value.path.includes('/workspaces/')) {
-    return WorkspaceItems;
+  if (router.currentRoute.value.path.includes('/admin/')) {
+    return AdminNavItems;
   } else {
-    return NoWorkspaceItems;
+    return WorkspaceNavItems;
   }
 });
 </script>

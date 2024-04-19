@@ -36,7 +36,7 @@
   </v-fab>
 </template>
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { DEFAULT_PAGE_SIZE } from '@/types/constants';
 import type { GetWorkspaceDto } from '@/types/workspace';

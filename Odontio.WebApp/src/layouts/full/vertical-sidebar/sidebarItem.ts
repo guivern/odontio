@@ -109,22 +109,20 @@ const sidebarItems: menu[] = [
   }
 ];
 
-
-const NoWorkspaceItems: menu[] = [
-  
+const AdminNavItems: menu[] = [
   {
     title: 'Worskpaces',
     icon: AffiliateIcon,
-    to: '/workspaces',
+    to: '/workspaces'
   },
   {
     title: 'Users',
     icon: UsersIcon,
     to: '/starter'
-  },
+  }
 ];
 
-const WorkspaceItems: menu[] = [
+const WorkspaceNavItems: menu[] = [
   {
     title: 'Patients',
     icon: BugIcon,
@@ -134,8 +132,7 @@ const WorkspaceItems: menu[] = [
     title: 'Settings',
     icon: TypographyIcon,
     to: '/starter'
-  },
+  }
 ];
 
-
-export { sidebarItems, NoWorkspaceItems, WorkspaceItems };
+export { sidebarItems, AdminNavItems, WorkspaceNavItems };
