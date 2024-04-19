@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, shallowRef } from 'vue';
-import type { Ref, ShallowReactive } from 'vue';
+import type { ShallowReactive } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
@@ -19,6 +19,14 @@ const props = defineProps({
 const toast = useToast();
 const router = useRouter();
 const page = ref({ title: props.id ? 'Workspace Detalle' : 'Crear Workspace' });
+const valid = ref(false);
+const loading = ref(false);
+const readMode = ref(false);
+const validationErrors = ref<any>([]);
+const fetchError = ref(false);
+const showDeleteDialog = ref(false);
+const form: any = ref(null);
+const emailRules = ref([(v: string) => !v || /.+@.+\..+/.test(v) || 'Correo inválido']);
 const breadcrumbs = shallowRef([
   {
     title: 'Workspaces',
@@ -31,15 +39,14 @@ const breadcrumbs = shallowRef([
     href: '#'
   }
 ]);
-
-const valid = ref(false);
-const loading = ref(false);
-const readMode = ref(false);
-const validationErrors = ref<any>([]);
-const fetchError = ref(false);
-const showDeleteDialog = ref(false);
-const form: any = ref(null);
-const model: Ref<UpsertWorkspaceDto> = ref({
+const alert = ref<AlertInfo>({
+  show: false,
+  message: '',
+  type: null,
+  color: null,
+  title: null
+});
+const model = ref<UpsertWorkspaceDto>({
   name: '',
   address: null,
   ruc: null,
@@ -49,15 +56,6 @@ const model: Ref<UpsertWorkspaceDto> = ref({
   contactPhoneNumber: null,
   businessName: null
 });
-// email rules is no required but must be valid
-const emailRules = ref([(v: string) => !v || /.+@.+\..+/.test(v) || 'Correo inválido']);
-const alert: ShallowReactive<AlertInfo> = {
-  show: false,
-  message: '',
-  type: null,
-  color: null,
-  title: null
-};
 
 onMounted(async () => {
   if (props.id) {
@@ -67,11 +65,11 @@ onMounted(async () => {
 });
 
 const cleanAlert = () => {
-  alert.show = false;
-  alert.message = '';
-  alert.type = null;
-  alert.color = null;
-  alert.title = null;
+  alert.value.show = false;
+  alert.value.message = '';
+  alert.value.type = null;
+  alert.value.color = null;
+  alert.value.title = null;
 };
 
 const deleteWorkspace = async () => {
@@ -84,9 +82,9 @@ const deleteWorkspace = async () => {
     })
     .catch((error) => {
       toast.error('Ocurrió un error');
-      alert.message = error.data.title;
-      alert.title = 'Error de Eliminación';
-      alert.show = true;
+      alert.value.message = error.data.title;
+      alert.value.title = 'Error de Eliminación';
+      alert.value.show = true;
     })
     .finally(() => {
       loading.value = false;
@@ -126,9 +124,9 @@ const submitForm = async () => {
           if (error.status === 400) {
             validationErrors.value = error.data.errors;
           } else {
-            alert.message = error.data?.title || error.message;
-            alert.title = 'Error de Actualización';
-            alert.show = true;
+            alert.value.message = error.data?.title || error.message;
+            alert.value.title = 'Error de Actualización';
+            alert.value.show = true;
           }
         })
         .finally(() => {
@@ -145,9 +143,9 @@ const submitForm = async () => {
           if (error.status === 400) {
             validationErrors.value = error.data.errors;
           } else {
-            alert.message = error.data?.title || error.message;
-            alert.title = 'Error de Creación';
-            alert.show = true;
+            alert.value.message = error.data?.title || error.message;
+            alert.value.title = 'Error de Creación';
+            alert.value.show = true;
           }
         })
         .finally(() => {
@@ -209,7 +207,7 @@ const submitForm = async () => {
           </v-row>
 
           <template #actions>
-            <form-actions :loading="loading" @on:submit="submitForm" @on:delete="showDeleteDialog = !!props.id" />
+            <form-actions :loading="loading" :read-mode="readMode" @on:submit="submitForm" @on:delete="showDeleteDialog = !!props.id" />
           </template>
         </UiParentCard>
       </v-col>

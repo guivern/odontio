@@ -7,17 +7,16 @@
       ...$attrs,
       modelValue
     }"
-    :label="isMoble ? null : 'Modo lectura'"
     density="compact"
     color="info"
     hide-details
     inset
-    :append-icon="modelValue ? 'mdi-eye' : 'mdi-eye-off'"
+    :append-icon="modelValue ? 'mdi-pencil-lock' : 'mdi-pencil'"
+    :title="modelValue ? 'Cambiar a modo edición' : 'Cambiar a modo lectura'"
   ></v-switch>
 </template>
 <script>
 import { useUUID } from '@/composables/useUUID';
-import { useDisplay } from 'vuetify';
 
 export default {
   props: {
@@ -33,10 +32,7 @@ export default {
   setup() {
     const uuid = useUUID();
 
-    const { name } = useDisplay();
-    const isMoble = name.value == 'sm' || name.value == 'xs';
-
-    return { uuid, isMoble };
+    return { uuid };
   }
 };
 </script>
