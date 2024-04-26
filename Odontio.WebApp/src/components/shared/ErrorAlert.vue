@@ -7,5 +7,7 @@
     v-bind="{
       ...$attrs
     }"
-  ></v-alert>
+  >
+    <template v-if="!$attrs.text"> Ocurrió un error inesperado. Si el problema persiste, contacte a soporte técnico. </template>
+  </v-alert>
 </template>

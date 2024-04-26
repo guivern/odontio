@@ -4,4 +4,5 @@ export type AlertInfo = {
   title: string | null;
   color: string | null;
   show: boolean;
+  position: string | null;
 };

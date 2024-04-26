@@ -29,96 +29,16 @@ export interface menu {
   subCaption?: string;
 }
 
-const sidebarItems: menu[] = [
-  { header: 'Dashboard' },
-  {
-    title: 'Default',
-    icon: DashboardIcon,
-    to: '/dashboard/default'
-  },
-  { divider: true },
-  { header: 'Pages' },
-  {
-    title: 'Authentication',
-    icon: KeyIcon,
-    to: '/auth',
-    children: [
-      {
-        title: 'Login',
-        icon: CircleIcon,
-        to: '/auth/login'
-      },
-      {
-        title: 'Register',
-        icon: CircleIcon,
-        to: '/auth/register'
-      }
-    ]
-  },
-  {
-    title: 'Error 404',
-    icon: BugIcon,
-    to: '/pages/error'
-  },
-  { divider: true },
-  { header: 'Utilities' },
-  {
-    title: 'Typography',
-    icon: TypographyIcon,
-    to: '/utils/typography'
-  },
-  {
-    title: 'Shadows',
-    icon: ShadowIcon,
-    to: '/utils/shadows'
-  },
-  {
-    title: 'Colores',
-    icon: PaletteIcon,
-    to: '/utils/colors'
-  },
-
-  {
-    title: 'Icons',
-    icon: WindmillIcon,
-    to: '/forms/radio',
-    children: [
-      {
-        title: 'Tabler Icons',
-        icon: CircleIcon,
-        to: '/icons/tabler'
-      },
-      {
-        title: 'Material Icons',
-        icon: CircleIcon,
-        to: '/icons/material'
-      }
-    ]
-  },
-  { divider: true },
-  {
-    title: 'Sample Page',
-    icon: BrandChromeIcon,
-    to: '/starter'
-  },
-  {
-    title: 'Documentation',
-    icon: HelpIcon,
-    to: 'https://codedthemes.gitbook.io/berry-vuetify/',
-    type: 'external'
-  }
-];
-
 const AdminNavItems: menu[] = [
   {
     title: 'Worskpaces',
     icon: AffiliateIcon,
-    to: '/workspaces'
+    to: '/admin/workspaces'
   },
   {
     title: 'Users',
     icon: UsersIcon,
-    to: '/starter'
+    to: '/admin/users'
   }
 ];
 
@@ -135,4 +55,4 @@ const WorkspaceNavItems: menu[] = [
   }
 ];
 
-export { sidebarItems, AdminNavItems, WorkspaceNavItems };
+export { AdminNavItems, WorkspaceNavItems };

@@ -1,6 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
+      <BaseBreadcrumb :show-go-back="false" :title="pageTitle" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
       <error-card v-if="fetchError" :with-retry="true" @on:retry="getItems" />
       <base-pagination-table
         v-else
@@ -36,7 +37,7 @@
   </v-fab>
 </template>
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, shallowRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { DEFAULT_PAGE_SIZE } from '@/types/constants';
 import type { GetWorkspaceDto } from '@/types/workspace';
@@ -69,10 +70,18 @@ const headers = ref([
   },
   {
     title: 'Nro. de contacto',
-    key: 'contactphoneNumber'
+    key: 'contactPhoneNumber'
   }
 ]);
 const sortby = ref<any>([]);
+const pageTitle = ref('Workspaces');
+const breadcrumbs = shallowRef([
+  {
+    title: 'Workspaces',
+    disabled: false,
+    href: '/admin/workspaces'
+  }
+]);
 
 const getItems = async () => {
   loading.value = true;

@@ -10,6 +10,9 @@
     :id="uuid"
     autocomplete="off"
     hide-no-data
+    rounded="md"
+    variant="outlined"
+    color="primary"
   ></v-autocomplete>
 </template>
 <script>

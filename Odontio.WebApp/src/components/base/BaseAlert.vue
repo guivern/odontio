@@ -1,0 +1,10 @@
+<template>
+  <v-alert
+    variant="tonal"
+    border="start"
+    v-bind="{
+      ...$attrs
+    }"
+  >
+  </v-alert>
+</template>

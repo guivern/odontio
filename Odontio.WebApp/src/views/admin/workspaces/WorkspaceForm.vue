@@ -3,7 +3,6 @@ import { onMounted, ref, shallowRef } from 'vue';
 import type { ShallowReactive } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-import UiParentCard from '@/components/shared/UiParentCard.vue';
 import WorkspaceService from '@/services/WorkspaceService';
 import { useToast } from 'vue-toastification';
 import type { UpsertWorkspaceDto } from '@/types/workspace';
@@ -18,7 +17,7 @@ const props = defineProps({
 
 const toast = useToast();
 const router = useRouter();
-const page = ref({ title: props.id ? 'Workspace Detalle' : 'Crear Workspace' });
+const page = ref({ title: props.id ? 'Detalle de Workspace' : 'Crear Workspace' });
 const valid = ref(false);
 const loading = ref(false);
 const readMode = ref(false);
@@ -31,7 +30,7 @@ const breadcrumbs = shallowRef([
   {
     title: 'Workspaces',
     disabled: false,
-    href: '/workspaces'
+    href: '/admin/workspaces'
   },
   {
     title: props.id ? `Workspace #${props.id}` : 'Crear Workspace',
@@ -44,7 +43,8 @@ const alert = ref<AlertInfo>({
   message: '',
   type: null,
   color: null,
-  title: null
+  title: null,
+  position: 'bottom'
 });
 const model = ref<UpsertWorkspaceDto>({
   name: '',
@@ -70,6 +70,7 @@ const cleanAlert = () => {
   alert.value.type = null;
   alert.value.color = null;
   alert.value.title = null;
+  alert.value.position = 'bottom';
 };
 
 const deleteWorkspace = async () => {
@@ -85,6 +86,7 @@ const deleteWorkspace = async () => {
       alert.value.message = error.data.title;
       alert.value.title = 'Error de Eliminación';
       alert.value.show = true;
+      alert.value.position = 'top';
     })
     .finally(() => {
       loading.value = false;
@@ -159,61 +161,75 @@ const submitForm = async () => {
 <template>
   <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
   <error-card v-if="fetchError" :with-retry="true" @on:retry="fetchData" />
-  <v-form v-else ref="form" v-model="valid" validate-on="blur" @keyup.enter="submitForm" @submit.prevent="submitForm" :disabled="loading">
-    <v-row>
-      <v-col cols="12" md="12">
-        <UiParentCard title="Datos Básicos" :loading="loading" :with-actions="true">
-          <template v-if="props.id" #actions-header>
-            <toggle-read-mode v-model="readMode" v-if="!loading"></toggle-read-mode>
-          </template>
-          <v-row>
-            <v-col cols="12" md="6">
-              <base-text-input
-                label="Nombre"
-                v-model="model.name"
-                :rules="[(v: any) => !!v || 'Es requerido']"
-                required
-                :error-messages="validationErrors['Name']"
-                :readonly="readMode"
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input label="Nro. de Teléfono" v-model="model.phoneNumber" :readonly="readMode" />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input label="Nomre de Contacto" v-model="model.contactName" :readonly="readMode" />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input label="Teléfono de Contacto" v-model="model.contactPhoneNumber" :readonly="readMode" />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input label="Dirección" v-model="model.address" :readonly="readMode" />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input
-                label="Email"
-                v-model="model.email"
-                :readonly="readMode"
-                :error-messages="validationErrors['Email']"
-                :rules="emailRules"
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input label="Razón Social" v-model="model.businessName" :readonly="readMode" />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input label="Ruc" v-model="model.ruc" :readonly="readMode" />
-            </v-col>
-          </v-row>
+  <template v-else>
+    <form-actions-toolbar
+      v-if="props.id"
+      v-model="readMode"
+      :show-delete-btn="!!props.id"
+      :disabled="loading"
+      @on:delete="showDeleteDialog = true"
+    />
+    <error-alert v-if="alert.show && alert.position == 'top'" :text="alert.message" class="my-4" :title="alert.title" />
+    <v-form
+      ref="form"
+      v-model="valid"
+      :validate-on="readMode ? 'submit' : 'blur'"
+      @keyup.enter="submitForm"
+      @submit.prevent="submitForm"
+      :disabled="loading"
+    >
+      <v-row>
+        <v-col cols="12" md="12">
+          <UiParentCard title="Datos Básicos" :loading="loading" :with-actions="true">
+            <v-row>
+              <v-col cols="12" md="6">
+                <base-text-input
+                  label="Nombre"
+                  v-model="model.name"
+                  :rules="[(v: any) => !!v || 'Es requerido']"
+                  required
+                  :error-messages="validationErrors['Name']"
+                  :readonly="readMode"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <base-text-input label="Nro. de Teléfono" v-model="model.phoneNumber" :readonly="readMode" />
+              </v-col>
+              <v-col cols="12" md="6">
+                <base-text-input label="Nomre de Contacto" v-model="model.contactName" :readonly="readMode" />
+              </v-col>
+              <v-col cols="12" md="6">
+                <base-text-input label="Teléfono de Contacto" v-model="model.contactPhoneNumber" :readonly="readMode" />
+              </v-col>
+              <v-col cols="12" md="6">
+                <base-text-input label="Dirección" v-model="model.address" :readonly="readMode" />
+              </v-col>
+              <v-col cols="12" md="6">
+                <base-text-input
+                  label="Email"
+                  v-model="model.email"
+                  :readonly="readMode"
+                  :error-messages="validationErrors['Email']"
+                  :rules="emailRules"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <base-text-input label="Razón Social" v-model="model.businessName" :readonly="readMode" />
+              </v-col>
+              <v-col cols="12" md="6">
+                <base-text-input label="Ruc" v-model="model.ruc" :readonly="readMode" />
+              </v-col>
+            </v-row>
 
-          <template #actions>
-            <form-actions :loading="loading" :read-mode="readMode" @on:submit="submitForm" @on:delete="showDeleteDialog = !!props.id" />
-          </template>
-        </UiParentCard>
-      </v-col>
-    </v-row>
-  </v-form>
-  <error-alert v-if="alert.show" :text="alert.message" class="mt-4" :title="alert.title" />
+            <template #actions>
+              <form-actions :loading="loading" :read-mode="readMode" @on:submit="submitForm" :show-delete-btn="false" />
+            </template>
+          </UiParentCard>
+        </v-col>
+      </v-row>
+    </v-form>
+  </template>
+  <error-alert v-if="alert.show && alert.position == 'bottom'" :text="alert.message" class="my-4" :title="alert.title" />
   <delete-dialog
     v-model="showDeleteDialog"
     @onDelete="deleteWorkspace"

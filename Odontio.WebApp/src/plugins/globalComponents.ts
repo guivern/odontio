@@ -14,6 +14,11 @@ import DeleteDialog from "@/components/shared/DeleteDialog.vue";
 import ToggleReadMode from '@/components/shared/ToggleReadMode.vue';
 import ErrorAlert from '@/components/shared/ErrorAlert.vue';
 import FormActions from "@/components/shared/FormActions.vue";
+import UiParentCard from '@/components/shared/UiParentCard.vue';
+import FormActionsToolbar from "@/components/shared/FormActionsToolbar.vue";
+import BaseAlert from "@/components/base/BaseAlert.vue";
+import DialogAlert from "@/components/shared/DialogAlert.vue";
+import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
 
 export function registerComponents(app: App) {
   app.component("BaseTextInput", BaseTextInput);
@@ -28,4 +33,9 @@ export function registerComponents(app: App) {
   app.component("ToggleReadMode", ToggleReadMode);
   app.component("ErrorAlert", ErrorAlert);
   app.component("FormActions", FormActions);
+  app.component("UiParentCard", UiParentCard);
+  app.component("FormActionsToolbar", FormActionsToolbar);
+  app.component("BaseAlert", BaseAlert);
+  app.component("DialogAlert", DialogAlert);
+  app.component("BaseBreadcrumb", BaseBreadcrumb);
 }

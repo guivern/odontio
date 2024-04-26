@@ -9,6 +9,7 @@
         block
         :disabled="readMode || loading"
         title="Guardar"
+        type="submit"
         >Guardar</v-btn
       >
     </v-col>
@@ -27,7 +28,6 @@
   </v-row>
 </template>
 <script setup>
-import { defineProps } from 'vue';
 
 defineProps({
   showSubmitBtn: {
