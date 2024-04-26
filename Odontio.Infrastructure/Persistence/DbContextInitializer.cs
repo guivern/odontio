@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -64,7 +65,7 @@ public class DbContextInitializer : ISeedDataInitializer
         await _context.SaveChangesAsync();
 
         await SeedAdmin();
-        await SeedUsers();
+        // await SeedUsers();
         await SeedDiseases();
         await SeedMedicalConditionQuestions();
         await SeedTreatments();
@@ -190,7 +191,7 @@ public class DbContextInitializer : ISeedDataInitializer
         {
             if (!await _context.Users.AsNoTracking().AnyAsync(x => x.WorkspaceId == workspace.Id))
             {
-                var password = $@"Worksp@c3_{workspace.Id}";
+                var password = _authService.GenerateRandomPassword();
                 var passwordSalt = _authService.GeneratePasswordSalt();
                 var passwordHash = _authService.GeneratePasswordHash(password, passwordSalt);
 
@@ -207,7 +208,9 @@ public class DbContextInitializer : ISeedDataInitializer
             }    
         }
     }
-    
+
+
+
     private async Task SeedAdmin()
     {
         if (!await _context.Users.AsNoTracking().AnyAsync(x => x.RoleId == (long) Roles.Administrator))

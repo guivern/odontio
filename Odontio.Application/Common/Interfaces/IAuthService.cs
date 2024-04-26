@@ -10,4 +10,5 @@ public interface IAuthService
     bool VerifyPassword(string password, byte[] passwordHash, byte[] passwordSalt);
     long GetCurrentUserId();
     string GetCurrentUserName();
+    string GenerateRandomPassword();
 }

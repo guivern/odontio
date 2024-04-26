@@ -7,7 +7,7 @@ using Odontio.Domain.Enums;
 namespace Odontio.Application.ScheduledVisits.Queries.GetScheduledVisitsByWorkspace;
 
 [ValidateWorkspace]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class GetScheduledVisitsByWorkspaceQuery: IRequest<ErrorOr<List<GetScheduledVisitResult>>>, IWorkspaceResource
 {
     public long WorkspaceId { get; set; }

@@ -7,7 +7,7 @@ namespace Odontio.Application.ScheduledVisits.Commands.UpdateScheduledVisit;
 
 [ValidateWorkspace]
 [ValidatePatient]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class UpdateScheduledVisitCommand: IRequest<ErrorOr<UpsertScheduledVisitResult>>, IPatientResource
 {
     public long Id { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Odontio.Application.Users.Commands.DeleteUser;
 
-public class DeleteUserHandler(IApplicationDbContext context) : IRequestHandler<DeleteUserCommand, ErrorOr<Unit>>
+public class DeleteUserHandler(IApplicationDbContext context,  IAuthService authService) : IRequestHandler<DeleteUserCommand, ErrorOr<Unit>>
 {
     public async Task<ErrorOr<Unit>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
@@ -13,8 +13,15 @@ public class DeleteUserHandler(IApplicationDbContext context) : IRequestHandler<
             return Error.NotFound();
         }
         
+        // can not delete the current user
+        var userId = authService.GetCurrentUserId();
+        if (user.Id == userId)
+        {
+            return Error.Conflict(description: "The User can not be deleted because it is the current user.");
+        }
+        
         context.Users.Remove(user);
-
+        
         try
         {
             await context.SaveChangesAsync(cancellationToken);

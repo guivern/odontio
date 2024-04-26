@@ -3,6 +3,8 @@ using Odontio.Application.Profile.Commands.UpdateProfile;
 using Odontio.Application.Profile.Queries.GetProfile;
 using Odontio.Application.Users.Commands.CreateUser;
 using Odontio.Application.Users.Commands.DeleteUser;
+using Odontio.Application.Users.Commands.ResetPassword;
+using Odontio.Application.Users.Commands.ToggleActive;
 using Odontio.Application.Users.Commands.UpdateUser;
 using Odontio.Application.Users.Queries.GetUserById;
 using Odontio.Application.Users.Queries.GetUsers;
@@ -105,6 +107,28 @@ public class UsersController(IMediator mediator, IMapper mapper) : ApiController
 
         var result = await mediator.Send(command, cancellationToken);
 
+        return result.Match<IActionResult>(
+            result => Ok(result),
+            errors => Problem(errors)
+        );
+    }
+    
+    [HttpPatch("{id}/reset-password")]
+    public async Task<IActionResult> ResetPassword(long id, ResetPasswordRequest request, CancellationToken cancellationToken)
+    {
+        var command = new ResetPasswordCommand { Id = id, Password = request.Password, ConfirmPassword = request.ConfirmPassword};
+        var result = await mediator.Send(command, cancellationToken);
+        return result.Match<IActionResult>(
+            result => NoContent(),
+            errors => Problem(errors)
+        );
+    }
+    
+    [HttpPatch("{id}/toggle-active")]
+    public async Task<IActionResult> ToggleActive(long id, CancellationToken cancellationToken)
+    {
+        var command = new ToggleActiveCommand { Id = id };
+        var result = await mediator.Send(command, cancellationToken);
         return result.Match<IActionResult>(
             result => Ok(result),
             errors => Problem(errors)

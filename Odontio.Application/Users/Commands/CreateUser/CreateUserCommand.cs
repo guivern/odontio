@@ -8,8 +8,8 @@ namespace Odontio.Application.Users.Commands.CreateUser;
 public class CreateUserCommand : IRequest<ErrorOr<UpsertUserResult>>
 {
     public string Username { get; set; } = null!;
-    public string Password { get; set; } = null!;
-    public string ConfirmPassword { get; set; } = null!;
+    public string? Password { get; set; }
+    public string? ConfirmPassword { get; set; }
     public string? Email { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }

@@ -11,4 +11,5 @@ public class UpsertUserResult
     public long WorkspaceId { get; set; }
     public long RoleId { get; set; }
     public bool IsActive { get; set; }
+    public string Password { get; set; }
 }

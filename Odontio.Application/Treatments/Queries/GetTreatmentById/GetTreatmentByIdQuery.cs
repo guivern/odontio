@@ -7,7 +7,7 @@ using Odontio.Domain.Enums;
 namespace Odontio.Application.Treatments.Queries.GetTreatmentById;
 
 [ValidateWorkspace]
-[RolesAuthorize(nameof(Roles.Administrator))]
+[RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
 public class GetTreatmentByIdQuery: PagedListQueryBase, IRequest<ErrorOr<GetTreatmentByIdResult>>, IWorkspaceResource
 {
     public long Id { get; init; }

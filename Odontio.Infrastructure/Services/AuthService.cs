@@ -90,4 +90,9 @@ public class AuthService : IAuthService
     {
         return _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value ?? "";
     }
+    
+    public string GenerateRandomPassword()
+    {
+        return $"P@ssw0rd{new Random().Next(1000, 9999)}";
+    }
 }

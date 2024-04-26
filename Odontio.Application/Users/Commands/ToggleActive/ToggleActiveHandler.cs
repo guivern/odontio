@@ -1,14 +1,13 @@
 ﻿using Odontio.Application.Common.Interfaces;
-using Odontio.Application.Users.Common;
 
-namespace Odontio.Application.Users.Commands.UpdateUser;
+namespace Odontio.Application.Users.Commands.ToggleActive;
 
-public class UpdateUserHandler(IApplicationDbContext context, IMapper mapper, IAuthService authService)
-    : IRequestHandler<UpdateUserCommand, ErrorOr<UpsertUserResult>>
+public class ToggleActiveHandler(IApplicationDbContext context) : IRequestHandler<ToggleActiveCommand, ErrorOr<ToggleActiveResult>>
 {
-    public async Task<ErrorOr<UpsertUserResult>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<ToggleActiveResult>> Handle(ToggleActiveCommand request, CancellationToken cancellationToken)
     {
         var entity = await context.Users
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (entity == null)
@@ -16,7 +15,7 @@ public class UpdateUserHandler(IApplicationDbContext context, IMapper mapper, IA
             return Error.NotFound(description: "User not found");
         }
 
-        entity = mapper.Map(request, entity);
+        entity.IsActive = !entity.IsActive;
 
         context.Users.Entry(entity).State = EntityState.Modified;
 
@@ -29,7 +28,11 @@ public class UpdateUserHandler(IApplicationDbContext context, IMapper mapper, IA
             return Error.Conflict(description: "The User was modified by another user");
         }
 
-        var result = mapper.Map<UpsertUserResult>(entity);
+        var result = new ToggleActiveResult
+        {
+            Id = entity.Id,
+            IsActive = entity.IsActive
+        };
 
         return result;
     }

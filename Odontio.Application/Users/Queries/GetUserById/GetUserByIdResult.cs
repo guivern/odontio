@@ -8,8 +8,8 @@ public class GetUserByIdResult
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? PhotoUrl { get; set; }
-    public long WorkspaceId { get; set; }
-    public string WorkspaceName { get; set; }
+    public long? WorkspaceId { get; set; }
+    public string? WorkspaceName { get; set; }
     public long RoleId { get; set; }
     public bool IsActive { get; set; }
     public string RoleName { get; set; }
