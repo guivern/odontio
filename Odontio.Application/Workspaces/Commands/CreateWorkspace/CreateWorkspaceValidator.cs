@@ -20,9 +20,10 @@ public class CreateWorkspaceValidator : AbstractValidator<CreateWorkspaceCommand
         RuleFor(x => x.ContactPhoneNumber).MaximumLength(48);
     }
 
-    private Task<bool> BeUniqueName(CreateWorkspaceCommand arg1, string arg2, CancellationToken arg3)
+    private async Task<bool> BeUniqueName(CreateWorkspaceCommand arg1, string? arg2, CancellationToken arg3)
     {
-        return _context.Workspaces.AsNoTracking()
+        if (arg2 is null) return true;
+         return await _context.Workspaces.AsNoTracking()
             .AllAsync(x => x.Name.ToLower() != arg2.ToLower(), arg3);
     }
 }

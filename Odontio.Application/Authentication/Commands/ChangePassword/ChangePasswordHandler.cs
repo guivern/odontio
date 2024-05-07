@@ -13,9 +13,9 @@ public class ChangePasswordHandler(IApplicationDbContext context, IMapper mapper
         var userId = authService.GetCurrentUserId();
         var user = await context.Users
             .Include(x => x.Role)
-            .FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-        if (user == null || user.Id != userId)
+        if (request.Id != userId)
         {
             return (dynamic)Error.Custom((int)HttpStatusCode.Forbidden, "FORBIDDEN",
                 "User is not authorized to perform this action.");

@@ -20,8 +20,9 @@ public class UpdateWorkspaceValidator : AbstractValidator<UpdateWorkspaceCommand
         RuleFor(x => x.ContactPhoneNumber).MaximumLength(48);
     }
 
-    private async Task<bool> BeUniqueName(UpdateWorkspaceCommand arg1, string arg2, CancellationToken arg3)
+    private async Task<bool> BeUniqueName(UpdateWorkspaceCommand arg1, string? arg2, CancellationToken arg3)
     {
+        if (arg2 is null) return true;
         // check if exits a workspace with the same name and different id
         var exists = await _context.Workspaces.AsNoTracking()
             .AnyAsync(x => x.Name.ToLower() == arg2.ToLower() && x.Id != arg1.Id, arg3);
