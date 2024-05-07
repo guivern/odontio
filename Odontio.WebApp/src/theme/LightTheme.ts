@@ -48,7 +48,7 @@ const BlueTheme: ThemeTypes = {
   colors: {
     primary: '#3949AB',
     secondary: '#EF6C00',
-    accent: '#FFC107',
+    accent: '#607D8B',
     error: '#f44336',
     warning: '#ffeb3b',
     info: '#00ACC1',
@@ -72,7 +72,13 @@ const BlueTheme: ThemeTypes = {
     linkedin: '#0e76a8',
     gray100: '#fafafa',
     primary200: '#90caf9',
-    secondary200: '#b39ddb'
+    secondary200: '#b39ddb',
+    red: '#f44336',
+    green: '#4caf50',
+    blue: '#3949AB',
+    yellow: '#ffeb3b',
+    gray: '#9e9e9e',
+    white: '#fff',
   }
 };
 

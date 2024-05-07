@@ -19,6 +19,11 @@ const MainRoutes = {
     AdminRoutes,
     WorkspaceRoutes,
     {
+      name: 'profile',
+      path: '/pages/profile',
+      component: () => import('@/views/pages/profile/ProfileForm.vue')
+    },
+    {
       name: 'app-error',
       path: '/pages/app-error',
       component: () => import('@/views/pages/maintenance/error/Error.vue')

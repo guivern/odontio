@@ -1,3 +1,102 @@
+<template>
+  <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
+  <error-card v-if="fetchError" :with-retry="true" @on:retry="onRetry" />
+  <template v-else>
+    <template v-if="!props.id">
+      <user-detail-form
+        :id="props.id"
+        :read-mode="readMode"
+        :inactivateMode="inactivateMode"
+        :selected-user="selectedUser"
+        v-model:loading="loading"
+        v-model:fetch-error="fetchError"
+        v-model:retry-fetch="retryFetch"
+      ></user-detail-form>
+    </template>
+    <template v-else>
+      
+      <form-actions-toolbar
+        v-if="props.id"
+        v-model="readMode"
+        :show-delete-btn="!!props.id"
+        :show-read-mode-btn="!inactivateMode"
+        :disabled="loading"
+        @on:delete="showDeleteDialog = true"
+      >
+        <v-btn
+          v-if="props.id && userStore.user"
+          class="ml-4"
+          :title="userStore.user.isActive ? 'Desactivar cuenta' : 'Activar cuenta'"
+          variant="text"
+          :append-icon="userStore.user.isActive ? 'mdi-account-off' : 'mdi-account-check'"
+          @click="showToggleActiveDialog = true"
+        >
+          {{ userStore.user.isActive ? 'Desactivar' : 'Activar' }}
+        </v-btn>
+      </form-actions-toolbar>
+      <error-alert v-if="alert.show" :text="alert.message" class="my-4" :title="alert.title" />
+
+      <div :class="!mobile ? 'd-flex flex-row' : null">
+        <v-tabs
+          rounded="md"
+          v-model="tab"
+          color="secondary"
+          :mobile="mobile"
+          direction="vertical"
+          :class="mobile ? 'mb-4' : 'mr-2'"
+          center-active
+          :disabled="inactivateMode"
+        >
+          <v-tab prepend-icon="mdi-account" text="Datos Básicos" value="user-detail-form" />
+          <v-tab prepend-icon="mdi-lock-reset" text="Password" value="reset-password-form" />
+        </v-tabs>
+
+        <div :class="mobile ? 'd-flex flex-column' : 'flex-grow-1'">
+          <v-tabs-window v-model="tab">
+            <v-tabs-window-item value="user-detail-form">
+              <user-detail-form
+                :id="props.id"
+                :read-mode="readMode"
+                :inactivateMode="inactivateMode"
+                :selected-user="selectedUser"
+                v-model:loading="loading"
+                v-model:fetch-error="fetchError"
+                v-model:retry-fetch="retryFetch"
+              ></user-detail-form>
+            </v-tabs-window-item>
+
+            <v-tabs-window-item value="reset-password-form">
+              <reset-password-form
+                :id="props.id"
+                :read-mode="readMode"
+                :inactivateMode="inactivateMode"
+                v-model:loading="loading2"
+              ></reset-password-form>
+            </v-tabs-window-item>
+          </v-tabs-window>
+        </div>
+      </div>
+    </template>
+  </template>
+  <delete-dialog
+    v-model="showDeleteDialog"
+    @onDelete="deleteUser"
+    title="Eliminar Workspace"
+    message="¿Estás seguro que deseas eliminar este workspace?"
+  ></delete-dialog>
+  <dialog-alert
+    v-model="showToggleActiveDialog"
+    @onDelete="toggleActive"
+    :title="selectedUser?.isActive ? 'Desactivar Usuario' : 'Activar Usuario'"
+    :message="
+      selectedUser?.isActive ? '¿Estás seguro que deseas desactivar este usuario?' : '¿Estás seguro que deseas activar este usuario?'
+    "
+    :action-btn-text="selectedUser?.isActive ? 'Desactivar' : 'Activar'"
+    :prepend-icon="selectedUser?.isActive ? 'mdi-account-off' : 'mdi-account-check'"
+    :action-color="selectedUser?.isActive ? 'error' : 'success'"
+  ></dialog-alert>
+</template>
+
 <script setup lang="ts">
 import { onMounted, ref, shallowRef, watch } from 'vue';
 import { useRouter } from 'vue-router';
@@ -9,6 +108,7 @@ import ResetPasswordForm from './ResetPasswordForm.vue';
 import type { AlertInfo } from '@/types/alert';
 import { useUserStore } from '@/stores/user';
 import type { UpsertUserDto } from '@/types/user';
+import { isMobile } from '@/composables/useMobile';
 
 const props = defineProps({
   id: {
@@ -17,6 +117,7 @@ const props = defineProps({
   }
 });
 
+const mobile = isMobile();
 const userStore = useUserStore();
 const retryFetch = ref(false);
 const toast = useToast();
@@ -29,6 +130,7 @@ const inactivateMode = ref<undefined | boolean>(undefined);
 const fetchError = ref(false);
 const showDeleteDialog = ref(false);
 const showToggleActiveDialog = ref(false);
+const tab = ref('user-detail-form');
 const alert = ref<AlertInfo>({
   show: false,
   message: '',
@@ -87,7 +189,7 @@ const getUser = async () => {
       loading.value = false;
     })
     .finally(() => {
-      // loading.value = false;
+      loading.value = false;
     });
 };
 
@@ -167,64 +269,3 @@ watch(inactivateMode, (value) => {
   }
 });
 </script>
-
-<template>
-  <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
-  <error-card v-if="fetchError" :with-retry="true" @on:retry="onRetry" />
-  <template v-else>
-    <form-actions-toolbar
-      v-if="props.id"
-      v-model="readMode"
-      :show-delete-btn="!!props.id"
-      :show-read-mode-btn="!inactivateMode"
-      :disabled="loading"
-      @on:delete="showDeleteDialog = true"
-    >
-      <v-btn
-        v-if="props.id && userStore.user && !loading"
-        class="ml-4"
-        :title="userStore.user.isActive ? 'Desactivar cuenta' : 'Activar cuenta'"
-        variant="text"
-        :append-icon="userStore.user.isActive ? 'mdi-account-off' : 'mdi-account-check'"
-        @click="showToggleActiveDialog = true"
-      >
-        {{ userStore.user.isActive ? 'Desactivar' : 'Activar' }}
-      </v-btn>
-    </form-actions-toolbar>
-    <error-alert v-if="alert.show" :text="alert.message" class="my-4" :title="alert.title" />
-    <user-detail-form
-      :id="props.id"
-      :read-mode="readMode"
-      :inactivateMode="inactivateMode"
-      :selected-user="selectedUser"
-      v-model:loading="loading"
-      v-model:fetch-error="fetchError"
-      v-model:retry-fetch="retryFetch"
-    ></user-detail-form>
-
-    <reset-password-form
-      v-if="props.id"
-      :id="props.id"
-      :read-mode="readMode"
-      :inactivateMode="inactivateMode"
-      v-model:loading="loading2"
-    ></reset-password-form>
-  </template>
-  <delete-dialog
-    v-model="showDeleteDialog"
-    @onDelete="deleteUser"
-    title="Eliminar Workspace"
-    message="¿Estás seguro que deseas eliminar este workspace?"
-  ></delete-dialog>
-  <dialog-alert
-    v-model="showToggleActiveDialog"
-    @onDelete="toggleActive"
-    :title="selectedUser?.isActive ? 'Desactivar Usuario' : 'Activar Usuario'"
-    :message="
-      selectedUser?.isActive ? '¿Estás seguro que deseas desactivar este usuario?' : '¿Estás seguro que deseas activar este usuario?'
-    "
-    :action-btn-text="selectedUser?.isActive ? 'Desactivar' : 'Activar'"
-    :prepend-icon="selectedUser?.isActive ? 'mdi-account-off' : 'mdi-account-check'"
-    :action-color="selectedUser?.isActive ? 'error' : 'success'"
-  ></dialog-alert>
-</template>

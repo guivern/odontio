@@ -15,13 +15,12 @@
           </v-col>
 
           <slot name="prepend-actions"></slot>
-          <slot name="actions">
-          </slot>
+          <slot name="actions"> </slot>
           <slot name="append-actions"></slot>
         </v-row>
         <v-row>
           <v-col cols="12">
-            <v-data-table-server v-bind="$attrs" @click:row="onRowClick">
+            <v-data-table-server v-bind="$attrs" @click:row="onRowClick" :loading="$attrs.loading === true ? 'primary' : false">
               <template v-for="(_, slotName) in $slots" v-slot:[slotName]="slotProps">
                 <slot :name="slotName" v-bind="slotProps" />
               </template>

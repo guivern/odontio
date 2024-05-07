@@ -16,7 +16,7 @@
           <slot></slot>
           <v-btn
             v-if="showDeleteBtn"
-            class="ml-4"
+            class="ml-2"
             @click="$emit('on:delete')"
             color="error"
             title="Eliminar"

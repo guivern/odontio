@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
-// Icon Imports
 import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon } from 'vue-tabler-icons';
 import { useDisplay } from 'vuetify';
+import { useAuthStore } from '@/stores/auth';
 
 // dropdown imports
 import NotificationDD from './NotificationDD.vue';
@@ -13,11 +13,13 @@ import { onMounted } from 'vue';
 
 const customizer = useCustomizerStore();
 const showSearch = ref(false);
+const { name } = useDisplay();
+const { user } = useAuthStore();
+
 function searchbox() {
   showSearch.value = !showSearch.value;
 }
 
-const { name } = useDisplay();
 // watch name and console log it
 
 onMounted(() => {
@@ -31,16 +33,13 @@ watch(name, (newVal, oldVal) => {
   console.log('name changed', newVal, oldVal);
 
   // if the name is mobile then close the search box
-  if (newVal == 'xs')
-  {
+  if (newVal == 'xs') {
     customizer.SET_MINI_SIDEBAR(true);
-  }
-  else if (newVal == 'sm') {
+  } else if (newVal == 'sm') {
     console.log('mobile');
     // customizer.SET_SIDEBAR_DRAWER();
     customizer.SET_MINI_SIDEBAR(true);
-  }
-  else {
+  } else {
     customizer.SET_MINI_SIDEBAR(false);
   }
 });
@@ -122,13 +121,15 @@ watch(name, (newVal, oldVal) => {
     <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-btn class="profileBtn text-primary" color="lightprimary" variant="flat" rounded="pill" v-bind="props">
-          <v-avatar size="30" class="mr-2 py-2">
-            <img src="@/assets/images/profile/user-round.svg" alt="Julia" />
+          <v-avatar size="30" class="mr-2 py-2" color="accent">
+            <!-- <img src="@/assets/images/profile/user-round.svg" alt="user avatar" /> -->
+            <!-- <v-icon size="34">mdi-account-circle</v-icon> -->
+            {{user?.username?.charAt(0)}}
           </v-avatar>
           <SettingsIcon stroke-width="1.5" />
         </v-btn>
       </template>
-      <v-sheet rounded="md" width="330" elevation="12">
+      <v-sheet rounded="md" width="256" elevation="12">
         <ProfileDD />
       </v-sheet>
     </v-menu>

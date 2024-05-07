@@ -7,70 +7,72 @@
     @submit.prevent="submitForm"
     :disabled="loading || inactivateMode"
   >
-    <v-row>
-      <v-col cols="12" md="12">
-        <UiParentCard title="Datos Básicos" :loading="loading" :with-actions="true">
-          <v-row>
-            <v-col cols="12" md="6">
-              <base-text-input
-                label="Username"
-                v-model="model.username"
-                :rules="[(v: any) => !!v || 'Es requerido']"
-                required
-                :error-messages="validationErrors['Username']"
-                :readonly="readMode"
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input label="Nombres" v-model="model.firstName" :readonly="readMode" />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input label="Apellidos" v-model="model.lastName" :readonly="readMode" />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input
-                label="Email"
-                v-model="model.email"
-                :readonly="readMode"
-                :error-messages="validationErrors['Email']"
-                :rules="emailRules"
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-autocomplete
-                label="Rol"
-                v-model="model.roleId"
-                :items="roles"
-                item-title="name"
-                item-value="id"
-                :readonly="readMode"
-                :error-messages="validationErrors['RoleId']"
-                :rules="[(v: any) => !!v || 'Es requerido']"
-                required
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-autocomplete
-                label="Workspace"
-                v-model="model.workspaceId"
-                :items="workspaces"
-                item-title="name"
-                item-value="id"
-                :readonly="readMode"
-                :error-messages="validationErrors['WorkspaceId']"
-              />
-            </v-col>
+    <UiParentCard title="Datos Básicos" :loading="loading" :with-actions="true">
+      <v-row>
+        <v-col cols="12" md="6">
+          <base-text-input
+            label="Username"
+            v-model="model.username"
+            :rules="[(v: any) => !!v || 'Es requerido']"
+            required
+            :error-messages="validationErrors['Username']"
+            :readonly="readMode"
+          />
+        </v-col>
+        <v-col cols="12" md="6">
+          <base-text-input label="Nombres" v-model="model.firstName" :readonly="readMode" />
+        </v-col>
+        <v-col cols="12" md="6">
+          <base-text-input label="Apellidos" v-model="model.lastName" :readonly="readMode" />
+        </v-col>
+        <v-col cols="12" md="6">
+          <base-text-input
+            label="Email"
+            v-model="model.email"
+            :readonly="readMode"
+            :error-messages="validationErrors['Email']"
+            :rules="emailRules"
+          />
+        </v-col>
+        <v-col cols="12" md="6">
+          <base-autocomplete
+            label="Rol"
+            v-model="model.roleId"
+            :items="roles"
+            item-title="name"
+            item-value="id"
+            :readonly="readMode"
+            :error-messages="validationErrors['RoleId']"
+            :rules="[(v: any) => !!v || 'Es requerido']"
+            required
+          />
+        </v-col>
+        <v-col cols="12" md="6">
+          <base-autocomplete
+            label="Workspace"
+            v-model="model.workspaceId"
+            :items="workspaces"
+            item-title="name"
+            item-value="id"
+            :readonly="readMode"
+            :error-messages="validationErrors['WorkspaceId']"
+          />
+        </v-col>
 
-            <v-col cols="12" md="6">
-              <base-checkbox :showInline="true" label="¿Es doctor?" v-model="model.isDoctor" :readonly="readMode" :disabled="loading || inactivateMode" />
-            </v-col>
-          </v-row>
-          <template #actions>
-            <form-actions :loading="loading" :read-mode="readMode" :show-delete-btn="false" />
-          </template>
-        </UiParentCard>
-      </v-col>
-    </v-row>
+        <v-col cols="12" md="6">
+          <base-checkbox
+            :showInline="true"
+            label="¿Es doctor?"
+            v-model="model.isDoctor"
+            :readonly="readMode"
+            :disabled="loading || inactivateMode"
+          />
+        </v-col>
+      </v-row>
+      <template #actions>
+        <form-actions :loading="loading" :read-mode="readMode" :show-delete-btn="false" />
+      </template>
+    </UiParentCard>
   </v-form>
   <error-alert v-if="alert.show && alert.type == 'error'" :text="alert.message" class="my-4" :title="alert.title" />
   <base-alert v-else-if="alert.show" :text="alert.message" class="my-4" :title="alert.title" :color="alert.color" :type="alert.type" />
@@ -91,7 +93,7 @@ const props = defineProps({
     type: Number,
     required: false
   },
-  selectedUser : {
+  selectedUser: {
     type: Object as () => UpsertUserDto,
     selectedUser: false,
     default: null
@@ -157,7 +159,7 @@ const fetchData = async () => {
 };
 
 const getWorkspaces = async () => {
-  loading.value = true;
+  // loading.value = true;
   fetchError.value = false;
   await WorkspaceService.getAll(1, -1, null, null)
     .then((response) => {
@@ -172,7 +174,7 @@ const getWorkspaces = async () => {
 };
 
 const getRoles = async () => {
-  loading.value = true;
+  // loading.value = true;
   fetchError.value = false;
   await RolesService.getAll(1, -1, null, null)
     .then((response) => {
@@ -218,7 +220,7 @@ const submitForm = async () => {
           toast.success('Creado correctamente');
           // router.replace({ name: 'workspace-detail', params: { id: resp.data.id } });
           alert.value.title = 'Usuario creado';
-          alert.value.message = `username: ${resp.data.username}, password: ${resp.data.password}`
+          alert.value.message = `username: ${resp.data.username}, password: ${resp.data.password}`;
           alert.value.type = 'info';
           alert.value.color = 'info';
           alert.value.show = true;

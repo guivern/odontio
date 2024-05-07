@@ -7,40 +7,39 @@
     @submit.prevent="resetPassword"
     :disabled="loading || inactivateMode"
   >
-    <v-row>
-      <v-col cols="12" md="12">
-        <UiParentCard title="Reseteo de Password" :loading="loading" :with-actions="true">
-          <v-row>
-            <v-col cols="12" md="6">
-              <base-text-input
-                label="Contraseña"
-                v-model="resetPasswordModel.password"
-                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show1 ? 'text' : 'password'"
-                @click:append="show1 = !show1"
-                :readonly="readMode"
-                :error-messages="validationErrors['Password']"
-                :rules="passwordRules"
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <base-text-input
-                label="Confirmar contraseña"
-                v-model="resetPasswordModel.confirmPassword"
-                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show2 ? 'text' : 'password'"
-                @click:append="show2 = !show2"
-                :readonly="readMode"
-                :error-messages="validationErrors['ConfirmPassword']"
-              />
-            </v-col>
-          </v-row>
-          <template #actions>
-            <form-actions :loading="loading" :read-mode="readMode" :show-delete-btn="false" />
-          </template>
-        </UiParentCard>
-      </v-col>
-    </v-row>
+    <UiParentCard title="Reseteo de Password" :loading="loading" :with-actions="true">
+      <v-row>
+        <v-col cols="12" md="6">
+          <base-text-input
+            label="Contraseña"
+            v-model="resetPasswordModel.password"
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="show1 ? 'text' : 'password'"
+            @click:append="show1 = !show1"
+            :readonly="readMode"
+            :error-messages="validationErrors['Password']"
+            :rules="passwordRules"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row class="mt-2">
+        <v-col cols="12" md="6">
+          <base-text-input
+            label="Confirmar contraseña"
+            v-model="resetPasswordModel.confirmPassword"
+            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="show2 ? 'text' : 'password'"
+            @click:append="show2 = !show2"
+            :readonly="readMode"
+            :error-messages="validationErrors['ConfirmPassword']"
+          />
+        </v-col>
+      </v-row>
+      <template #actions>
+        <form-actions :loading="loading" :read-mode="readMode" :show-delete-btn="false" />
+      </template>
+    </UiParentCard>
   </v-form>
   <error-alert v-if="alert.show" :text="alert.message" class="my-4" :title="alert.title" />
 </template>

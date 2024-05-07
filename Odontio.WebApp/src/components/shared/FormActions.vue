@@ -10,6 +10,8 @@
         :disabled="readMode || loading"
         title="Guardar"
         type="submit"
+        variant="text"
+        size="large"
         >Guardar</v-btn
       >
     </v-col>
@@ -22,6 +24,8 @@
         block
         :disabled="loading"
         title="Eliminar"
+        variant="text"
+        size="large"
         >Eliminar</v-btn
       >
     </v-col>

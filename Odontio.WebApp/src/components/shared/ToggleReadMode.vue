@@ -1,5 +1,5 @@
 <template>
-  <!-- <v-switch
+  <v-switch
     :checked="modelValue"
     :id="uuid"
     @input="$emit('update:modelValue', $event.target.checked)"
@@ -10,9 +10,10 @@
     density="compact"
     hide-details
     label="Modo lectura"
+    color="info"
     :title="modelValue ? 'Cambiar a modo edición' : 'Cambiar a modo lectura'"
-  ></v-switch> -->
-  <v-btn
+  ></v-switch>
+  <!-- <v-btn
     :id="uuid"
     @click="$emit('update:modelValue', !modelValue)"
     v-bind="{
@@ -24,7 +25,7 @@
     variant="text"
   >
     {{ modelValue ? 'Editar' : 'Modo Lectura' }}
-  </v-btn>
+  </v-btn> -->
 </template>
 <script>
 import { useUUID } from '@/composables/useUUID';

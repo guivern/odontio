@@ -21,8 +21,14 @@ const router = useRouter();
 const sidebarMenu = computed(() => {
   if (router.currentRoute.value.path.includes('/admin/')) {
     return AdminNavItems;
-  } else {
+  } else if (router.currentRoute.value.path.includes('/workspace/')) {
     return WorkspaceNavItems;
+  } else {
+    if (router.options?.history?.state?.back?.toString().includes('/admin/')) {
+      return AdminNavItems;
+    } else {
+      return WorkspaceNavItems;
+    }
   }
 });
 </script>
@@ -47,10 +53,10 @@ const sidebarMenu = computed(() => {
           >Odontio</span
         >
       </RouterLink>
-        <!-- <div class="pa-4 text-center" v-show="!customizer.mini_sidebar">
+      <!-- <div class="pa-4 text-center" v-show="!customizer.mini_sidebar">
           <v-chip color="inputBorder" size="small" label> v1.0.0 </v-chip>
         </div> -->
-      </div>
+    </div>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->
     <!-- ---------------------------------------------- -->

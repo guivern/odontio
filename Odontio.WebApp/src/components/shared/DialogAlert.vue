@@ -17,16 +17,18 @@
           <v-card-text>
             {{ message }}
           </v-card-text>
-          <v-card-actions class="justify-end">
-            <v-row no-gutters>
-              <v-col cols="6">
-                <v-btn variant="text" @click="onCancel" block prepend-icon="mdi-cancel">Cancelar</v-btn>
-              </v-col>
-              <v-col cols="6">
-                <v-btn :color="actionColor" @click="onDelete" block :prepend-icon="prependIcon"> {{ actionBtnText }} </v-btn>
-              </v-col>
-            </v-row>
-          </v-card-actions>
+          <!-- <v-card-actions class="justify-end"> -->
+          <v-row no-gutters>
+            <v-col cols="6">
+              <v-btn variant="text" size="large" @click="onCancel" block prepend-icon="mdi-cancel">Cancelar</v-btn>
+            </v-col>
+            <v-col cols="6">
+              <v-btn variant="text" size="large" :color="actionColor" @click="onDelete" block :prepend-icon="prependIcon">
+                {{ actionBtnText }}
+              </v-btn>
+            </v-col>
+          </v-row>
+          <!-- </v-card-actions> -->
         </v-card>
       </v-dialog>
     </v-col>
