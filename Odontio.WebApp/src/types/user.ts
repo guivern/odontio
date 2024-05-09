@@ -31,3 +31,24 @@ export type ResetPasswordDto = {
   password: string;
   confirmPassword: string;
 };
+
+export type UpdateProfileDto = {
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  photoUrl: string | null;
+};
+
+export type UserProfileDto = {
+  username: string | null;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  photoUrl: string | null;
+};
+
+export type ChangePasswordDto = {
+  oldPassword: string | null;
+  newPassword: string | null;
+  confirmPassword: string | null;
+};

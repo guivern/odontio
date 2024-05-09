@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
 import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon } from 'vue-tabler-icons';
 import { useDisplay } from 'vuetify';
 import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
+import { isMobile } from '@/composables/useMobile';
 
 // dropdown imports
 import NotificationDD from './NotificationDD.vue';
 import ProfileDD from './ProfileDD.vue';
 import Searchbar from './SearchBarPanel.vue';
 import { onMounted } from 'vue';
+import { fa } from 'vuetify/locale';
 
+const mobile = isMobile();
 const customizer = useCustomizerStore();
 const showSearch = ref(false);
 const { name } = useDisplay();
@@ -19,6 +23,18 @@ const { user } = useAuthStore();
 function searchbox() {
   showSearch.value = !showSearch.value;
 }
+
+// check if the current route is /workspace
+const router = useRouter();
+
+// validatae if the current route is child of /workspace
+const isWorkspace = computed(() => {
+  if (router.currentRoute.value.path.includes('/workspace/')) {
+    return true;
+  } else {
+    return false;
+  }
+});
 
 // watch name and console log it
 
@@ -70,31 +86,37 @@ watch(name, (newVal, oldVal) => {
       <Menu2Icon size="20" stroke-width="1.5" />
     </v-btn>
 
-    <!-- search mobile -->
-    <v-btn
-      class="hidden-lg-and-up text-secondary ml-3"
-      color="lightsecondary"
-      icon
-      rounded="sm"
-      variant="flat"
-      size="small"
-      @click="searchbox"
-    >
-      <SearchIcon size="17" stroke-width="1.5" />
-    </v-btn>
+    <template v-if="isWorkspace">
+      <!-- search mobile -->
+      <v-btn
+        class="hidden-md-and-up text-secondary ml-3"
+        color="lightsecondary"
+        icon
+        rounded="sm"
+        variant="flat"
+        size="small"
+        @click="searchbox"
+      >
+        <SearchIcon size="17" stroke-width="1.5" />
+      </v-btn>
 
-    <v-sheet v-if="showSearch" class="search-sheet v-col-12">
-      <Searchbar :closesearch="searchbox" />
-    </v-sheet>
+      <!-- <v-sheet v-if="showSearch && mobile" class="search-sheet v-col-12">
+        <Searchbar :closesearch="searchbox" />
+      </v-sheet> -->
 
-    <!-- ---------------------------------------------- -->
-    <!-- Search part -->
-    <!-- ---------------------------------------------- -->
-    <v-sheet class="mx-3 v-col-3 v-col-xl-2 v-col-lg-4 d-none d-lg-block" color="primary">
-      <Searchbar />
-    </v-sheet>
+      <!-- ---------------------------------------------- -->
+      <!-- Search part -->
+      <!-- ---------------------------------------------- -->
+      <v-sheet
+        v-if="showSearch"
+        :class="mobile ? 'search-sheet v-col-12' : 'mx-3 v-col-3 v-col-xl-2 v-col-lg-4 v-col-md-6 d-none d-md-block'"
+        color="primary"
+      >
+        <Searchbar :closesearch="searchbox" :show-close="mobile" />
+      </v-sheet>
 
-    <!---/Search part -->
+      <!---/Search part -->
+    </template>
 
     <v-spacer />
     <!-- ---------------------------------------------- -->
@@ -124,7 +146,7 @@ watch(name, (newVal, oldVal) => {
           <v-avatar size="30" class="mr-2 py-2" color="accent">
             <!-- <img src="@/assets/images/profile/user-round.svg" alt="user avatar" /> -->
             <!-- <v-icon size="34">mdi-account-circle</v-icon> -->
-            {{user?.username?.charAt(0)}}
+            {{ user?.username?.charAt(0) }}
           </v-avatar>
           <SettingsIcon stroke-width="1.5" />
         </v-btn>

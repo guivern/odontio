@@ -14,7 +14,6 @@
       ></user-detail-form>
     </template>
     <template v-else>
-      
       <form-actions-toolbar
         v-if="props.id"
         v-model="readMode"
@@ -25,7 +24,6 @@
       >
         <v-btn
           v-if="props.id && userStore.user"
-          class="ml-4"
           :title="userStore.user.isActive ? 'Desactivar cuenta' : 'Activar cuenta'"
           variant="text"
           :append-icon="userStore.user.isActive ? 'mdi-account-off' : 'mdi-account-check'"
@@ -48,7 +46,7 @@
           :disabled="inactivateMode"
         >
           <v-tab prepend-icon="mdi-account" text="Datos Básicos" value="user-detail-form" />
-          <v-tab prepend-icon="mdi-lock-reset" text="Password" value="reset-password-form" />
+          <v-tab prepend-icon="mdi-lock" text="Password" value="reset-password-form" />
         </v-tabs>
 
         <div :class="mobile ? 'd-flex flex-column' : 'flex-grow-1'">
@@ -66,12 +64,16 @@
             </v-tabs-window-item>
 
             <v-tabs-window-item value="reset-password-form">
-              <reset-password-form
-                :id="props.id"
-                :read-mode="readMode"
-                :inactivateMode="inactivateMode"
-                v-model:loading="loading2"
-              ></reset-password-form>
+              <v-row>
+                <v-col cols="12" lg="8" xl="6">
+                  <reset-password-form
+                    :id="props.id"
+                    :read-mode="readMode"
+                    :inactivateMode="inactivateMode"
+                    v-model:loading="loading2"
+                  ></reset-password-form>
+                </v-col>
+              </v-row>
             </v-tabs-window-item>
           </v-tabs-window>
         </div>

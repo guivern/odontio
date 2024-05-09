@@ -168,7 +168,15 @@ const submitForm = async () => {
       :show-delete-btn="!!props.id"
       :disabled="loading"
       @on:delete="showDeleteDialog = true"
-    />
+    >
+      <v-btn
+        variant="text"
+        color="accent"
+        append-icon="mdi-open-in-new"
+        @click="router.push({ name: 'workspace-home', params: { id: props.id } })"
+        >Ir al workspace</v-btn
+      >
+    </form-actions-toolbar>
     <error-alert v-if="alert.show && alert.position == 'top'" :text="alert.message" class="my-4" :title="alert.title" />
     <v-form
       ref="form"

@@ -17,7 +17,10 @@ const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) 
 function validate(values: any, { setErrors }: any) {
   const authStore = useAuthStore();
   return authStore.login(username.value, password.value).catch((error) => {
-    setErrors({ apiError: `${error}` });
+    if (!!error?.data?.title)
+      setErrors({ apiError: error.data.title });
+    else
+      setErrors({ apiError: error || 'An error occurred' });
   });
 }
 </script>

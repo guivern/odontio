@@ -39,5 +39,14 @@ export default {
   },
   toggleActive(id: number) {
     return fetchWrapper.patch(`${endpoint}/${id}/toggle-active`);
+  },
+  getProfile(id: number) {
+    return fetchWrapper.get(`${endpoint}/${id}/profile`);
+  },
+  updateProfile(id: number, body: any) {
+    return fetchWrapper.patch(`${endpoint}/${id}/profile`, body);
+  },
+  changePassword(id: number, body: any) {
+    return fetchWrapper.patch(`${endpoint}/${id}/change-password`, body);
   }
 };

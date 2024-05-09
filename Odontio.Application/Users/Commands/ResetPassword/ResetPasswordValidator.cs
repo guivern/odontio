@@ -10,6 +10,6 @@ public class ResetPasswordValidator : AbstractValidator<ResetPasswordCommand>
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$")
             .WithMessage("El password debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.");
         RuleFor(x => x.ConfirmPassword).Equal(x => x.Password)
-            .WithMessage("Las contraseñas no coinciden.");
+            .WithMessage("No coincide.");
     }
 }

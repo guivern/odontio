@@ -1,4 +1,6 @@
-﻿using Odontio.API.Contracts.Users;
+﻿using Odontio.API.Contracts.Authentication;
+using Odontio.API.Contracts.Users;
+using Odontio.Application.Authentication.Commands.ChangePassword;
 using Odontio.Application.Profile.Commands.UpdateProfile;
 using Odontio.Application.Profile.Queries.GetProfile;
 using Odontio.Application.Users.Commands.CreateUser;
@@ -123,6 +125,20 @@ public class UsersController(IMediator mediator, IMapper mapper) : ApiController
             errors => Problem(errors)
         );
     }
+    
+    [HttpPatch("{id}/change-password")]
+    public async Task<IActionResult> Login(long id, ChangePasswordRequest request)
+    {
+        var command = mapper.Map<ChangePasswordCommand>(request);
+        command.Id = id;
+        
+        var result = await mediator.Send(command);
+
+        return result.Match<IActionResult>(
+            result => Ok(result),
+            errors => Problem(errors)
+        );
+    } 
     
     [HttpPatch("{id}/toggle-active")]
     public async Task<IActionResult> ToggleActive(long id, CancellationToken cancellationToken)

@@ -10,8 +10,9 @@ public class UpdateProfileValidator : AbstractValidator<UpdateProfileCommand>
     {
         _context = context;
         RuleFor(x => x.Username).NotEmpty().MaximumLength(48).MustAsync(BeUniqueUsername)
-            .WithMessage("The username is already in use.");
-        RuleFor(x => x.Email).MaximumLength(100).EmailAddress().MustAsync(BeUniqueEmail);
+            .WithMessage("Ya está en uso.");
+        RuleFor(x => x.Email).MaximumLength(100).EmailAddress().MustAsync(BeUniqueEmail)
+            .WithMessage("Ya está en uso.");
         RuleFor(x => x.FirstName).MaximumLength(48);
         RuleFor(x => x.LastName).MaximumLength(48);
         RuleFor(x => x.PhotoUrl).MaximumLength(256);

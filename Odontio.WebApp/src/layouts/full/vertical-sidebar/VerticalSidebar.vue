@@ -53,9 +53,6 @@ const sidebarMenu = computed(() => {
           >Odontio</span
         >
       </RouterLink>
-      <!-- <div class="pa-4 text-center" v-show="!customizer.mini_sidebar">
-          <v-chip color="inputBorder" size="small" label> v1.0.0 </v-chip>
-        </div> -->
     </div>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->

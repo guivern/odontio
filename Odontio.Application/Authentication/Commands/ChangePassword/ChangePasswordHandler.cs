@@ -25,7 +25,7 @@ public class ChangePasswordHandler(IApplicationDbContext context, IMapper mapper
 
         if (!isValidPassword)
         {
-            return Error.Validation(description: "Invalid password", code: "INVALID_PASSWORD");
+            return Error.Validation(description: "Password inválido", code: nameof(request.OldPassword));
         }
 
         user.PasswordSalt = authService.GeneratePasswordSalt();

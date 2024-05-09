@@ -39,7 +39,7 @@ const PurpleTheme: ThemeTypes = {
 };
 
 const BlueTheme: ThemeTypes = {
-  name: 'PurpleTheme',
+  name: 'BlueTheme',
   dark: false,
   variables: {
     'border-color': '#1e88e5',

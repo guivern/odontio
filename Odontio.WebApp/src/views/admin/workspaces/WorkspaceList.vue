@@ -71,6 +71,10 @@ const headers = ref([
   {
     title: 'Nro. de contacto',
     key: 'contactPhoneNumber'
+  },
+  {
+    title: '',
+    key: 'link'
   }
 ]);
 const sortby = ref<any>([]);

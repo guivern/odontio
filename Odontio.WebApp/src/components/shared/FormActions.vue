@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters>
-    <v-col :cols="12" md="6">
+    <v-col :cols="12" :md="showDeleteBtn ? '6' : '12'">
       <v-btn
         v-if="showSubmitBtn"
         color="primary"
@@ -15,9 +15,8 @@
         >Guardar</v-btn
       >
     </v-col>
-    <v-col :cols="12" md="6">
+    <v-col :cols="12" md="6" v-if="showDeleteBtn">
       <v-btn
-        v-if="showDeleteBtn"
         color="error"
         prepend-icon="mdi-delete"
         @click="$emit('on:delete')"
@@ -32,7 +31,6 @@
   </v-row>
 </template>
 <script setup>
-
 defineProps({
   showSubmitBtn: {
     type: Boolean,

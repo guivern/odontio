@@ -10,14 +10,14 @@ public class ChangePasswordValidator : AbstractValidator<ChangePasswordCommand>
     {
         _context = context;
         RuleFor(v => v.OldPassword)
-            .NotEmpty().WithMessage("Old password is required.");
+            .NotEmpty().WithMessage("Es requerido.");
         RuleFor(v => v.NewPassword)
-            .NotEqual(v => v.OldPassword).WithMessage("New password must be different from the old password.")
+            .NotEqual(v => v.OldPassword).WithMessage("Debe ser diferente al anterior.")
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$")
-            .WithMessage("Password must contain at least one uppercase letter, one lowercase letter, and one number.")
+            .WithMessage("Debe contener al menos 8 caracteres, una mayúscula, una minúscula y un número.")
             .NotEmpty();
         RuleFor(x => x.ConfirmPassword)
             .NotEmpty()
-            .Equal(x => x.NewPassword).WithMessage("Passwords do not match.");
+            .Equal(x => x.NewPassword).WithMessage("No coincide.");
     }
 }
