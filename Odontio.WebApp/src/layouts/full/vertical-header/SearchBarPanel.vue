@@ -6,6 +6,11 @@ const props = defineProps({
   closesearch: {
     type: Function,
     required: false
+  },
+  showClose: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 });
 </script>
@@ -19,10 +24,7 @@ const props = defineProps({
     <template v-slot:prepend-inner>
       <SearchIcon stroke-width="1.5" size="17" class="text-lightText SearchIcon" />
     </template>
-    <template v-slot:append-inner>
-      <!-- <v-btn color="lightsecondary" icon rounded="sm" variant="flat" size="small" class="text-secondary SearchSetting">
-        <AdjustmentsHorizontalIcon stroke-width="1.5" size="20" />
-      </v-btn> -->
+    <template v-slot:append-inner v-if="showClose">
       <v-btn
         color="lightsecondary"
         icon

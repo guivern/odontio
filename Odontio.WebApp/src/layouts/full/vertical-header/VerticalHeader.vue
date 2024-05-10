@@ -5,16 +5,12 @@ import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon } from 'vue-tabler-icons'
 import { useDisplay } from 'vuetify';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
-import { isMobile } from '@/composables/useMobile';
-
-// dropdown imports
 import NotificationDD from './NotificationDD.vue';
 import ProfileDD from './ProfileDD.vue';
 import Searchbar from './SearchBarPanel.vue';
 import { onMounted } from 'vue';
-import { fa } from 'vuetify/locale';
 
-const mobile = isMobile();
+const mobileSize = ref(false);
 const customizer = useCustomizerStore();
 const showSearch = ref(false);
 const { name } = useDisplay();
@@ -42,21 +38,20 @@ onMounted(() => {
   console.log('name', name.value);
   if (name.value == 'sm' || name.value == 'xs') {
     customizer.SET_SIDEBAR_DRAWER();
+    mobileSize.value = true;
+  } else {
+    showSearch.value = true;
+    mobileSize.value = false;
   }
 });
 
-watch(name, (newVal, oldVal) => {
-  console.log('name changed', newVal, oldVal);
-
-  // if the name is mobile then close the search box
-  if (newVal == 'xs') {
-    customizer.SET_MINI_SIDEBAR(true);
-  } else if (newVal == 'sm') {
-    console.log('mobile');
-    // customizer.SET_SIDEBAR_DRAWER();
-    customizer.SET_MINI_SIDEBAR(true);
+watch(name, () => {
+  console.log('name', name.value);
+  if (name.value == 'sm' || name.value == 'xs') {
+    mobileSize.value = true;
   } else {
-    customizer.SET_MINI_SIDEBAR(false);
+    showSearch.value = true;
+    mobileSize.value = false;
   }
 });
 </script>
@@ -109,10 +104,10 @@ watch(name, (newVal, oldVal) => {
       <!-- ---------------------------------------------- -->
       <v-sheet
         v-if="showSearch"
-        :class="mobile ? 'search-sheet v-col-12' : 'mx-3 v-col-3 v-col-xl-2 v-col-lg-4 v-col-md-6 d-none d-md-block'"
+        :class="mobileSize ? 'search-sheet v-col-12' : 'mx-3 v-col-3 v-col-xl-3 v-col-lg-4 v-col-md-6 d-none d-md-block'"
         color="primary"
       >
-        <Searchbar :closesearch="searchbox" :show-close="mobile" />
+        <Searchbar :closesearch="searchbox" :show-close="mobileSize" />
       </v-sheet>
 
       <!---/Search part -->

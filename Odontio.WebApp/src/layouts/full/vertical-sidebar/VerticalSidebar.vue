@@ -43,7 +43,6 @@ const sidebarMenu = computed(() => {
     app
     class="leftSidebar"
     :rail="customizer.mini_sidebar"
-    :expand-on-hover="customizer.mini_sidebar"
   >
     <!---Logo part -->
     <div class="pl-3 pt-3 d-flex align-center" style="background-color: #eef2f6; height: 64px">
