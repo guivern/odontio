@@ -31,7 +31,7 @@
     app
     appear
     size="64"
-    @click="router.push({ name: 'workspace-create' })"
+    @click="router.push({ name: 'patient-create' })"
     title="Nuevo"
   >
   </v-fab>
@@ -40,16 +40,23 @@
 import { ref, watch, shallowRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { DEFAULT_PAGE_SIZE } from '@/types/constants';
-import type { GetWorkspaceDto } from '@/types/workspace';
-import WorskapceService from '@/services/WorkspaceService';
+import type { GetPatientsDto } from '@/types/patient';
 import { onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
+import PatientsService from '@/services/PatientsService';
+
+const props = defineProps({
+  workspaceId: {
+    type: Number,
+    required: true
+  }
+});
 
 const toast = useToast();
 const fetchError = ref(false);
 const router = useRouter();
 const search = ref('');
-const items = ref<GetWorkspaceDto[]>([]);
+const items = ref<GetPatientsDto[]>([]);
 const page = ref(1);
 const pageSize = ref(DEFAULT_PAGE_SIZE);
 const totalItems = ref(0);
@@ -61,29 +68,29 @@ const headers = ref([
     key: 'id'
   },
   {
-    title: 'Nombre',
-    key: 'name'
+    title: 'Nombres',
+    key: 'firstName'
   },
   {
-    title: 'Conacto',
-    key: 'contactName'
+    title: 'Apellidos',
+    key: 'lastName'
   },
   {
-    title: 'Nro. de contacto',
-    key: 'contactPhoneNumber'
+    title: 'Teléfono',
+    key: 'phone'
   },
   {
-    title: '',
-    key: 'link'
+    title: 'Nro. de documento',
+    key: 'documentNumber'
   }
 ]);
 const sortby = ref<any>([]);
-const pageTitle = ref('Workspaces');
+const pageTitle = ref('Pacientes');
 const breadcrumbs = shallowRef([
   {
-    title: 'Workspaces',
+    title: 'Pacientes',
     disabled: false,
-    href: '/admin/workspaces'
+    href: `/workspace/${props.workspaceId}/patients`
   }
 ]);
 
@@ -91,12 +98,12 @@ const getItems = async () => {
   loading.value = true;
   fetchError.value = false;
 
-  await WorskapceService.getAll(page.value, pageSize.value, search.value, sortby.value)
+  await PatientsService.getAll(props.workspaceId, page.value, pageSize.value, search.value, sortby.value)
     .then((response) => {
       const pagination = JSON.parse(response.headers.get('x-pagination'));
       totalPages.value = pagination.totalPages;
       totalItems.value = pagination.totalItems;
-      items.value = response.data as GetWorkspaceDto[];
+      items.value = response.data as GetPatientsDto[];
     })
     .catch((error) => {
       toast.error('Ocurrió un error');
@@ -108,11 +115,12 @@ const getItems = async () => {
 };
 
 const goToDetail = (event: any) => {
-  router.push({ name: 'workspace-detail', params: { id: event.id } });
+  router.push({ name: 'patient-detail', params: { patientId: event.id, workspaceId: props.workspaceId} });
 };
 
 // await getItems();
 onMounted(async () => {
+  console.log('workspaceId', props.workspaceId);
   await getItems();
 });
 

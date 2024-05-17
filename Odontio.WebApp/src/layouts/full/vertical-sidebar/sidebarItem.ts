@@ -1,23 +1,15 @@
 import {
-  CircleIcon,
-  WindmillIcon,
   TypographyIcon,
-  ShadowIcon,
-  PaletteIcon,
-  KeyIcon,
   BugIcon,
-  DashboardIcon,
-  BrandChromeIcon,
-  HelpIcon,
   AffiliateIcon,
-  UsersIcon
+  UsersIcon,
 } from 'vue-tabler-icons';
 
 export interface menu {
   header?: string;
   title?: string;
   icon?: object;
-  to?: string;
+  to?: string | object;
   divider?: boolean;
   chip?: string;
   chipColor?: string;
@@ -44,9 +36,9 @@ const AdminNavItems: menu[] = [
 
 const WorkspaceNavItems: menu[] = [
   {
-    title: 'Patients',
-    icon: BugIcon,
-    to: '/starter'
+    title: 'Pacientes',
+    icon: UsersIcon,
+    to: { name: 'patient-list' }
   },
   {
     title: 'Settings',

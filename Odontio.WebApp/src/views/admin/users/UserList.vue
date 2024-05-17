@@ -37,7 +37,7 @@
     v-if="!loading"
     color="secondary"
     icon="mdi-plus"
-    location="bottom end"
+    location="bottom"
     absolute
     app
     appear
