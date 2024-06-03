@@ -23,7 +23,7 @@ public class GetMaritalStatusHandler : IRequestHandler<GetMaritalStatus, ErrorOr
 
         var maritalStatus =  Enum.GetNames(typeof(MaritalStatus)).ToList();
 
-        if (request.Gender == nameof(Gender.Masculino))
+        if (request.Gender == nameof(Gender.Hombre))
         {
             // from 0 to 3
             result = maritalStatus.GetRange(0, 4);

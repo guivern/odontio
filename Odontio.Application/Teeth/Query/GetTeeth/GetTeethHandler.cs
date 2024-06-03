@@ -3,17 +3,17 @@ using Odontio.Application.Common.Interfaces;
 using Odontio.Domain.Entities;
 using Odontio.Domain.Enums;
 
-namespace Odontio.Application.Theeth.Query.GetTeeth;
+namespace Odontio.Application.Teeth.Query.GetTeeth;
 
-public class GetTheethHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetTheethQuery, ErrorOr<PagedList<GetThoothResult>>>
+public class GetTeethHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetTeethQuery, ErrorOr<PagedList<GetToothResult>>>
 {
-    public async Task<ErrorOr<PagedList<GetThoothResult>>> Handle(GetTheethQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<PagedList<GetToothResult>>> Handle(GetTeethQuery request, CancellationToken cancellationToken)
     {
         var query = context.Teeth.AsNoTracking().AsQueryable();
         
         if (request.Odontogram != null)
         {
-            var odontogram = request.Odontogram == "Adult" ? OdontogramType.Adulto : OdontogramType.Niño;
+            var odontogram = request.Odontogram == "Adulto" ? OdontogramType.Adulto : OdontogramType.Niño;
             query = query.Where(x => x.OdontogramType == odontogram);
         }
 
@@ -32,7 +32,7 @@ public class GetTheethHandler(IApplicationDbContext context, IMapper mapper) : I
         
         var result = await PagedList<Tooth>.CreateAsync(query, request.Page, request.PageSize);
         
-        var dto = mapper.Map<PagedList<GetThoothResult>>(result);
+        var dto = mapper.Map<PagedList<GetToothResult>>(result);
         dto.PageSize = result.PageSize;
         dto.PageNumber = result.PageNumber;
         dto.TotalCount = result.TotalCount;

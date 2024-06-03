@@ -21,7 +21,14 @@ public class DiagnosesController(IMediator mediator, IMapper mapper) : ApiContro
 
         var result = await mediator.Send(query, cancellationToken);
 
-        return Ok(result);
+        return result.Match<IActionResult>(
+            result =>
+            {
+                // Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
     }
 
     [HttpGet("{id}")]

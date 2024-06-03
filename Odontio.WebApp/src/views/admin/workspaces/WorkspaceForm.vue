@@ -173,7 +173,7 @@ const submitForm = async () => {
         variant="text"
         color="accent"
         append-icon="mdi-open-in-new"
-        @click="router.push({ name: 'workspace-home', params: { id: props.id } })"
+        @click="router.push({ name: 'workspace-home', params: { workspaceId: props.id } })"
         >Ir al workspace</v-btn
       >
     </form-actions-toolbar>

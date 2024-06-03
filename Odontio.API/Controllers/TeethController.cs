@@ -1,11 +1,11 @@
-﻿using Odontio.Application.Theeth.Query.GetTeeth;
+﻿using Odontio.Application.Teeth.Query.GetTeeth;
 
 namespace Odontio.API.Controllers;
 
-public class TheethController(IMediator mediator) : ApiControllerBase
+public class TeethController(IMediator mediator) : ApiControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery] GetTheethQuery request)
+    public async Task<IActionResult> GetAll([FromQuery] GetTeethQuery request)
     {
         var result = await mediator.Send(request);
         

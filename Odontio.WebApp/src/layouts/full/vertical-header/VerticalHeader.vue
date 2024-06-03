@@ -138,7 +138,7 @@ watch(name, () => {
     <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-btn class="profileBtn text-primary" color="lightprimary" variant="flat" rounded="pill" v-bind="props">
-          <v-avatar size="30" class="mr-2 py-2" color="accent">
+          <v-avatar size="30" class="mr-2 py-2" color="#607D8B">
             <!-- <img src="@/assets/images/profile/user-round.svg" alt="user avatar" /> -->
             <!-- <v-icon size="34">mdi-account-circle</v-icon> -->
             {{ user?.username?.charAt(0) }}

@@ -176,7 +176,7 @@ public class DbContextInitializer : ISeedDataInitializer
         
         foreach (var workspace in workspacesJson)
         {
-            var existingWorkspace = existingWorkspaces.FirstOrDefault(x => x.Id == workspace.Id && x.Name == workspace.Name);
+            var existingWorkspace = existingWorkspaces.FirstOrDefault(x => x.Id == workspace.Id);
             if (existingWorkspace == null)
             {
                 _context.Workspaces.Add(workspace);
@@ -208,8 +208,6 @@ public class DbContextInitializer : ISeedDataInitializer
             }    
         }
     }
-
-
 
     private async Task SeedAdmin()
     {

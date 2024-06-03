@@ -27,7 +27,7 @@ public class LoginHandlerTest
             PasswordSalt = Encoding.UTF8.GetBytes("salt") 
         };
         var token = "token";
-        var authResult = new AuthenticationResult(1, "test", "test@email.com", 1, 1, token);
+        var authResult = new AuthenticationResult(1, "test",  "", "", "test@email.com", 1, 1, "Administrator", token);
 
         var users = new List<User> { user };
 

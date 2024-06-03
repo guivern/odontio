@@ -1,17 +1,17 @@
 const WorkspaceRoutes = {
-  path: 'workspace/:id',
+  path: 'workspace/:workspaceId',
   children: [
     {
       path: '',
       name: 'workspace-home',
       component: () => import('@/views/workspace/WorkspaceHome.vue'),
-      props: (route: any) => ({ id: Number(route.params.id) })
+      props: (route: any) => ({ workspaceId: Number(route.params.workspaceId) })
     },
     {
       path: 'settings',
       name: 'workspace-dashboard',
       component: () => import('@/views/dashboards/default/DefaultDashboard.vue'),
-      props: (route: any) => ({ id: Number(route.params.id) })
+      props: (route: any) => ({ workspaceId: Number(route.params.workspaceId) })
     },
     {
       path: 'patients',
@@ -20,22 +20,23 @@ const WorkspaceRoutes = {
           path: '',
           name: 'patient-list',
           component: () => import('@/views/workspace/patients/PatientList.vue'),
-          props: (route: any) => ({ workspaceId: Number(route.params.id) }),
+          props: (route: any) => ({ workspaceId: Number(route.params.workspaceId) })
         },
         {
           path: 'create',
           name: 'patient-create',
-          component: () => import('@/views/workspace/patients/PatientForm.vue')
+          props: (route: any) => ({ workspaceId: Number(route.params.workspaceId) }),
+          component: () => import('@/views/workspace/patients/CreatePatientForm.vue')
         },
         {
           path: ':patientId',
           name: 'patient-detail',
           component: () => import('@/views/workspace/patients/PatientForm.vue'),
           // workspaceId and patientId are props
-          props: (route: any) => ({ workspaceId: Number(route.params.id), patientId: Number(route.params.patientId) })
+          props: (route: any) => ({ workspaceId: Number(route.params.workspaceId), patientId: Number(route.params.patientId) })
         }
       ]
-    },
+    }
   ]
 };
 

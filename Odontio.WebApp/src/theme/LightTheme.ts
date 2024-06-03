@@ -48,7 +48,7 @@ const BlueTheme: ThemeTypes = {
   colors: {
     primary: '#3949AB',
     secondary: '#EF6C00',
-    accent: '#607D8B',
+    accent: '#4267b2',
     error: '#f44336',
     warning: '#ffeb3b',
     info: '#00ACC1',
