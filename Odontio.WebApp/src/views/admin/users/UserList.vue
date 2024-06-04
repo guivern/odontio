@@ -34,7 +34,7 @@
     </v-col>
   </v-row>
   <v-fab
-    v-if="!loading"
+    v-if="!loading && !fetchError"
     color="secondary"
     icon="mdi-plus"
     location="bottom"

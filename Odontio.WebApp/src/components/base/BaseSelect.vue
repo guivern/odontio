@@ -8,6 +8,10 @@
     :clearable="!$attrs.readonly"
     hide-details="auto"
     :id="uuid"
+    hide-no-data
+    rounded="md"
+    variant="outlined"
+    color="primary"
   ></v-select>
 </template>
 <script>
