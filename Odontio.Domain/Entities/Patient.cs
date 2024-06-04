@@ -6,6 +6,8 @@ namespace Odontio.Domain.Entities;
 
 public class Patient : BaseAuditableEntity
 {
+    #region DATOS BÁSICOS
+    
     public long Id { get; set; }
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
@@ -20,19 +22,31 @@ public class Patient : BaseAuditableEntity
     public string? WorkPhone { get; set; }
     public string? Ruc { get; set; }
     public string DocumentNumber { get; set; } = null!;
+    
+    public long? ReferredId { get; set; }
+    [ForeignKey(nameof(ReferredId))] public Patient? Referred { get; set; }
+    
+    public long WorkspaceId { get; set; }
+    public Workspace Workspace { get; set; } = null!;
+    
+    #endregion
+    
+    # region Antecedentes Odontológicos
+    
     public string? LastDentalVisit { get; set; }
     public string? ToothLossCause { get; set; }
     public string? BrushingFrequency { get; set; }
     public string? Observations { get; set; }
+    
+    #endregion
 
-    public long? ReferredId { get; set; }
-    [ForeignKey(nameof(ReferredId))] public Patient? Referred { get; set; }
+    #region Historia Medica
 
-    public long WorkspaceId { get; set; }
-    public Workspace Workspace { get; set; } = null!;
-
-    public ICollection<MedicalCondition> MedicalConditions { get; set; } = new List<MedicalCondition>();
     public ICollection<PatientDisease> Diseases { get; set; } = new List<PatientDisease>();
+    public ICollection<MedicalCondition> MedicalConditions { get; set; } = new List<MedicalCondition>();
+
+    #endregion
+    
     public ICollection<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
     public ICollection<Budget> Budgets { get; set; } = new List<Budget>();
     public ICollection<ScheduledVisit> ScheduledVisits { get; set; } = new List<ScheduledVisit>();
