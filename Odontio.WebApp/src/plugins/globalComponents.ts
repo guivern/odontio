@@ -20,6 +20,7 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 import DialogAlert from "@/components/shared/DialogAlert.vue";
 import BaseBreadcrumb from "@/components/shared/BaseBreadcrumb.vue";
 import BaseDateInput from "@/components/base/BaseDateInput.vue";
+import BaseTabs from "@/components/base/BaseTabs.vue";
 
 export function registerComponents(app: App) {
   app.component("BaseTextInput", BaseTextInput);
@@ -40,4 +41,5 @@ export function registerComponents(app: App) {
   app.component("DialogAlert", DialogAlert);
   app.component("BaseBreadcrumb", BaseBreadcrumb);
   app.component("BaseDateInput", BaseDateInput);
+  app.component("BaseTabs", BaseTabs);
 }

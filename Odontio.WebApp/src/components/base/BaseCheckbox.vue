@@ -30,8 +30,8 @@ import { useUUID } from '@/composables/useUUID';
 export default {
   props: {
     modelValue: {
-      type: Boolean,
-      default: false
+      type: [Boolean, Array, String, Number, Object, undefined],
+      default: null
     },
     showInline: {
       type: Boolean,

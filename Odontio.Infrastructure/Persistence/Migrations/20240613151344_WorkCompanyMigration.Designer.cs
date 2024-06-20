@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Odontio.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Odontio.Infrastructure.Persistence;
 namespace Odontio.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240613151344_WorkCompanyMigration")]
+    partial class WorkCompanyMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -284,9 +287,6 @@ namespace Odontio.Infrastructure.Persistence.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("BrushingFrequency")
-                        .HasColumnType("text");
-
-                    b.Property<string>("BusinessName")
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("Created")

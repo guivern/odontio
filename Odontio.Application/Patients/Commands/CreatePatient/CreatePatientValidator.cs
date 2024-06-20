@@ -14,6 +14,7 @@ public class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
         RuleFor(x => x.WorkspaceId).NotEmpty().WithMessage("Workspace id is required");
         RuleFor(x => x.FirstName).NotEmpty().MaximumLength(100);
         RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
+        RuleFor(x => x.BusinessName).MaximumLength(200);
         RuleFor(x => x.Ruc).MaximumLength(20);
         RuleFor(x => x.Address).MaximumLength(256);
         RuleFor(x => x.WorkAddress).MaximumLength(256);
@@ -30,7 +31,7 @@ public class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
             .NotEmpty()
             .MaximumLength(20)
             .MustAsync(BeUniqueDocumentNumber)
-            .WithMessage(x => $"Document number {x.DocumentNumber} already exists.");
+            .WithMessage(x => $"Ya existe un paciente con este número de documento");
         
         // RuleFor(x => x.MedicalConditions)
         //     .ForEach(x =>
@@ -48,11 +49,12 @@ public class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
         return Enum.TryParse<Gender>(arg1, out _);
     }
 
-    private async Task<bool> BeUniqueDocumentNumber(string arg1, CancellationToken arg2)
+    private async Task<bool> BeUniqueDocumentNumber(CreatePatientCommand arg1, string arg2,  CancellationToken arg3) 
     {
+        // validate if exists a patient with the same document number in the same workspace
         return !await _context.Patients
             .AsNoTracking()
-            .Where(x => x.DocumentNumber.ToLower() == arg1.ToLower())
-            .AnyAsync(arg2);
+            .Where(x => x.DocumentNumber.ToLower() == arg2.ToLower() && x.WorkspaceId == arg1.WorkspaceId)
+            .AnyAsync(arg3);
     }
 }

@@ -33,5 +33,5 @@ export default {
   },
   delete(id: number) {
     return fetchWrapper.delete(`${endpoint}/${id}`);
-  }
+  },
 };

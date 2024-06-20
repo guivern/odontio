@@ -1,23 +1,19 @@
 ﻿using FluentValidation.Validators;
 using Odontio.Application.Common.Interfaces;
 
-namespace Odontio.Application.PatientDiseases.Commands.AddPatientDiseases;
+namespace Odontio.Application.PatientDiseases.Commands.UpdatePatientDiseases;
 
-public class AddPatientDiseasesValidator : AbstractValidator<AddPatientDiseasesCommand>
+public class UpdatePatientDiseasesValidator : AbstractValidator<UpdatePatientDiseasesCommand>
 {
     private readonly IApplicationDbContext _context;
 
-    public AddPatientDiseasesValidator(IApplicationDbContext context)
+    public UpdatePatientDiseasesValidator(IApplicationDbContext context)
     {
         _context = context;
         RuleFor(x => x.PatientId).NotEmpty();
         RuleFor(x => x.WorkspaceId).NotEmpty();
         RuleFor(x => x.DiseaseIds).NotEmpty();
 
-        // validata each diseaseId is unique for the patient
-        RuleForEach(x => x.DiseaseIds)
-            .SetAsyncValidator(new CreatePatientDiseaseValidator(_context));
-        
         // validate each diseaseId exists in the workspace
         RuleForEach(x => x.DiseaseIds)
             .MustAsync(async (diseaseId, cancellation) =>
@@ -27,7 +23,7 @@ public class AddPatientDiseasesValidator : AbstractValidator<AddPatientDiseasesC
                     .AnyAsync(x => x.Id == diseaseId && x.WorkspaceId == x.WorkspaceId, cancellation);
             })
             .WithMessage("Disease not found in the workspace.");
-        
+
         // validate repeated diseaseIds
         RuleFor(x => x.DiseaseIds)
             .Must(x => x.Count == x.Distinct().Count())
@@ -36,9 +32,9 @@ public class AddPatientDiseasesValidator : AbstractValidator<AddPatientDiseasesC
 }
 
 public class CreatePatientDiseaseValidator(IApplicationDbContext dbContext)
-    : IAsyncPropertyValidator<AddPatientDiseasesCommand, long>
+    : IAsyncPropertyValidator<UpdatePatientDiseasesCommand, long>
 {
-    public async Task<bool> IsValidAsync(ValidationContext<AddPatientDiseasesCommand> context,
+    public async Task<bool> IsValidAsync(ValidationContext<UpdatePatientDiseasesCommand> context,
         long value, CancellationToken cancellation)
     {
         // validata each diseaseId is unique for the patient

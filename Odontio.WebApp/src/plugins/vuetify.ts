@@ -3,17 +3,20 @@ import '@mdi/font/css/materialdesignicons.css';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { PurpleTheme, BlueTheme } from '@/theme/LightTheme';
-import { VDateInput } from 'vuetify/labs/VDateInput'
-// import { VFab } from 'vuetify/labs/VFab'
+import { VDateInput } from 'vuetify/labs/VDateInput';
+import { es } from 'vuetify/locale';
 
 export default createVuetify({
   directives,
   components: {
     ...components,
-    VDateInput,
+    VDateInput
     // VFab
   },
-
+  locale: {
+    locale: 'es',
+    messages: { es }
+  },
   theme: {
     defaultTheme: 'BlueTheme',
     themes: {

@@ -1,9 +1,7 @@
-﻿using MapsterMapper;
-using Odontio.API.Contracts.MedicalConditions;
-using Odontio.Application.MedicalConditions.Common.AddMedicalConditions;
+﻿using Odontio.API.Contracts.MedicalConditions;
+using Odontio.Application.MedicalConditions.Common.UpdateMedicalConditions;
 using Odontio.Application.MedicalConditions.Common.DeleteMedicalCondition;
 using Odontio.Application.MedicalConditions.Queries.GetMedicalConditions;
-using Odontio.Application.MedicalConditions.UpdateMedicalCondition;
 
 namespace Odontio.API.Controllers;
 
@@ -27,36 +25,17 @@ public class MedicalConditionsController(IMediator mediator, IMapper mapper) : A
         );
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddRange(long workspaceId, long patientId,
-        List<AddMedicalConditionRequest> request,
+    [HttpPatch]
+    public async Task<IActionResult> Update(long workspaceId, long patientId,
+        List<UpdateMedicalConditionRequest> request,
         CancellationToken cancellationToken)
     {
-        var command = new AddMedicalConditionsCommand
+        var command = new UpdateMedicalConditionsCommand
         {
             PatientId = patientId,
             WorkspaceId = workspaceId,
-            MedicalConditions = mapper.Map<List<AddMedicalConditionDto>>(request)
+            MedicalConditions = mapper.Map<List<MedicalConditionDto>>(request)
         };
-
-        var result = await mediator.Send(command, cancellationToken);
-
-        return result.Match<IActionResult>(
-            result => Ok(result),
-            errors => Problem(errors)
-        );
-    }
-
-    [HttpPatch("{id}")]
-    public async Task<IActionResult> Update(long workspaceId, long patientId, long id,
-        [FromBody] UpdateMedicalConditionRequest request,
-        CancellationToken cancellationToken)
-    {
-        var command = mapper.Map<UpdateMedicalConditionCommand>(request);
-
-        command.Id = id;
-        command.PatientId = patientId;
-        command.WorkspaceId = workspaceId;
 
         var result = await mediator.Send(command, cancellationToken);
 

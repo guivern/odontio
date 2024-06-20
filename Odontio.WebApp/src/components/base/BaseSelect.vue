@@ -3,7 +3,7 @@
     v-bind="{
       ...$attrs,
       modelValue,
-      'onUpdate:modelValue': (value) => $emit('update:modelValue', value),
+      'onUpdate:modelValue': (value) => $emit('update:modelValue', value)
     }"
     :clearable="!$attrs.readonly"
     hide-details="auto"
@@ -12,23 +12,30 @@
     rounded="md"
     variant="outlined"
     color="primary"
-  ></v-select>
+  >
+    <template v-for="(_, scopedSlotName) in $slots" #[scopedSlotName]="slotData">
+      <slot :name="scopedSlotName" v-bind="slotData" />
+    </template>
+    <template v-for="(_, slotName) in $slots" #[slotName]>
+      <slot :name="slotName" />
+    </template>
+  </v-select>
 </template>
 <script>
-import { defineComponent } from "vue";
-import { useUUID } from "@/composables/useUUID";
+import { defineComponent } from 'vue';
+import { useUUID } from '@/composables/useUUID';
 
 export default defineComponent({
   props: {
     modelValue: {
       type: [String, Number],
-      default: null,
-    },
+      default: null
+    }
   },
 
   setup() {
     const uuid = useUUID();
     return { uuid };
-  },
+  }
 });
 </script>

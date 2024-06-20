@@ -1,13 +1,13 @@
 ﻿using FluentValidation.Validators;
 using Odontio.Application.Common.Interfaces;
 
-namespace Odontio.Application.MedicalConditions.Common.AddMedicalConditions;
+namespace Odontio.Application.MedicalConditions.Common.UpdateMedicalConditions;
 
-public class AddMedicalConditionsValidator : AbstractValidator<AddMedicalConditionsCommand>
+public class UpdateMedicalConditionsValidator : AbstractValidator<UpdateMedicalConditionsCommand>
 {
     private readonly IApplicationDbContext _context;
 
-    public AddMedicalConditionsValidator(IApplicationDbContext context)
+    public UpdateMedicalConditionsValidator(IApplicationDbContext context)
     {
         _context = context;
         RuleFor(x => x.PatientId)
@@ -31,18 +31,14 @@ public class AddMedicalConditionsValidator : AbstractValidator<AddMedicalConditi
             .ForEach(x =>
                 x.Must((command, x) => command.Count(mc => mc.ConditionType == x.ConditionType) == 1)
                     .WithMessage("Repeated condition type."));
-
-        // validata each conditiontype is unique for the patient
-        RuleForEach(x => x.MedicalConditions)
-            .SetAsyncValidator(new AddConditionTypeValidator(_context));
     }
 }
 
 public class AddConditionTypeValidator(IApplicationDbContext dbContext)
-    : IAsyncPropertyValidator<AddMedicalConditionsCommand, AddMedicalConditionDto>
+    : IAsyncPropertyValidator<UpdateMedicalConditionsCommand, MedicalConditionDto>
 {
-    public async Task<bool> IsValidAsync(ValidationContext<AddMedicalConditionsCommand> context,
-        AddMedicalConditionDto value, CancellationToken cancellation)
+    public async Task<bool> IsValidAsync(ValidationContext<UpdateMedicalConditionsCommand> context,
+        MedicalConditionDto value, CancellationToken cancellation)
     {
         // validata each conditiontype is unique for the patient
         var exists = await dbContext.MedicalConditions

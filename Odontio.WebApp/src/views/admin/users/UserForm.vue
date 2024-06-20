@@ -34,57 +34,44 @@
       </form-actions-toolbar>
       <error-alert v-if="alert.show" :text="alert.message" class="my-4" :title="alert.title" />
 
-      <div :class="!mobile ? 'd-flex flex-row' : null">
-        <v-tabs
-          rounded="md"
-          v-model="tab"
-          color="secondary"
-          :mobile="mobile"
-          direction="vertical"
-          :class="mobile ? 'mb-4' : 'mr-2'"
-          center-active
-          :disabled="inactivateMode"
-        >
+      <base-tabs :disabled="inactivateMode" v-model="tab" bg-color="white">
+        <template #tabs>
           <v-tab prepend-icon="mdi-account" text="Datos Básicos" value="user-detail-form" />
           <v-tab prepend-icon="mdi-lock" text="Password" value="reset-password-form" />
-        </v-tabs>
-
-        <div :class="mobile ? 'd-flex flex-column' : 'flex-grow-1'">
-          <v-tabs-window v-model="tab">
-            <v-tabs-window-item value="user-detail-form">
-              <user-detail-form
-                :id="props.id"
-                :read-mode="readMode"
-                :inactivateMode="inactivateMode"
-                :selected-user="selectedUser"
-                v-model:loading="loading"
-                v-model:fetch-error="fetchError"
-                v-model:retry-fetch="retryFetch"
-              ></user-detail-form>
-            </v-tabs-window-item>
-
-            <v-tabs-window-item value="reset-password-form">
-              <v-row>
-                <v-col cols="12" lg="8" xl="6">
-                  <reset-password-form
-                    :id="props.id"
-                    :read-mode="readMode"
-                    :inactivateMode="inactivateMode"
-                    v-model:loading="loading2"
-                  ></reset-password-form>
-                </v-col>
-              </v-row>
-            </v-tabs-window-item>
-          </v-tabs-window>
-        </div>
-      </div>
+        </template>
+        <template #windows>
+          <v-tabs-window-item value="user-detail-form">
+            <user-detail-form
+              :id="props.id"
+              :read-mode="readMode"
+              :inactivateMode="inactivateMode"
+              :selected-user="selectedUser"
+              v-model:loading="loading"
+              v-model:fetch-error="fetchError"
+              v-model:retry-fetch="retryFetch"
+            ></user-detail-form>
+          </v-tabs-window-item>
+          <v-tabs-window-item value="reset-password-form">
+            <v-row>
+              <v-col cols="12" lg="8" xl="6">
+                <reset-password-form
+                  :id="props.id"
+                  :read-mode="readMode"
+                  :inactivateMode="inactivateMode"
+                  v-model:loading="loading2"
+                ></reset-password-form>
+              </v-col>
+            </v-row>
+          </v-tabs-window-item>
+        </template>
+      </base-tabs>
     </template>
   </template>
   <delete-dialog
     v-model="showDeleteDialog"
     @onDelete="deleteUser"
-    title="Eliminar Workspace"
-    message="¿Estás seguro que deseas eliminar este workspace?"
+    title="Eliminar Usuario"
+    message="¿Estás seguro que deseas eliminar este usuario?"
   ></delete-dialog>
   <dialog-alert
     v-model="showToggleActiveDialog"
@@ -110,7 +97,6 @@ import ResetPasswordForm from './ResetPasswordForm.vue';
 import type { AlertInfo } from '@/types/alert';
 import { useUserStore } from '@/stores/user';
 import type { UpsertUserDto } from '@/types/user';
-import { isMobile } from '@/composables/useMobile';
 
 const props = defineProps({
   id: {
@@ -119,7 +105,6 @@ const props = defineProps({
   }
 });
 
-const mobile = isMobile();
 const userStore = useUserStore();
 const retryFetch = ref(false);
 const toast = useToast();

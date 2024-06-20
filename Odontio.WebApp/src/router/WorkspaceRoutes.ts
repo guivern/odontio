@@ -26,12 +26,12 @@ const WorkspaceRoutes = {
           path: 'create',
           name: 'patient-create',
           props: (route: any) => ({ workspaceId: Number(route.params.workspaceId) }),
-          component: () => import('@/views/workspace/patients/CreatePatient/CreatePatientForm.vue')
+          component: () => import('@/views/workspace/patients/CreatePatientForm.vue')
         },
         {
           path: ':patientId',
           name: 'patient-detail',
-          component: () => import('@/views/workspace/patients/PatientForm.vue'),
+          component: () => import('@/views/workspace/patients/UpdatePatientForm.vue'),
           // workspaceId and patientId are props
           props: (route: any) => ({ workspaceId: Number(route.params.workspaceId), patientId: Number(route.params.patientId) })
         }

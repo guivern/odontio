@@ -41,7 +41,6 @@ function validate(values: any, { setErrors }: any) {
   <Form @submit="validate" class="mt-7 loginForm" v-slot="{ errors, isSubmitting }">
     <v-text-field
       v-model="username"
-      :rules="emailRules"
       label="Email Address / Username"
       class="mt-4 mb-8"
       required

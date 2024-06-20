@@ -46,7 +46,7 @@ const goBack = () => {
             </div>
           </template>
           <template v-slot:item="{ item }">
-            <v-breadcrumbs-item :disabled="item.disabled" @click="navigateTo(item.href)">
+            <v-breadcrumbs-item :disabled="item.disabled" @click="navigateTo(item.href as string)">
               {{ item.title }}
             </v-breadcrumbs-item>
           </template>

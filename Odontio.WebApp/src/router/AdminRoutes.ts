@@ -14,7 +14,7 @@ const AdminRoutes = {
     } else {
       const authStore = await useAuthStore();
       if (to.path !== '/workspace-home') {
-        next({ name: 'workspace-home', params: { id: authStore.user.workspaceId } });
+        next({ name: 'workspace-home', params: { workspaceId: authStore.user.workspaceId } });
       } else {
         next();
       }

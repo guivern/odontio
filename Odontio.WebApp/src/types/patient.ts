@@ -1,4 +1,4 @@
-export type GetPatientsDto = {
+export type PatientsDto = {
   id: number;
   firstName: string;
   lastName: string;
@@ -8,19 +8,21 @@ export type GetPatientsDto = {
   ruc: string | null;
 };
 
-export type CreatePatientDto = {
+export type UpsertPatientDto = {
   firstName: string | null;
   lastName: string | null;
-  birthDate: string | null;
+  birthdate: string | null;
   gender: string | null;
   maritalStatus: string | null;
-  ocupation: string | null;
+  occupation: string | null;
   address: string | null;
   phone: string | null;
   email: string | null;
+  workCompany: string | null;
   workAddress: string | null;
   workPhone: string | null;
   ruc: string | null;
+  businessName: string | null;
   documentNumber: string | null;
   lastDentalVisit: string | null;
   toothLossCause: string | null;
@@ -29,3 +31,7 @@ export type CreatePatientDto = {
   referredId: number | null;
   workspaceId: number | null;
 };
+
+export type PatientDetailsDto = {
+  id: number;
+} & UpsertPatientDto;

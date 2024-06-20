@@ -1,11 +1,11 @@
 ﻿using Odontio.API.Contracts.PatientDiseases;
-using Odontio.Application.PatientDiseases.Commands.AddPatientDiseases;
+using Odontio.Application.PatientDiseases.Commands.UpdatePatientDiseases;
 using Odontio.Application.PatientDiseases.Commands.DeletePatientDisease;
 using Odontio.Application.PatientDiseases.Queries.GetPatientDiseases;
 
 namespace Odontio.API.Controllers;
 
-[Route("api/v1/Workspaces/{workspaceId}/patients/{patientId}/[controller]")]
+[Route("api/v1/Workspaces/{workspaceId}/Patients/{patientId}/Diseases")]
 public class PatientDiseasesController(IMediator mediator, IMapper mapper) : ApiControllerBase
 {
     [HttpGet]
@@ -22,11 +22,11 @@ public class PatientDiseasesController(IMediator mediator, IMapper mapper) : Api
         return Ok(result);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddRange(long workspaceId, long patientId, AddPatientDiseasesRequest request,
+    [HttpPatch]
+    public async Task<IActionResult> Update(long workspaceId, long patientId, UpdatePatientDiseasesRequest request,
         CancellationToken cancellationToken)
     {
-        var command = new AddPatientDiseasesCommand
+        var command = new UpdatePatientDiseasesCommand
         {
             PatientId = patientId,
             WorkspaceId = workspaceId,

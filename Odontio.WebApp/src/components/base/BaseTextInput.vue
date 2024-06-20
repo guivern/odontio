@@ -11,7 +11,14 @@
     :clearable="!$attrs.readonly"
     hide-details="auto"
     :id="uuid"
-  ></v-text-field>
+  >
+    <template v-for="(_, scopedSlotName) in $slots" #[scopedSlotName]="slotData">
+      <slot :name="scopedSlotName" v-bind="slotData" />
+    </template>
+    <template v-for="(_, slotName) in $slots" #[slotName]>
+      <slot :name="slotName" />
+    </template>
+  </v-text-field>
 </template>
 <script>
 import { useUUID } from '@/composables/useUUID';

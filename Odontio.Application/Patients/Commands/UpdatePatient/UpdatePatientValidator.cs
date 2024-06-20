@@ -23,10 +23,11 @@ public class UpdatePatientValidator : AbstractValidator<UpdatePatientCommand>
             .WithMessage("Document number is required.")
             .MaximumLength(20)
             .MustAsync(BeUniqueDocumentNumber)
-            .WithMessage(x => $"Document number {x.DocumentNumber} already exists.");
+            .WithMessage(x => $"Ya existe un paciente con este número de documento");
 
         RuleFor(x => x.FirstName).NotEmpty().MaximumLength(100);
         RuleFor(x => x.LastName).NotEmpty().MaximumLength(100);
+        RuleFor(x => x.BusinessName).MaximumLength(200);
         RuleFor(x => x.Ruc).MaximumLength(20);
         RuleFor(x => x.Address).MaximumLength(256);
         RuleFor(x => x.WorkAddress).MaximumLength(256);
@@ -46,7 +47,9 @@ public class UpdatePatientValidator : AbstractValidator<UpdatePatientCommand>
         // validate if exists a patient with the same document number but different id
         var exists = await _context.Patients
             .AsNoTracking()
-            .AnyAsync(x => x.DocumentNumber.ToLower() == command.DocumentNumber.ToLower() && x.Id != command.Id, arg2);
+            .AnyAsync(
+                x => x.DocumentNumber.ToLower() == command.DocumentNumber.ToLower() &&
+                     command.WorkspaceId == x.WorkspaceId && x.Id != command.Id, arg2);
 
         return !exists;
     }

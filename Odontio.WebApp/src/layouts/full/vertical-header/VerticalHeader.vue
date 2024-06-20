@@ -59,7 +59,7 @@ watch(name, () => {
 <template>
   <v-app-bar color="primary" flat>
     <v-btn
-      class="hidden-md-and-down text-secondary"
+      class="hidden-md-and-down text-secondary ml-4"
       color="lightsecondary"
       icon
       rounded="sm"
