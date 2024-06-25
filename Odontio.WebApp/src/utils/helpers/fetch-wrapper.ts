@@ -38,6 +38,20 @@ function authHeader(url: string) {
 }
 
 function handleResponse(response: any) {
+
+  // handle response for files
+  if (response.headers.get('content-type') === 'application/pdf') {
+    
+    if (!response.ok) {
+      const error = { status: response.status, message: response.statusText };
+      return Promise.reject(error);
+    }
+
+    return response.blob().then((blob: Blob) => {
+      return { blob, headers: response.headers, status: response.status };
+    });
+  }
+
   return response.text().then((text: string) => {
     const data = text && JSON.parse(text);
 

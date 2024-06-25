@@ -15,7 +15,6 @@
           <v-btn
             v-if="showDeleteBtn"
             @click="$emit('on:delete')"
-            color="error"
             title="Eliminar"
             append-icon="mdi-delete"
             variant="text"

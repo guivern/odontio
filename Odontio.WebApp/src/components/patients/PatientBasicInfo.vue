@@ -1,118 +1,120 @@
 <template>
   <!-- <v-sheet max-height="600px" style="overflow-y: auto"> -->
-  <v-card title="Datos Personales" flat v-bind="$attrs">
-    <v-card-text>
-      <v-row>
-        <v-col cols="12" md="6">
-          <base-text-input
-            label="Nombres"
-            v-model="model.firstName"
-            :rules="[(v: any) => !!v || 'Es requerido']"
-            required
-            :error-messages="validationErrors['FirstName']"
-            :readonly="readMode"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <base-text-input
-            label="Apellidos"
-            v-model="model.lastName"
-            :rules="[(v: any) => !!v || 'Es requerido']"
-            required
-            :error-messages="validationErrors['LastName']"
-            :readonly="readMode"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-date-input
-            label="Fecha de Nacimiento"
-            v-model="model.birthdate"
-            variant="outlined"
-            prepend-icon=""
-            prepend-inner-icon="$calendar"
-            :readonly="readMode"
-            :error-messages="validationErrors['Birthdate']"
-            hide-details="auto"
-            :hide-actions="true"
-            :disabled="!!$attrs.loading"
-            clearable
-            :max="new Date().toISOString().substr(0, 10)"
-            display-value="dd/mm/yyyy"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <base-text-input
-            prepend-inner-icon="mdi-id-card"
-            label="Nro. Documento"
-            v-model="model.documentNumber"
-            :readonly="readMode"
-            :rules="[(v: any) => !!v || 'Es requerido']"
-            required
-            :error-messages="validationErrors['DocumentNumber']"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <base-select
-            label="Sexo"
-            v-model="model.gender"
-            :items="['Hombre', 'Mujer']"
-            :readonly="readMode"
-            :error-messages="validationErrors['Gender']"
-            :rules="[(v: any) => !!v || 'Es requerido']"
-            required
-            prepend-inner-icon="mdi-gender-male-female"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <base-select
-            label="Estado Civil"
-            v-model="model.maritalStatus"
-            :items="maritalStatusList"
-            :readonly="readMode || !gender"
-            :error-messages="validationErrors['MaritalStatus']"
-            :rules="[(v: any) => !!v || 'Es requerido']"
-            required
-            prepend-inner-icon="mdi-human"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <base-text-input
-            label="Email"
-            v-model="model.email"
-            :error-messages="validationErrors['Email']"
-            :rules="emailRules"
-            :readonly="readMode"
-            prepend-inner-icon="mdi-email"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <base-text-input
-            label="Teléfono"
-            v-model="model.phone"
-            :readonly="readMode"
-            prepend-inner-icon="mdi-cellphone"
-            :error-messages="validationErrors['Phone']"
-          />
-        </v-col>
+  <UiParentCard title="Datos Personales" flat v-bind="$attrs" :with-actions="true">
+    <v-row>
+      <v-col cols="12" md="6">
+        <base-text-input
+          label="Nombres"
+          v-model="model.firstName"
+          :rules="[(v: any) => !!v || 'Es requerido']"
+          required
+          :error-messages="validationErrors['FirstName']"
+          :readonly="readMode"
+        />
+      </v-col>
+      <v-col cols="12" md="6">
+        <base-text-input
+          label="Apellidos"
+          v-model="model.lastName"
+          :rules="[(v: any) => !!v || 'Es requerido']"
+          required
+          :error-messages="validationErrors['LastName']"
+          :readonly="readMode"
+        />
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-date-input
+          label="Fecha de Nacimiento"
+          v-model="model.birthdate"
+          variant="outlined"
+          prepend-icon=""
+          prepend-inner-icon="$calendar"
+          :readonly="readMode"
+          :error-messages="validationErrors['Birthdate']"
+          hide-details="auto"
+          :hide-actions="true"
+          :disabled="!!$attrs.loading"
+          clearable
+          :max="new Date().toISOString().substr(0, 10)"
+          display-value="dd/mm/yyyy"
+        />
+      </v-col>
+      <v-col cols="12" md="6">
+        <base-text-input
+          prepend-inner-icon="mdi-id-card"
+          label="Nro. Documento"
+          v-model="model.documentNumber"
+          :readonly="readMode"
+          :rules="[(v: any) => !!v || 'Es requerido']"
+          required
+          :error-messages="validationErrors['DocumentNumber']"
+        />
+      </v-col>
+      <v-col cols="12" md="6">
+        <base-select
+          label="Sexo"
+          v-model="model.gender"
+          :items="['Hombre', 'Mujer']"
+          :readonly="readMode"
+          :error-messages="validationErrors['Gender']"
+          :rules="[(v: any) => !!v || 'Es requerido']"
+          required
+          prepend-inner-icon="mdi-gender-male-female"
+        />
+      </v-col>
+      <v-col cols="12" md="6">
+        <base-select
+          label="Estado Civil"
+          v-model="model.maritalStatus"
+          :items="maritalStatusList"
+          :readonly="readMode || !gender"
+          :error-messages="validationErrors['MaritalStatus']"
+          :rules="[(v: any) => !!v || 'Es requerido']"
+          required
+          prepend-inner-icon="mdi-human"
+        />
+      </v-col>
+      <v-col cols="12" md="6">
+        <base-text-input
+          label="Email"
+          v-model="model.email"
+          :error-messages="validationErrors['Email']"
+          :rules="emailRules"
+          :readonly="readMode"
+          prepend-inner-icon="mdi-email"
+        />
+      </v-col>
+      <v-col cols="12" md="6">
+        <base-text-input
+          label="Teléfono"
+          v-model="model.phone"
+          :readonly="readMode"
+          prepend-inner-icon="mdi-cellphone"
+          :error-messages="validationErrors['Phone']"
+        />
+      </v-col>
 
-        <v-col cols="12">
-          <base-text-input
-            label="Dirección"
-            v-model="model.address"
-            :readonly="readMode"
-            prepend-inner-icon="mdi-map-marker"
-            aria-errormessage="validationErrors['Address']"
-          />
-        </v-col>
-      </v-row>
-    </v-card-text>
-    <slot name="actions"></slot>
-  </v-card>
+      <v-col cols="12">
+        <base-text-input
+          label="Dirección"
+          v-model="model.address"
+          :readonly="readMode"
+          prepend-inner-icon="mdi-map-marker"
+          aria-errormessage="validationErrors['Address']"
+        />
+      </v-col>
+    </v-row>
+    <template v-for="(_, scopedSlotName) in $slots" #[scopedSlotName]="slotData">
+      <slot :name="scopedSlotName" v-bind="slotData" />
+    </template>
+    <template v-for="(_, slotName) in $slots" #[slotName]> <slot :name="slotName" /> </template>
+  </UiParentCard>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import type { UpsertPatientDto } from '@/types/patient';
+import UiParentCard from '../shared/UiParentCard.vue';
 
 const props = defineProps({
   validationErrors: {

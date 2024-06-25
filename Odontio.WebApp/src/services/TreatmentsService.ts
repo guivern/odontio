@@ -1,7 +1,7 @@
 import { fetchWrapper } from '@/utils/helpers/fetch-wrapper';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
-const endpoint = baseUrl + '/v1/workspaces/{workspaceId}/patients';
+const endpoint = baseUrl + '/v1/workspaces/{workspaceId}/treatments';
 
 export default {
   getAll(workspaceId: number, page = 1, pageSize = 10, filter: string | null = null, orderBy: string[] | null = null) {
@@ -49,11 +49,24 @@ export default {
 
     return fetchWrapper.delete(apiUrl);
   },
-  getMedicalRecordPdf(workspaceId: number, patientId: number) {
-    let apiUrl = endpoint + `/${patientId}/medical-record-pdf`;
+  getCategories(workspaceId: number, page = 1, pageSize = 10, filter: string | null = null, orderBy: string[] | null = null) {
+    let sortByString = '';
+
+    if (orderBy && orderBy.length > 0) {
+      orderBy.forEach((item: any, index: any) => {
+        if (sortByString) sortByString += `,${item.key}:${item.order}`;
+        else sortByString += `${item.key}:${item.order}`;
+      });
+    }
+
+    let apiUrl = endpoint + '/categories' + `?page=${page}&pageSize=${pageSize}`;
+
+    if (filter) apiUrl += `&filter=${filter}`;
+
+    if (sortByString) apiUrl += `&orderBy=${sortByString}`;
 
     apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
 
     return fetchWrapper.get(apiUrl);
-  }
+  },
 };

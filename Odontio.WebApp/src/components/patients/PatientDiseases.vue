@@ -1,6 +1,11 @@
 <template>
-  <v-card title="Enfermedades" flat variant="outlined" class="mb-6" :disabled="loading" :loading="loading ? 'primary' : false">
-    <v-card-text>
+  <UiParentCard
+    flat
+    v-bind="$attrs"
+    title="Enfermedades"
+    :with-actions="true"
+  >
+    <!-- <v-card-text> -->
       <p class="mb-4">¿Fue afectado o padece alguna de las siguientes enfermedades?</p>
       <v-row no-gutters>
         <v-col cols="12" md="3" sm="6" v-for="disease in diseases" :key="disease.id">
@@ -9,18 +14,20 @@
             :label="disease.name"
             :value="disease.id"
             :key="disease.id"
-            :disabled="loading"
+            :disabled="$attrs.loading"
+            :readonly="readMode"
           ></base-checkbox>
         </v-col>
       </v-row>
-    </v-card-text>
-  </v-card>
+    <!-- </v-card-text> -->
+    <template v-for="(_, scopedSlotName) in $slots" #[scopedSlotName]="slotData">
+      <slot :name="scopedSlotName" v-bind="slotData" />
+    </template>
+    <template v-for="(_, slotName) in $slots" #[slotName]> <slot :name="slotName" /> </template>
+  </UiParentCard>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
 import type { DiseaseDto } from '@/types/disease';
-import DiseaseService from '@/services/DiseasesService';
-import { useToast } from 'vue-toastification';
 
 const props = defineProps({
   validationErrors: {
@@ -28,21 +35,17 @@ const props = defineProps({
     required: false,
     default: () => ({})
   },
-  workspaceId: {
-    type: Number,
-    required: true
-  },
-  patientId: {
-    type: Number,
-    required: true
-  },
   diseases: {
     type: Array<DiseaseDto>,
     required: true
-  }
+  },
+  readMode: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  
 });
 
-const loading = defineModel<boolean>('loading');
 const patientDiseaseIds = defineModel<Array<number>>('patientDiseaseIds');
-const readMode = ref(false);
 </script>

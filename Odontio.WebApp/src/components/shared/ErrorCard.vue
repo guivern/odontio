@@ -9,7 +9,7 @@
               <v-alert type="error" prominent variant="tonal"> {{ withRetry ? retryMsg : message }}</v-alert>
             </v-col>
             <v-col cols="12" v-if="withRetry">
-              <v-btn color="primary" prepend-icon="mdi-refresh" @click="$emit('on:retry')" flat> Reintentar </v-btn>
+              <v-btn color="primary" variant="tonal" prepend-icon="mdi-refresh" @click="$emit('on:retry')" flat> Reintentar </v-btn>
             </v-col>
             <v-col cols="12" v-else>
               <v-btn color="primary" @click="router.push('/')" flat>Volver al inicio </v-btn>

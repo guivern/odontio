@@ -1,9 +1,4 @@
-import {
-  TypographyIcon,
-  BugIcon,
-  AffiliateIcon,
-  UsersIcon,
-} from 'vue-tabler-icons';
+import { SettingsIcon, AffiliateIcon, UsersIcon } from 'vue-tabler-icons';
 
 export interface menu {
   header?: string;
@@ -41,9 +36,22 @@ const WorkspaceNavItems: menu[] = [
     to: { name: 'patient-list' }
   },
   {
-    title: 'Settings',
-    icon: TypographyIcon,
-    to: '/starter'
+    title: 'Configuración',
+    icon: SettingsIcon,
+    children: [
+      {
+        title: 'Tratamientos',
+        to: { name: 'treatment-list' }
+      },
+      {
+        title: 'Enfermedades',
+        to: { name: 'disease-list' }
+      },
+      {
+        title: 'Condiciones Médicas',
+        to: { name: 'medical-condition-list' }
+      }
+    ]
   }
 ];
 

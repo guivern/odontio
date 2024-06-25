@@ -1,15 +1,27 @@
 <template>
-  <v-card flat v-bind="$attrs" :disabled="loading" :loading="loading ? 'primary' : false" title="Historia Médica">
-    <v-card flat :disabled="loading" max-height="500px" style="overflow-y: auto">
-      <v-sheet class="px-6">
+  <UiParentCard flat v-bind="$attrs" title="Historia Médica" :with-actions="true">
+    <v-card flat :disabled="!!$attrs.loading" max-height="500px" style="overflow-y: auto">
+      <v-sheet class="px-3">
         <v-row v-for="(condition, index) in patientMedicalConditions" :key="condition.conditionType" class="align-center">
           <v-col cols="12" md="12" lg="5">
             <p>{{ condition.conditionType }}</p>
           </v-col>
           <v-col cols="12" md="4" sm="4" lg="3">
             <v-sheet class="d-sm-flex justify-center align-center" height="100%">
-              <base-checkbox v-model="condition.hasCondition" label="Sí" :value="true" :disabled="loading" class="mr-2"></base-checkbox>
-              <base-checkbox v-model="condition.hasCondition" label="No" :value="false" :disabled="loading" class="mr-8"></base-checkbox>
+              <base-checkbox
+                v-model="condition.hasCondition"
+                label="Sí"
+                :value="true"
+                :disabled="!!$attrs.loading"
+                class="mr-2"
+              ></base-checkbox>
+              <base-checkbox
+                v-model="condition.hasCondition"
+                label="No"
+                :value="false"
+                :disabled="!!$attrs.loading"
+                class="mr-8"
+              ></base-checkbox>
             </v-sheet>
           </v-col>
 
@@ -19,8 +31,11 @@
         </v-row>
       </v-sheet>
     </v-card>
-    <slot name="actions"></slot>
-  </v-card>
+    <template v-for="(_, scopedSlotName) in $slots" #[scopedSlotName]="slotData">
+      <slot :name="scopedSlotName" v-bind="slotData" />
+    </template>
+    <template v-for="(_, slotName) in $slots" #[slotName]> <slot :name="slotName" /> </template>
+  </UiParentCard>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
@@ -49,11 +64,6 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false
-  },
-  loading: {
-    type: Boolean,
-    required: false,
-    default: false
   }
 });
 
@@ -61,7 +71,7 @@ const patientMedicalConditions = defineModel<MedicalConditionDto[]>('patientMedi
 const toast = useToast();
 
 onMounted(() => {
-  if (props.questions && props.questions.length > 0) {
+  if (patientMedicalConditions.value.length === 0 && props.questions && props.questions.length > 0) {
     generatePatientMedicalConditions();
   }
 });

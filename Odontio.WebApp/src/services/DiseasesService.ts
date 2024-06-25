@@ -24,7 +24,46 @@ export default {
 
     return fetchWrapper.get(apiUrl);
   },
-  update(workspaceId: number, patientId: number, diseaseIds: Array<number>) {
+  getById(workspaceId: number, id: number) {
+    let apiUrl = endpoint + '/diseases/{id}';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+    apiUrl = apiUrl.replace('{id}', id.toString());
+
+    return fetchWrapper.get(apiUrl);
+  },
+  getByPatient(workspaceId: number, patientId: number) {
+    let apiUrl = endpoint + '/patients/{patientId}/diseases';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+    apiUrl = apiUrl.replace('{patientId}', patientId.toString());
+
+    return fetchWrapper.get(apiUrl);
+  },
+  create(workspaceId: number, body: any) {
+    let apiUrl = endpoint + '/diseases';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+
+    return fetchWrapper.post(apiUrl, body);
+  },
+  update(workspaceId: number, id: number, body: any) {
+    let apiUrl = endpoint + '/diseases/{id}';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+    apiUrl = apiUrl.replace('{id}', id.toString());
+
+    return fetchWrapper.patch(apiUrl, body);
+  },
+  delete(workspaceId: number, id: number) {
+    let apiUrl = endpoint + '/diseases/{id}';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+    apiUrl = apiUrl.replace('{id}', id.toString());
+
+    return fetchWrapper.delete(apiUrl);
+  },
+  updateByPatient(workspaceId: number, patientId: number, diseaseIds: Array<number>) {
     let apiUrl = endpoint + '/patients/{patientId}/diseases';
 
     apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());

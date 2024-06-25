@@ -11,7 +11,7 @@ export type PatientsDto = {
 export type UpsertPatientDto = {
   firstName: string | null;
   lastName: string | null;
-  birthdate: string | null;
+  birthdate: Date | string | null;
   gender: string | null;
   maritalStatus: string | null;
   occupation: string | null;

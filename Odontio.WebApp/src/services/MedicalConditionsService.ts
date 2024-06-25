@@ -25,7 +25,38 @@ export default {
 
     return fetchWrapper.get(apiUrl);
   },
-  update(workspaceId: number, patientId: number, body: any) {
+  getQuestionById(workspaceId: number, id: number) {
+    let apiUrl = endpoint + '/MedicalConditionQuestions/{id}';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+    apiUrl = apiUrl.replace('{id}', id.toString());
+
+    return fetchWrapper.get(apiUrl);
+  },
+  createQuestion(workspaceId: number, body: any) {
+    let apiUrl = endpoint + '/MedicalConditionQuestions';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+
+    return fetchWrapper.post(apiUrl, body);
+  },
+  updateQuestion(workspaceId: number, id: number, body: any) {
+    let apiUrl = endpoint + '/MedicalConditionQuestions/{id}';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+    apiUrl = apiUrl.replace('{id}', id.toString());
+
+    return fetchWrapper.patch(apiUrl, body);
+  },
+  deleteQuestion(workspaceId: number, id: number) {
+    let apiUrl = endpoint + '/MedicalConditionQuestions/{id}';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+    apiUrl = apiUrl.replace('{id}', id.toString());
+
+    return fetchWrapper.delete(apiUrl);
+  },
+  updateByPatient(workspaceId: number, patientId: number, body: any) {
     let apiUrl = endpoint + '/patients/{patientId}/medicalConditions';
     
     apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
@@ -40,5 +71,5 @@ export default {
     apiUrl = apiUrl.replace('{patientId}', patientId.toString());
 
     return fetchWrapper.get(apiUrl);
-  }
+  },
 };

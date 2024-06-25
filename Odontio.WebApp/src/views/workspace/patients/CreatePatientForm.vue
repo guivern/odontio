@@ -1,5 +1,5 @@
 <template>
-  <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
+  <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs" />
   <error-card v-if="fetchError" :with-retry="true" @on:retry="fetchData" />
   <template v-else>
     <v-stepper v-model="step" color="primary" rounded="md" next-text="Siguiente" prev-text="Anterior">
@@ -100,11 +100,12 @@
               :validation-errors="validationErrors"
               :read-mode="readMode"
               :diseases="diseases"
+              variant="outlined"
             />
           </v-stepper-window-item>
 
           <v-stepper-window-item :value="5">
-            <patient-dental-info v-model="patient" :validation-errors="validationErrors" :loading="loading" />
+            <patient-dental-info v-model="patient" :validation-errors="validationErrors" :loading="loading" variant="outlined" />
           </v-stepper-window-item>
         </v-stepper-window>
 
@@ -123,21 +124,21 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref, shallowRef, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
 import type { UpsertPatientDto } from '@/types/patient';
+import type { MedicalConditionDto } from '@/types/medicalCondition';
+import type { AlertInfo } from '@/types/alert';
+import type { DiseaseDto } from '@/types/disease';
+import type { MedicalConditionQuestionDto } from '@/types/medicalCondition';
+import DiseasesService from '@/services/DiseasesService';
+import PatientsService from '@/services/PatientsService';
+import MedicalConditionsService from '@/services/MedicalConditionsService';
 import PatientBasicInfo from '@/components/patients/PatientBasicInfo.vue';
 import PatientOtherData from '@/components/patients/PatientOtherData.vue';
 import PatientDiseases from '@/components/patients/PatientDiseases.vue';
-import PatientMedicalConditions from '@/components/patients/PatientMedicalConditions.vue';
 import PatientDentalInfo from '@/components/patients/PatientDentalInfo.vue';
-import type { MedicalConditionDto } from '@/types/medicalCondition';
-import { useToast } from 'vue-toastification';
-import type { AlertInfo } from '@/types/alert';
-import PatientsService from '@/services/PatientsService';
-import MedicalConditionsService from '@/services/MedicalConditionsService';
-import DiseasesService from '@/services/DiseasesService';
-import { useRouter } from 'vue-router';
-import type { DiseaseDto } from '@/types/disease';
-import type { MedicalConditionQuestionDto } from '@/types/medicalCondition';
+import PatientMedicalConditions from '@/components/patients/PatientMedicalConditions.vue';
 
 const props = defineProps({
   workspaceId: {
@@ -148,7 +149,7 @@ const props = defineProps({
 
 const router = useRouter();
 const toast = useToast();
-const step = ref(3);
+const step = ref(1);
 const valid = ref(false);
 const loading = ref(false);
 const readMode = ref(false);
@@ -157,11 +158,11 @@ const page = ref({ title: 'Crear Paciente' });
 const retryFetch = ref(false);
 const fetchError = ref(false);
 const breadcrumbs = shallowRef([
-  {
-    title: 'Inicio',
-    disabled: false,
-    href: `/workspace/${props.workspaceId}`
-  },
+  // {
+  //   title: 'Inicio',
+  //   disabled: false,
+  //   href: `/workspace/${props.workspaceId}`
+  // },
   {
     title: 'Pacientes',
     disabled: false,
@@ -180,7 +181,7 @@ const patient = reactive<UpsertPatientDto>({
   email: null,
   phone: null,
   address: null,
-  birthDate: null,
+  birthdate: null,
   occupation: null,
   workCompany: null,
   workAddress: null,
@@ -215,7 +216,55 @@ onMounted(async () => {
   await fetchData();
 });
 
+const fetchData = async () => {
+  retryFetch.value = false;
+  loading.value = true;
+  fetchError.value = false;
+
+  await getDiseases();
+  await getMedicalConditionsQuestions();
+};
+
+const getDiseases = async () => {
+  retryFetch.value = false;
+  loading.value = true;
+  fetchError.value = false;
+
+  await DiseasesService.getAll(props.workspaceId, 1, -1)
+    .then((response) => {
+      diseases.value = response.data as DiseaseDto[];
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error('Error al obtener los datos');
+      fetchError.value = true;
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
+
+const getMedicalConditionsQuestions = async () => {
+  retryFetch.value = false;
+  loading.value = true;
+  fetchError.value = false;
+
+  await MedicalConditionsService.getQuestions(props.workspaceId, 1, -1)
+    .then((response) => {
+      medicalConditionQuestions.value = response.data as MedicalConditionQuestionDto[];
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error('Error al obtener los datos');
+      fetchError.value = true;
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
+
 const onNext = async (next: Function) => {
+  console.log('step', step.value);
   if (step.value === 1) {
     await submitStep1(next);
   } else if (step.value === 2) {
@@ -237,7 +286,7 @@ const submitStep1 = async (next: Function) => {
     loading.value = true;
 
     // birthdate is in format 'YYYY-MM-DD'
-    patient.birthDate = patient.birthDate ? new Date(patient.birthDate).toISOString().split('T')[0] : null;
+    patient.birthdate = patient.birthdate ? new Date(patient.birthdate).toISOString().split('T')[0] : null;
 
     if (patientId.value) {
       await updatePatient(next);
@@ -255,7 +304,7 @@ const submitStep2 = async (next: Function) => {
 
 const submitStep3 = async (next: Function) => {
   loading.value = true;
-  await MedicalConditionsService.update(props.workspaceId, patientId.value, patientMedicalConditions.value)
+  await MedicalConditionsService.updateByPatient(props.workspaceId, patientId.value, patientMedicalConditions.value)
     .then(() => {
       next();
     })
@@ -282,7 +331,7 @@ const submitStep4 = async (next: Function) => {
   }
 
   loading.value = true;
-  await DiseasesService.update(props.workspaceId, patientId.value, patientDiseaseIds.value)
+  await DiseasesService.updateByPatient(props.workspaceId, patientId.value, patientDiseaseIds.value)
     .then(() => {
       next();
     })
@@ -335,7 +384,7 @@ const updatePatient = async (next: Function, lastStep: Boolean = false) => {
     .then(() => {
       if (lastStep) {
         toast.success('Creado exitosamente');
-        router.push('.');
+        router.replace({ name: 'patient-detail', params: { patientId: patientId.value } });
       } else {
         next();
       }
@@ -350,53 +399,6 @@ const updatePatient = async (next: Function, lastStep: Boolean = false) => {
         alert.value.show = true;
         alert.value.type = 'error';
       }
-    })
-    .finally(() => {
-      loading.value = false;
-    });
-};
-
-const fetchData = async () => {
-  retryFetch.value = false;
-  loading.value = true;
-  fetchError.value = false;
-
-  await getDiseases();
-  await getMedicalConditionsQuestions();
-};
-
-const getDiseases = async () => {
-  retryFetch.value = false;
-  loading.value = true;
-  fetchError.value = false;
-
-  await DiseasesService.getAll(props.workspaceId, 1, -1)
-    .then((response) => {
-      diseases.value = response.data as DiseaseDto[];
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error('Error al obtener los datos');
-      fetchError.value = true;
-    })
-    .finally(() => {
-      loading.value = false;
-    });
-};
-
-const getMedicalConditionsQuestions = async () => {
-  retryFetch.value = false;
-  loading.value = true;
-  fetchError.value = false;
-
-  await MedicalConditionsService.getQuestions(props.workspaceId, 1, -1)
-    .then((response) => {
-      medicalConditionQuestions.value = response.data as MedicalConditionQuestionDto[];
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error('Error al obtener los datos');
-      fetchError.value = true;
     })
     .finally(() => {
       loading.value = false;

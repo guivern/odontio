@@ -1,5 +1,5 @@
 <template>
-  <v-text-field
+  <base-text-input
     v-bind="{
       ...$attrs
     }"
@@ -13,9 +13,8 @@
     <template v-for="(_, scopedSlotName) in $slots" #[scopedSlotName]="slotData">
       <slot :name="scopedSlotName" v-bind="slotData" />
     </template>
-    <template v-for="(_, slotName) in $slots" #[slotName]>
-      <slot :name="slotName" /> </template
-  ></v-text-field>
+    <template v-for="(_, slotName) in $slots" #[slotName]> <slot :name="slotName" /> </template
+  ></base-text-input>
 </template>
 
 <script>
@@ -26,7 +25,7 @@ import { computed, watch, onMounted, defineEmits } from 'vue';
 export default {
   props: {
     modelValue: {
-      type: String,
+      type: [String, Number],
       default: null
     }
   },

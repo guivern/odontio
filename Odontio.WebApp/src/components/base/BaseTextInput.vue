@@ -26,7 +26,7 @@ import { useUUID } from '@/composables/useUUID';
 export default {
   props: {
     modelValue: {
-      type: String,
+      type: [String, Number],
       default: null
     }
   },
