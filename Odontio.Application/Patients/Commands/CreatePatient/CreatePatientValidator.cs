@@ -25,8 +25,8 @@ public class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
         RuleFor(x => x.Occupation).MaximumLength(48);
         RuleFor(x => x.LastDentalVisit).MaximumLength(100);
         RuleFor(x => x.ToothLossCause).MaximumLength(100);
-        RuleFor(x => x.Gender).NotEmpty().Must(BeValidGender).WithMessage("Invalid gender");
-        RuleFor(x => x.MaritalStatus).Must(BeValidMaritalStatus).WithMessage("Invalid marital status");
+        RuleFor(x => x.Gender).NotEmpty().Must(BeValidGender).WithMessage("Genero inválido");
+        RuleFor(x => x.MaritalStatus).Must(BeValidMaritalStatus).WithMessage("Estado civil inválido");
         RuleFor(x => x.DocumentNumber)
             .NotEmpty()
             .MaximumLength(20)

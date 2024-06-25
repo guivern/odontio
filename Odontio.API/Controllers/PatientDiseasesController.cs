@@ -19,7 +19,10 @@ public class PatientDiseasesController(IMediator mediator, IMapper mapper) : Api
 
         var result = await mediator.Send(query, cancellationToken);
 
-        return Ok(result);
+        return result.Match<IActionResult>(
+            result => Ok(result),
+            errors => Problem(errors)
+        );
     }
 
     [HttpPatch]
@@ -40,9 +43,10 @@ public class PatientDiseasesController(IMediator mediator, IMapper mapper) : Api
             errors => Problem(errors)
         );
     }
-    
+
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(long workspaceId, long patientId, long id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(long workspaceId, long patientId, long id,
+        CancellationToken cancellationToken)
     {
         var command = new DeletePatientDiseaseCommand
         {
@@ -50,7 +54,7 @@ public class PatientDiseasesController(IMediator mediator, IMapper mapper) : Api
             PatientId = patientId,
             WorkspaceId = workspaceId
         };
-        
+
         var result = await mediator.Send(command, cancellationToken);
 
         return result.Match<IActionResult>(

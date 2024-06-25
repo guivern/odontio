@@ -3,6 +3,7 @@ using Odontio.API.Contracts.Treatments;
 using Odontio.Application.Treatments.Commands.CreateTreatment;
 using Odontio.Application.Treatments.Commands.DeleteTreatment;
 using Odontio.Application.Treatments.Commands.UpdateTreatment;
+using Odontio.Application.Treatments.Queries.GetCategories;
 using Odontio.Application.Treatments.Queries.GetTreatmentById;
 using Odontio.Application.Treatments.Queries.GetTreatments;
 
@@ -47,6 +48,21 @@ public class TreatmentsController(IMediator mediator, IMapper mapper) : ApiContr
             errors => Problem(errors)
         );
     }
+    
+    [HttpGet("categories")]
+    public async Task<IActionResult> GetTreatmentCategories([FromQuery] GetCategoriesQuery request, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(request, cancellationToken);
+        
+        return result.Match<IActionResult>(
+            result =>
+            {
+                Response.AddPaginationHeader(result.PageNumber, result.PageSize, result.TotalCount, result.TotalPages);
+                return Ok(result);
+            },
+            errors => Problem(errors)
+        );
+    }
 
     [HttpPost]
     public async Task<IActionResult> Create(long workspaceId, CreateTreatmentRequest request,
@@ -64,7 +80,7 @@ public class TreatmentsController(IMediator mediator, IMapper mapper) : ApiContr
         );
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> Update(long workspaceId, long id, UpdateTreatmentRequest request,
         CancellationToken cancellationToken)
     {

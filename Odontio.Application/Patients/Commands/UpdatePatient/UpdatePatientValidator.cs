@@ -38,8 +38,8 @@ public class UpdatePatientValidator : AbstractValidator<UpdatePatientCommand>
         RuleFor(x => x.Occupation).MaximumLength(48);
         RuleFor(x => x.LastDentalVisit).MaximumLength(100);
         RuleFor(x => x.ToothLossCause).MaximumLength(100);
-        RuleFor(x => x.Gender).NotEmpty().Must(BeValidGender).WithMessage("Invalid gender");
-        RuleFor(x => x.MaritalStatus).Must(BeValidMaritalStatus).WithMessage("Invalid marital status");
+        RuleFor(x => x.Gender).NotEmpty().Must(BeValidGender).WithMessage("Genero inválido");
+        RuleFor(x => x.MaritalStatus).Must(BeValidMaritalStatus).WithMessage("Estado civil inválido");
     }
 
     private async Task<bool> BeUniqueDocumentNumber(UpdatePatientCommand command, string arg1, CancellationToken arg2)

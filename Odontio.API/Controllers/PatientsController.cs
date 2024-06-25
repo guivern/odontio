@@ -173,7 +173,7 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
         );
     }
 
-    [HttpGet("{id}/MedicalRecordPdf")]
+    [HttpGet("{id}/medical-record-pdf")]
     public async Task<IActionResult> GetMedicalRecordPdf(long id, long workspaceId, CancellationToken cancellationToken)
     {
         var query = new GetMedicalRecordPdfQuery
@@ -184,7 +184,13 @@ public class PatientsController(IMediator mediator, IMapper mapper) : ApiControl
 
         var result = await mediator.Send(query, cancellationToken);
         return result.Match<IActionResult>(
-            result => File(result, MediaTypeNames.Application.Pdf, $"Historia Clinica {id}.pdf"),
+            result =>
+            {
+                // add content-disposition header to force download
+                var fileName = $"Historia Clinica {id}.pdf";
+                Response.AddContentDispositionHeader(fileName);
+                return File(result, MediaTypeNames.Application.Pdf, fileName);
+            },
             errors => Problem(errors)
         );
     }

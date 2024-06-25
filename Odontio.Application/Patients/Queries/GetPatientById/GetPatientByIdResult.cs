@@ -7,6 +7,7 @@ public class GetPatientByIdResult
     public long Id { get; set; }
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
+    public string BusinessName { get; set; } = null!;
     public DateOnly? Birthdate { get; set; }
     public string Gender { get; set; } = null!;
     public string? MaritalStatus { get; set; }

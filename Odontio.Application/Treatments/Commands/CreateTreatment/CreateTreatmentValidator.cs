@@ -11,17 +11,19 @@ public class CreateTreatmentValidator : AbstractValidator<CreateTreatmentCommand
         _context = context;
         RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required")
             .MustAsync(BeUniqueName)
-            .WithMessage("Already exists").MaximumLength(100);
-        RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Category is required")
+            .WithMessage("Ya existe un tratamiento con el mismo nombre").MaximumLength(100);
+        RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Es requerido")
             .MustAsync(CategoryExists)
-            .WithMessage($"Category does not exist");
+            .WithMessage($"La categoría no existe");
     }
 
-    private async Task<bool> BeUniqueName(string arg1, CancellationToken arg2)
+    private async Task<bool> BeUniqueName(CreateTreatmentCommand arg1, string arg2,  CancellationToken arg3)
     {
         return !await _context.Treatments
             .AsNoTracking()
-            .AnyAsync(x => x.Name.ToLower() == arg1.ToLower(), cancellationToken: arg2);
+            .Where(x => x.Name.ToLower() == arg2.ToLower())
+            .Where(x => x.WorkspaceId == arg1.WorkspaceId)
+            .AnyAsync(arg3);
     }
 
     private async Task<bool> CategoryExists(long arg1, CancellationToken arg2)

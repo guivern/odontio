@@ -11,7 +11,7 @@ public class CreateDiseaseValidator : AbstractValidator<CreateDiseaseCommand>
         RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(200)
-            .MustAsync(BeUniqueName).WithMessage("The specified name already exists");
+            .MustAsync(BeUniqueName).WithMessage("Ya existe una enfermedad con el mismo nombre");
     }
 
     private async Task<bool> BeUniqueName(CreateDiseaseCommand arg1, string arg2, CancellationToken arg3)

@@ -11,4 +11,10 @@ public static class Extensions
         response.Headers["X-Pagination"] = JsonConvert.SerializeObject(header);
         response.Headers["Access-Control-Expose-Headers"] = "X-Pagination";
     }
+    
+    public static void AddContentDispositionHeader(this HttpResponse response, string filename)
+    {
+        response.Headers["Content-Disposition"] = $"attachment; filename={filename}";
+        response.Headers["Access-Control-Expose-Headers"] = "Content-Disposition";
+    }
 }

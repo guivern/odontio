@@ -1,4 +1,4 @@
-﻿namespace Odontio.Application.Categories.Queries.GetCategories;
+﻿namespace Odontio.Application.Treatments.Queries.GetCategories;
 
 public class GetCategoriesResult
 {

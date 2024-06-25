@@ -2,7 +2,7 @@
 using Odontio.Application.Common.Interfaces;
 using Odontio.Domain.Entities;
 
-namespace Odontio.Application.Categories.Queries.GetCategories;
+namespace Odontio.Application.Treatments.Queries.GetCategories;
 
 public class GetCategoriesHandler(IApplicationDbContext context)
     : IRequestHandler<GetCategoriesQuery, ErrorOr<PagedList<GetCategoriesResult>>>

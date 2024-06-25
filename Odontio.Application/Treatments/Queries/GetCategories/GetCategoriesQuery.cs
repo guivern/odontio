@@ -2,7 +2,7 @@
 using Odontio.Application.Common.Helpers;
 using Odontio.Domain.Enums;
 
-namespace Odontio.Application.Categories.Queries.GetCategories;
+namespace Odontio.Application.Treatments.Queries.GetCategories;
 
 
 [RolesAuthorize(nameof(RolesEnum.Administrator), nameof(RolesEnum.User))]
