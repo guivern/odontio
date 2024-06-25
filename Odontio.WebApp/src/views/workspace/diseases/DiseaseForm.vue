@@ -45,8 +45,8 @@
   <delete-dialog
     v-model="showDeleteDialog"
     @onDelete="deleteDisease"
-    title="Eliminar Workspace"
-    message="¿Estás seguro que deseas eliminar este workspace?"
+    title="Eliminar Enfermedad"
+    message="¿Estás seguro que deseas eliminar esta enfermedad?"
   ></delete-dialog>
 </template>
 <script setup lang="ts">
@@ -109,8 +109,6 @@ const model = ref<UpsertDiseaseDto>({
 });
 
 onMounted(async () => {
-  console.log('props.workspaceId', props.workspaceId);
-  console.log('props.diseaseId', props.diseaseId);
   if (props.diseaseId) {
     readMode.value = true;
   }

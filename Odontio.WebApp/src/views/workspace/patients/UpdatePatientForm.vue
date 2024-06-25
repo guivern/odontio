@@ -141,7 +141,7 @@ import { useRouter } from 'vue-router';
 import type { AlertInfo } from '@/types/alert';
 import type { PatientDetailsDto, UpsertPatientDto } from '@/types/patient';
 import type { DiseaseDto, PatientDiseaseDetail } from '@/types/disease';
-import type { MedicalConditionQuestionDto, MedicalConditionDto } from '@/types/medicalCondition';
+import type { MedicalConditionQuestionDto, MedicalConditionDto } from '@/types/medical-condition';
 import PatientsService from '@/services/PatientsService';
 import PatientBasicInfo from '@/components/patients/PatientBasicInfo.vue';
 import DiseasesService from '@/services/DiseasesService';

@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
-import type { MedicalConditionDto, MedicalConditionQuestionDto } from '@/types/medicalCondition';
+import type { MedicalConditionDto, MedicalConditionQuestionDto } from '@/types/medical-condition';
 
 const props = defineProps({
   validationErrors: {

@@ -71,8 +71,8 @@
   <delete-dialog
     v-model="showDeleteDialog"
     @onDelete="deleteTreatment"
-    title="Eliminar Workspace"
-    message="¿Estás seguro que deseas eliminar este workspace?"
+    title="Eliminar Tratamiento"
+    message="¿Estás seguro que deseas eliminar este tratamiento?"
   ></delete-dialog>
 </template>
 <script setup lang="ts">

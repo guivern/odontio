@@ -48,7 +48,7 @@ const WorkspaceNavItems: menu[] = [
         to: { name: 'disease-list' }
       },
       {
-        title: 'Condiciones Médicas',
+        title: 'Cuestionario',
         to: { name: 'medical-condition-list' }
       }
     ]
