@@ -11,7 +11,7 @@ public class UpdateMedicalConditionQuestionValidator : AbstractValidator<UpdateM
         RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(200)
-            .MustAsync(BeUniqueName).WithMessage("The specified name already exists");
+            .MustAsync(BeUniqueName).WithMessage("Ya existe una pregunta con este nombre.");
     }
 
     private async Task<bool> BeUniqueName(UpdateMedicalConditionQuestionCommand arg1, string arg2, CancellationToken arg3)

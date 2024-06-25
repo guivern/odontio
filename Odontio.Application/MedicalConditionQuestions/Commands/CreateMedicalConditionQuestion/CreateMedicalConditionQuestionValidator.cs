@@ -12,7 +12,7 @@ public class CreateMedicalConditionQuestionValidator : AbstractValidator<CreateM
         RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(200)
-            .MustAsync(BeUniqueName).WithMessage("The specified name already exists");
+            .MustAsync(BeUniqueName).WithMessage("Ya existe una pregunta con este nombre.");
     }
 
     private async Task<bool> BeUniqueName(CreateMedicalConditionQuestionCommand arg1, string arg2, CancellationToken arg3)
