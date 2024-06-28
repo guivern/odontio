@@ -25,4 +25,5 @@ public class GetPatientByIdResult
     public string? BrushingFrequency {get; set;}
     public string? Observations {get; set;}
     public long? ReferredId  {get; set;}
+    public string FullName => $"{FirstName} {LastName}";
 }

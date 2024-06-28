@@ -9,4 +9,5 @@ public class GetPatientsResult
     public string? Email { get; set; }
     public string DocumentNumber { get; set; } = null!;
     public string? Ruc { get; set; }
+    public string FullName => $"{FirstName} {LastName}";
 }
