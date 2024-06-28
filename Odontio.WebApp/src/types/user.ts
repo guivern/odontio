@@ -1,4 +1,4 @@
-export type GetUsersDto = {
+export type UserDetailDto = {
   id: number;
   username: string;
   role: string;

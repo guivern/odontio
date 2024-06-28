@@ -28,7 +28,7 @@
             <patient-basic-info
               v-model="patient"
               :validation-errors="validationErrors"
-              :loading="loading ? 'primary' : false"
+              :loading="loading"
               :read-mode="readMode"
             >
               <template #actions>
@@ -47,7 +47,7 @@
           <patient-other-data
             v-model="patient"
             :validation-errors="validationErrors"
-            :loading="loading ? 'primary' : false"
+            :loading="loading"
             :read-mode="readMode"
           >
             <template #actions>
@@ -68,7 +68,7 @@
             :workspace-id="props.workspaceId"
             :questions="medicalConditionQuestions"
             :validation-errors="validationErrors"
-            :loading="loading ? 'primary' : false"
+            :loading="loading"
             :read-mode="readMode"
           >
             <template #actions>
@@ -87,7 +87,7 @@
             v-model:patient-disease-ids="patientDiseaseIds"
             :diseases="diseases"
             :validation-errors="validationErrors"
-            :loading="loading ? 'primary' : false"
+            :loading="loading"
             :read-mode="readMode"
           >
             <template #actions>
@@ -105,7 +105,7 @@
           <patient-dental-info v-model="patient" :validation-errors="validationErrors" :loading="loading" :read-mode="readMode">
             <template #actions>
               <form-actions
-                :loading="loading ? 'primary' : false"
+                :loading="loading"
                 :read-mode="readMode"
                 :show-delete-btn="false"
                 @on:submit="updatePatient"
@@ -138,8 +138,9 @@
 import { onMounted, ref, shallowRef } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
+import { usePatientStore } from '@/stores/patient';
 import type { AlertInfo } from '@/types/alert';
-import type { PatientDetailsDto, UpsertPatientDto } from '@/types/patient';
+import type { PatientDetailsDto, PatientDto, UpsertPatientDto } from '@/types/patient';
 import type { DiseaseDto, PatientDiseaseDetail } from '@/types/disease';
 import type { MedicalConditionQuestionDto, MedicalConditionDto } from '@/types/medical-condition';
 import PatientsService from '@/services/PatientsService';
@@ -162,6 +163,7 @@ const props = defineProps({
   }
 });
 
+const patientStore = usePatientStore();
 const tab = ref('basic-data-form');
 const showDeleteDialog = ref(false);
 const toast = useToast();
@@ -258,9 +260,8 @@ const getPatient = async () => {
   PatientsService.getById(props.workspaceId, props.patientId as number)
     .then((response) => {
       patient.value = response.data as PatientDetailsDto;
-      console.log('birthdate before:', patient.value.birthdate?.toString());
       patient.value.birthdate = patient.value.birthdate ? parseDateWithoutTime(patient.value.birthdate.toString()) : null;
-      console.log('birthdate after:', patient.value.birthdate);
+      patientStore.setSelectedPatient(props.workspaceId, patient.value as PatientDto);
     })
     .catch((error) => {
       console.error(error);

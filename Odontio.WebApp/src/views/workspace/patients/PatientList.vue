@@ -40,7 +40,7 @@
 import { ref, watch, shallowRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { DEFAULT_PAGE_SIZE } from '@/types/constants';
-import type { PatientsDto } from '@/types/patient';
+import type { PatientDto } from '@/types/patient';
 import { onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import PatientsService from '@/services/PatientsService';
@@ -56,7 +56,7 @@ const toast = useToast();
 const fetchError = ref(false);
 const router = useRouter();
 const search = ref('');
-const items = ref<PatientsDto[]>([]);
+const items = ref<PatientDto[]>([]);
 const page = ref(1);
 const pageSize = ref(DEFAULT_PAGE_SIZE);
 const totalItems = ref(0);
@@ -103,7 +103,7 @@ const getItems = async () => {
       const pagination = JSON.parse(response.headers.get('x-pagination'));
       totalPages.value = pagination.totalPages;
       totalItems.value = pagination.totalItems;
-      items.value = response.data as PatientsDto[];
+      items.value = response.data as PatientDto[];
     })
     .catch((error) => {
       toast.error('Ocurrió un error');

@@ -1,4 +1,4 @@
-export type PatientsDto = {
+export type PatientDto = {
   id: number;
   firstName: string;
   lastName: string;
