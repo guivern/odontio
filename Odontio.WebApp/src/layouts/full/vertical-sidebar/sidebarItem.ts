@@ -1,4 +1,4 @@
-import { SettingsIcon, AffiliateIcon, UsersIcon } from 'vue-tabler-icons';
+import { SettingsIcon, AffiliateIcon, UsersIcon, UserIcon } from 'vue-tabler-icons';
 
 export interface menu {
   header?: string;
@@ -55,4 +55,48 @@ const WorkspaceNavItems: menu[] = [
   }
 ];
 
-export { AdminNavItems, WorkspaceNavItems };
+const PatientNavItems: menu[] = [
+  {
+    title: 'Pacientes',
+    icon: UsersIcon,
+    to: { name: 'patient-list' },
+    children: [
+      {
+        title: 'Ficha Médica',
+        to: { name: 'patient-detail' }
+      },
+      {
+        title: 'Diagnósticos',
+        to: { name: 'disease-list' }
+      },
+      {
+        title: 'Tratamientos',
+        to: { name: 'medical-condition-list' }
+      },
+      {
+        title: 'Todos',
+        to: { name: 'patient-list' }
+      },
+    ]
+  },
+  {
+    title: 'Configuración',
+    icon: SettingsIcon,
+    children: [
+      {
+        title: 'Tratamientos',
+        to: { name: 'treatment-list' }
+      },
+      {
+        title: 'Enfermedades',
+        to: { name: 'disease-list' }
+      },
+      {
+        title: 'Cuestionario',
+        to: { name: 'medical-condition-list' }
+      }
+    ]
+  }
+];
+
+export { AdminNavItems, WorkspaceNavItems, PatientNavItems };

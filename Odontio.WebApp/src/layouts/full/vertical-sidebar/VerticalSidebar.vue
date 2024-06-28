@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useCustomizerStore } from '../../../stores/customizer';
-import { AdminNavItems, WorkspaceNavItems } from './sidebarItem';
+import { AdminNavItems, WorkspaceNavItems, PatientNavItems } from './sidebarItem';
 import { useRouter } from 'vue-router';
 import { computed, ref } from 'vue';
 import NavGroup from './NavGroup/NavGroup.vue';
@@ -21,6 +21,8 @@ const router = useRouter();
 const sidebarMenu = computed(() => {
   if (router.currentRoute.value.path.includes('/admin/')) {
     return AdminNavItems;
+  } else if (router.currentRoute.value.path.includes('/patients/')) {
+    return PatientNavItems;
   } else if (router.currentRoute.value.path.includes('/workspace/')) {
     return WorkspaceNavItems;
   } else {
@@ -58,10 +60,6 @@ const sidebarMenu = computed(() => {
     <!-- ---------------------------------------------- -->
     <perfect-scrollbar class="scrollnavbar">
       <v-list class="px-4 pt-4">
-        <!-- <template v-show="!customizer.mini_sidebar">
-          <v-list-item title="My Application" subtitle="Vuetify"></v-list-item>
-          <v-divider class="my-3"></v-divider>
-        </template> -->
         <!---Menu Loop -->
         <template v-for="(item, i) in sidebarMenu" :key="i">
           <!---Item Sub Header -->

@@ -118,9 +118,7 @@ const goToDetail = (event: any) => {
   router.push({ name: 'patient-detail', params: { patientId: event.id, workspaceId: props.workspaceId} });
 };
 
-// await getItems();
 onMounted(async () => {
-  console.log('workspaceId', props.workspaceId);
   await getItems();
 });
 
