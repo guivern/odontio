@@ -186,7 +186,7 @@ const breadcrumbs = shallowRef([
   {
     title: 'Pacientes',
     disabled: false,
-    href: `/workspace/${props.workspaceId}/patients`
+    href: { name: 'patient-list', params: { workspaceId: props.workspaceId } }
   },
   {
     title: `Paciente #${props.patientId}`,

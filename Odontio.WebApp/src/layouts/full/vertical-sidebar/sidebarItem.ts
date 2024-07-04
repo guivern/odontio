@@ -20,12 +20,12 @@ const AdminNavItems: menu[] = [
   {
     title: 'Worskpaces',
     icon: AffiliateIcon,
-    to: '/admin/workspaces'
+    to: { name: 'workspace-list' }
   },
   {
     title: 'Users',
     icon: UsersIcon,
-    to: '/admin/users'
+    to: { name: 'user-list' }
   }
 ];
 
@@ -66,17 +66,21 @@ const PatientNavItems: menu[] = [
         to: { name: 'patient-detail' }
       },
       {
-        title: 'Diagnósticos',
-        to: { name: 'disease-list' }
+        title: 'Presupuestos',
+        to: { name: 'budget-list' }
       },
       {
-        title: 'Tratamientos',
-        to: { name: 'medical-condition-list' }
+        title: 'Citas',
+        to: { name: 'appointment-list' }
+      },
+      {
+        title: 'Odontograma',
+        to: { name: 'odontogram' }
       },
       {
         title: 'Todos',
         to: { name: 'patient-list' }
-      },
+      }
     ]
   },
   {

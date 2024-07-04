@@ -2,7 +2,7 @@
 import { useCustomizerStore } from '../../../stores/customizer';
 import { AdminNavItems, WorkspaceNavItems, PatientNavItems } from './sidebarItem';
 import { useRouter } from 'vue-router';
-import { computed, ref } from 'vue';
+import { computed, ref, shallowRef } from 'vue';
 import NavGroup from './NavGroup/NavGroup.vue';
 import NavItem from './NavItem/NavItem.vue';
 import NavCollapse from './NavCollapse/NavCollapse.vue';
@@ -10,11 +10,7 @@ import Logo from '../logo/LogoMain.vue';
 import { RouterLink } from 'vue-router';
 
 const customizer = useCustomizerStore();
-// const sidebarMenu = shallowRef(WorkspaceItems);
-
-const isNavCollapsed = ref(false);
-
-// check if the current route is /workspace
+const open = ref(['Pacientes']);
 const router = useRouter();
 
 // validatae if the current route is child of /workspace
@@ -22,15 +18,18 @@ const sidebarMenu = computed(() => {
   if (router.currentRoute.value.path.includes('/admin/')) {
     return AdminNavItems;
   } else if (router.currentRoute.value.path.includes('/patients/')) {
+    open.value = ['Pacientes'];
     return PatientNavItems;
   } else if (router.currentRoute.value.path.includes('/workspace/')) {
     return WorkspaceNavItems;
   } else {
     if (router.options?.history?.state?.back?.toString().includes('/admin/')) {
       return AdminNavItems;
-    } else {
-      return WorkspaceNavItems;
+    } else if (router.options?.history?.state?.back?.toString().includes('/patients/')) {
+      open.value = ['Pacientes'];
+      return PatientNavItems;
     }
+    return WorkspaceNavItems;
   }
 });
 </script>
@@ -59,7 +58,7 @@ const sidebarMenu = computed(() => {
     <!---Navigation -->
     <!-- ---------------------------------------------- -->
     <perfect-scrollbar class="scrollnavbar">
-      <v-list class="px-4 pt-4">
+      <v-list class="px-4 pt-4" v-model:opened="open">
         <!---Menu Loop -->
         <template v-for="(item, i) in sidebarMenu" :key="i">
           <!---Item Sub Header -->

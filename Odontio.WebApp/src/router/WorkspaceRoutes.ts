@@ -1,3 +1,5 @@
+import PatientRoutes from './PatientRoutes';
+
 const WorkspaceRoutes = {
   path: 'workspace/:workspaceId',
   children: [
@@ -79,29 +81,7 @@ const WorkspaceRoutes = {
         }
       ]
     },
-    {
-      path: 'patients',
-      children: [
-        {
-          path: '',
-          name: 'patient-list',
-          component: () => import('@/views/workspace/patients/PatientList.vue'),
-          props: (route: any) => ({ workspaceId: Number(route.params.workspaceId) })
-        },
-        {
-          path: 'create',
-          name: 'patient-create',
-          props: (route: any) => ({ workspaceId: Number(route.params.workspaceId) }),
-          component: () => import('@/views/workspace/patients/PatientCreate.vue')
-        },
-        {
-          path: ':patientId',
-          name: 'patient-detail',
-          component: () => import('@/views/workspace/patients/PatientDetail.vue'),
-          props: (route: any) => ({ workspaceId: Number(route.params.workspaceId), patientId: Number(route.params.patientId) })
-        }
-      ]
-    }
+    PatientRoutes
   ]
 };
 

@@ -1,10 +1,10 @@
 <template>
   <h1>Workspace Home</h1>
-  Welcome to the workspace {{ id }} home page
+  Welcome to the workspace {{ workspaceId }} home page
 </template>
 <script setup lang="ts">
 const props = defineProps({
-  id: {
+  workspaceId: {
     type: Number,
     required: false
   }

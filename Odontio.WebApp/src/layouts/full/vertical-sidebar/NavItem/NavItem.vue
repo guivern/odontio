@@ -1,14 +1,16 @@
 <script setup>
 import Icon from '../IconSet.vue';
+import { useRouter, useRoute } from 'vue-router';
 
+const router = useRouter();
 const props = defineProps({ item: Object, level: Number });
 </script>
 
 <template>
   <!---Single Item-->
   <v-list-item
-    :to="item.type === 'external' ? '' : item.to"
-    :href="item.type === 'external' ? item.to : ''"
+    @click="router.push(item.to)"
+    :active="router.currentRoute.value.name == item.to?.name"
     rounded
     class="mb-1"
     color="secondary"
