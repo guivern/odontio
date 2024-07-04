@@ -44,6 +44,7 @@ import type { PatientDto } from '@/types/patient';
 import { onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import PatientsService from '@/services/PatientsService';
+import { usePatientStore } from '@/stores/patient';
 
 const props = defineProps({
   workspaceId: {
@@ -52,6 +53,7 @@ const props = defineProps({
   }
 });
 
+const patientStore = usePatientStore();
 const toast = useToast();
 const fetchError = ref(false);
 const router = useRouter();
@@ -98,7 +100,7 @@ const getItems = async () => {
   loading.value = true;
   fetchError.value = false;
 
-  await PatientsService.getAll(props.workspaceId, page.value, pageSize.value, search.value, sortby.value)
+  await PatientsService.getByWorkspace(props.workspaceId, page.value, pageSize.value, search.value, sortby.value)
     .then((response) => {
       const pagination = JSON.parse(response.headers.get('x-pagination'));
       totalPages.value = pagination.totalPages;
@@ -119,6 +121,7 @@ const goToDetail = (event: any) => {
 };
 
 onMounted(async () => {
+  patientStore.clearSelectedPatient();
   await getItems();
 });
 

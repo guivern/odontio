@@ -4,7 +4,7 @@ const baseUrl = `${import.meta.env.VITE_API_URL}`;
 const endpoint = baseUrl + '/v1/workspaces/{workspaceId}/treatments';
 
 export default {
-  getAll(workspaceId: number, page = 1, pageSize = 10, filter: string | null = null, orderBy: string[] | null = null) {
+  getByWorkspace(workspaceId: number, page = 1, pageSize = 10, filter: string | null = null, orderBy: string[] | null = null) {
     let sortByString = '';
 
     if (orderBy && orderBy.length > 0) {

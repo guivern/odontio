@@ -271,7 +271,7 @@ const getPatient = async () => {
 };
 
 const getDiseases = async () => {
-  await DiseasesService.getAll(props.workspaceId, 1, -1)
+  await DiseasesService.getByWorkspace(props.workspaceId, 1, -1)
     .then((response) => {
       diseases.value = response.data as DiseaseDto[];
     })

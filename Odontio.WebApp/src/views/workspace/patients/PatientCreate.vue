@@ -230,7 +230,7 @@ const getDiseases = async () => {
   loading.value = true;
   fetchError.value = false;
 
-  await DiseasesService.getAll(props.workspaceId, 1, -1)
+  await DiseasesService.getByWorkspace(props.workspaceId, 1, -1)
     .then((response) => {
       diseases.value = response.data as DiseaseDto[];
     })

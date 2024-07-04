@@ -101,7 +101,7 @@ const getItems = async () => {
   loading.value = true;
   fetchError.value = false;
 
-  await TreatmentsService.getAll(props.workspaceId, page.value, pageSize.value, search.value, sortby.value)
+  await TreatmentsService.getByWorkspace(props.workspaceId, page.value, pageSize.value, search.value, sortby.value)
     .then((response) => {
       const pagination = JSON.parse(response.headers.get('x-pagination'));
       totalPages.value = pagination.totalPages;
