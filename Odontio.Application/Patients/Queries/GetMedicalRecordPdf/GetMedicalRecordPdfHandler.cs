@@ -21,8 +21,10 @@ public class GetMedicalRecordPdfHandler(IApplicationDbContext context, IPdfRende
         }
 
         var vmodel = mapper.Map<MedicalRecordViewModel>(patient);
-        var diseases = await context.Diseases.AsNoTracking().ToListAsync(cancellationToken);
         var diseasesViewModel = new List<PatientDiseaseViewModel>();
+        var diseases = await context.Diseases.AsNoTracking()
+            .Where(x => x.WorkspaceId == request.WorkspaceId)
+            .ToListAsync(cancellationToken);
         
         
         foreach (var disease in diseases)
