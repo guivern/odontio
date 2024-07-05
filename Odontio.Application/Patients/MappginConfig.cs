@@ -1,4 +1,5 @@
-﻿using Odontio.Application.Patients.Commands.CreatePatient;
+﻿using Odontio.Application.Common.ViewModels;
+using Odontio.Application.Patients.Commands.CreatePatient;
 using Odontio.Application.Patients.Common;
 using Odontio.Application.Patients.Queries.GetPatientById;
 using Odontio.Domain.Entities;
@@ -24,5 +25,9 @@ public class MappginConfig : IRegister
                 src => src.MaritalStatus != null
                     ? (MaritalStatus)Enum.Parse(typeof(MaritalStatus), src.MaritalStatus)
                     : (MaritalStatus?)null);
+        
+        // ignore diseases
+        config.NewConfig<Patient, MedicalRecordViewModel>()
+            .Ignore(x => x.Diseases);
     }
 }
