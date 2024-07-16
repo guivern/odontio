@@ -49,7 +49,7 @@ public class GetBudgetsHandler(IApplicationDbContext context, IMapper mapper) : 
             query = query.OrderBy(request.OrderBy);
         }
         
-        var result = await PagedList<Budget>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<Budget>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
         var dto = mapper.Map<PagedList<GetBudgetResult>>(result);
         
         dto.PageSize = result.PageSize;

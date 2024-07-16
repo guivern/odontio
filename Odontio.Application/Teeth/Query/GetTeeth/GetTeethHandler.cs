@@ -30,7 +30,7 @@ public class GetTeethHandler(IApplicationDbContext context, IMapper mapper) : IR
             query = query.OrderBy(request.OrderBy);
         }
         
-        var result = await PagedList<Tooth>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<Tooth>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
         
         var dto = mapper.Map<PagedList<GetToothResult>>(result);
         dto.PageSize = result.PageSize;

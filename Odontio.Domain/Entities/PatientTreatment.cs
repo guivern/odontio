@@ -13,12 +13,15 @@ public class PatientTreatment: BaseAuditableEntity
     public long TreatmentId { get; set; }
     public Treatment Treatment { get; set; } = null!;
     
-    public long? ToothId { get; set; }
-    public Tooth? Tooth { get; set; }
+    public long? DiagnosisId { get; set; }
+    public Diagnosis? Diagnosis { get; set; }
+    
+    // public long? ToothId { get; set; }
+    // public Tooth? Tooth { get; set; }
     
     public decimal Cost { get; set; }
 
     public TreatmentStatus Status { get; set; }
     
-    public ICollection<MedicalNote> MedicaNotes { get; set; } = new List<MedicalNote>();
+    public ICollection<MedicalNote> MedicalNotes { get; set; } = new List<MedicalNote>();
 }

@@ -38,7 +38,7 @@ public class GetUsersHandler(IApplicationDbContext context, IMapper mapper)
             query = query.OrderBy(request.OrderBy);
         }
 
-        var result = await PagedList<User>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<User>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
         var dto = mapper.Map<PagedList<GetUsersResult>>(result);
 
         dto.PageSize = result.PageSize;

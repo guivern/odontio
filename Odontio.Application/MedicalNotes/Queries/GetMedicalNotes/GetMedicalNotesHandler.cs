@@ -49,7 +49,7 @@ public class GetMedicalNotesHandler(IApplicationDbContext context, IMapper mappe
             query = query.OrderBy(request.OrderBy);
         }
 
-        var result = await PagedList<Domain.Entities.MedicalNote>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<Domain.Entities.MedicalNote>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
         
         var dto = mapper.Map<PagedList<GetMedicalNoteFullResult>>(result);
         dto.PageSize = result.PageSize;

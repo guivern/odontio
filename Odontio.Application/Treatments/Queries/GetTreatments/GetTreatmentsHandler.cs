@@ -30,6 +30,6 @@ public class GetTreatmentsHandler(IApplicationDbContext context)
             query = query.OrderBy(request.OrderBy);
         }
 
-        return await PagedList<GetTreatmentsResult>.CreateAsync(query, request.Page, request.PageSize);
+        return await PagedList<GetTreatmentsResult>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
     }
 }

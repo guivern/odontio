@@ -10,6 +10,8 @@ namespace Odontio.Application.Budgets.Commands.CreateBudget;
 public class CreateBudgetCommand: IRequest<ErrorOr<UpsertBudgetResult>>, IPatientResource
 {
     public DateOnly? Date { get; set; }
+    public DateOnly ExpirationDate { get; set; }
+    public string? Observations { get; set; }
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }
     
@@ -19,6 +21,6 @@ public class CreateBudgetCommand: IRequest<ErrorOr<UpsertBudgetResult>>, IPatien
 public class CreatePatientTreatmentDto
 {
     public long TreatmentId { get; set; }
-    public long? ToothId { get; set; }
+    public long? DiagnosisId { get; set; }
     public decimal Cost { get; set; }
 }

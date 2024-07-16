@@ -12,7 +12,7 @@ public class GetBudgetByIdHandler(IApplicationDbContext context): IRequestHandle
             .Include(x => x.PatientTreatments)
             .ThenInclude(x => x.Treatment)
             .Include(x => x.PatientTreatments)
-            .ThenInclude(x => x.MedicaNotes)
+            .ThenInclude(x => x.MedicalNotes)
             .Include(x => x.Payments)
             .Where(x => x.Id == request.Id)
             .Where(x => x.PatientId == request.PatientId)

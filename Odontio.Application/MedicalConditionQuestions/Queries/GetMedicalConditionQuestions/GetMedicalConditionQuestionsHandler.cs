@@ -31,6 +31,6 @@ public class GetMedicalConditionQuestionsHandler(IApplicationDbContext context, 
             query = query.OrderBy(request.OrderBy);
         }
 
-        return await PagedList<UpsertMedicalConditionQuestion>.CreateAsync(query, request.Page, request.PageSize);
+        return await PagedList<UpsertMedicalConditionQuestion>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
     }
 }

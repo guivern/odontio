@@ -49,7 +49,7 @@ public class GetAppointmentsHandler(IApplicationDbContext context, IMapper mappe
             query = query.OrderBy(request.OrderBy);
         }
 
-        var result = await PagedList<Appointment>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<Appointment>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
         var dto = mapper.Map<PagedList<GetAppointmentResult>>(result);
         dto.PageSize = result.PageSize;
         dto.PageNumber = result.PageNumber;

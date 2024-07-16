@@ -27,7 +27,7 @@ public class GetRolesHandler(IApplicationDbContext context, IMapper mapper)
             query = query.OrderBy(request.OrderBy);
         }
 
-        var result = await PagedList<Role>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<Role>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
         var dto = mapper.Map<PagedList<GetRolesResult>>(result);
 
         dto.PageSize = result.PageSize;

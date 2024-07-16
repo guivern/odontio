@@ -30,6 +30,6 @@ public class GetDiseasesHandler(IApplicationDbContext context)
             query = query.OrderBy(request.OrderBy);
         }
 
-        return await PagedList<UpsertDiseaseResult>.CreateAsync(query, request.Page, request.PageSize);
+        return await PagedList<UpsertDiseaseResult>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
     }
 }

@@ -15,4 +15,6 @@ public class Diagnosis: BaseAuditableEntity
     
     public string Description { get; set; } = null!;
     public string? Observations { get; set; }
+    
+    public ICollection<PatientTreatment> PatientTreatments { get; set; } = new List<PatientTreatment>();
 }

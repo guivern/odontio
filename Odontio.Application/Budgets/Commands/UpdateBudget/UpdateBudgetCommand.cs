@@ -11,6 +11,8 @@ public class UpdateBudgetCommand : IRequest<ErrorOr<UpsertBudgetResult>>, IPatie
 {
     public long Id { get; set; }
     public DateOnly Date { get; set; }
+    public DateOnly ExpirationDate { get; set; }
+    public string? Observations { get; set; }
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }
     
@@ -21,6 +23,6 @@ public class UpdatePatientTreatment
 {
     public long Id { get; set; }
     public long TreatmentId { get; set; }
-    public long? ToothId { get; set; }
+    public long? DiagnosisId { get; set; }
     public decimal Cost { get; set; }
 }

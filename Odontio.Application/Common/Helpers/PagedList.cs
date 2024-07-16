@@ -22,18 +22,18 @@ public class PagedList<T> : List<T>
         this.AddRange(items);
     }
 
-    public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
+    public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         if (pageSize == -1)
-            pageSize = await source.CountAsync();
+            pageSize = await source.CountAsync(cancellationToken);
 
-        var count = await source.CountAsync();
+        var count = await source.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(count / (double)pageSize);
 
         var items = await source
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         return new PagedList<T>(pageNumber, pageSize, totalPages, count, items);
     }

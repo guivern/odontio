@@ -29,7 +29,7 @@ public class GetWorkspacesHandler(IApplicationDbContext context, IMapper mapper)
             query = query.OrderBy(request.OrderBy);
         }
         
-        var result = await PagedList<Workspace>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<Workspace>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
         
         var dto = mapper.Map<PagedList<UpsertWorkspaceResult>>(result);
         dto.PageSize = result.PageSize;

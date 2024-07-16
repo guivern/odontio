@@ -17,7 +17,8 @@ public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper 
             .Include(x => x.Budget)
             .ThenInclude(x => x.Patient)
             .Include(x => x.Treatment)
-            .Include(x => x.Tooth)
+            .Include(x => x.Diagnosis)
+            .ThenInclude(x => x.Tooth)
             .Where(x => x.Budget.Patient.WorkspaceId == request.WorkspaceId)
             .AsQueryable();
         
@@ -37,7 +38,7 @@ public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper 
             query = query.Filter(request.Filter, new List<string>
             {
                 $"{nameof(PatientTreatment.Treatment)}.{nameof(Treatment.Name)}",
-                $"{nameof(PatientTreatment.Tooth)}.{nameof(Tooth.Name)}",
+                $"{nameof(PatientTreatment.Diagnosis)}.{nameof(Diagnosis.Tooth)}.{nameof(Tooth.Name)}",
                 $"{nameof(PatientTreatment.Budget)}.{nameof(Budget.Patient)}.{nameof(Patient.FirstName)}",
                 $"{nameof(PatientTreatment.Budget)}.{nameof(Budget.Patient)}.{nameof(Patient.LastName)}",
                 $"{nameof(PatientTreatment.Budget)}.{nameof(Budget.Patient)}.{nameof(Patient.DocumentNumber)}"
@@ -55,7 +56,7 @@ public class GetPatientTreatmentsHandler(IApplicationDbContext context, IMapper 
             query = query.OrderBy(request.OrderBy);
         }
 
-        var result = await PagedList<PatientTreatment>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<PatientTreatment>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
         
         var dto = mapper.Map<PagedList<GetPatientTreatmentResult>>(result);
         dto.PageSize = result.PageSize;

@@ -44,7 +44,7 @@ public class GetPaymentsHandler(IApplicationDbContext context, IMapper mapper)
             query = query.OrderBy(request.OrderBy);
         }
 
-        var result = await PagedList<Payment>.CreateAsync(query, request.Page, request.PageSize);
+        var result = await PagedList<Payment>.CreateAsync(query, request.Page, request.PageSize, cancellationToken);
 
         var dto = mapper.Map<PagedList<UpsertPaymentResult>>(result);
         dto.PageSize = result.PageSize;

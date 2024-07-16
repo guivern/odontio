@@ -11,6 +11,7 @@ public class Budget: BaseAuditableEntity
     public BudgetStatus Status { get; set; }
 
     public DateOnly ExpirationDate { get; set; }
+    public string? Observations { get; set; }
     
     public long PatientId { get; set; }
     public Patient Patient { get; set; } = null!;
@@ -37,12 +38,12 @@ public class Budget: BaseAuditableEntity
     public bool CanBeDeleted()
     {
         // Un Budget sólo puede ser eliminado si no tiene citas ni pagos asociados
-        return !PatientTreatments.Any(x => x.MedicaNotes.Count > 0) && Payments.Count == 0;
+        return !PatientTreatments.Any(x => x.MedicalNotes.Count > 0) && Payments.Count == 0;
     }
     
     private bool HasAppointment()
     {
-        return PatientTreatments.Any(x => x.MedicaNotes.Count > 0);
+        return PatientTreatments.Any(x => x.MedicalNotes.Count > 0);
     }
     
     private bool HasExpired()
