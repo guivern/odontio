@@ -12,6 +12,7 @@ const patientStore = usePatientStore();
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
 onMounted(async () => {
+  // TODO: Verify bug when refresh page the patient is lost
   if (patientStore.patient) {
     items.value = [patientStore.patient];
     patientId.value = patientStore.patient.id;

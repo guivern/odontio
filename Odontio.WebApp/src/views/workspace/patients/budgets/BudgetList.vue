@@ -48,7 +48,7 @@ import { onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useCurrency } from '@/composables/useCurrency';
 import type { BudgetDto } from '@/types/budget';
-import BudgetServices from '@/services/BudgetServices';
+import BudgetServices from '@/services/BudgetService';
 
 const props = defineProps({
   workspaceId: {
@@ -98,15 +98,26 @@ const headers = ref([
 const sortby = ref<any>([]);
 const pageTitle = ref('Presupuestos');
 const breadcrumbs = shallowRef([
+  // {
+  //   title: 'Inicio',
+  //   disabled: false,
+  //   href: `/workspace/${props.workspaceId}`
+  // },
+  {
+    title: 'Pacientes',
+    disabled: false,
+    href: { name: 'patient-list', params: { workspaceId: props.workspaceId } }
+  },
+  {
+    title: `Paciente #${props.patientId}`,
+    disabled: false,
+    href: { name: 'patient-detail', params: { workspaceId: props.workspaceId, patientId: props.patientId } }
+  },
   {
     title: 'Presupuestos',
-    disabled: false,
-    href: props.patientId
-      ? `/workspace/${props.workspaceId}/patients/${props.patientId}/budgets`
-      : `/workspace/${props.workspaceId}/budgets`
+    disabled: true
   }
 ]);
-
 const getItems = async () => {
   loading.value = true;
   fetchError.value = false;

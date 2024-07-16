@@ -1,6 +1,6 @@
 export type CreatePatientTreatmentDto = {
   treatmentId: number;
-  toothId: number;
+  diagnosisId: number | null;
   cost: number;
 };
 

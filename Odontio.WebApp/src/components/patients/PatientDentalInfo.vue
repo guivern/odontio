@@ -34,7 +34,7 @@
       </v-col>
       <!-- observaciones -->
       <v-col cols="12" md="6">
-        <base-text-input label="Observaciones" v-model="model.observations" :readonly="readMode" />
+        <base-textarea label="Observaciones" v-model="model.observations" :readonly="readMode" />
       </v-col>
     </v-row>
 

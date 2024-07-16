@@ -70,7 +70,7 @@ const PatientNavItems: menu[] = [
         to: { name: 'budget-list' }
       },
       {
-        title: 'Citas',
+        title: 'Tratamientos',
         to: { name: 'appointment-list' }
       },
       {

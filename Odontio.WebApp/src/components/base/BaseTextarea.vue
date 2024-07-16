@@ -9,6 +9,7 @@
     hide-details="auto"
     rows="3"
     :id="uuid"
+    variant="outlined"
   >
     <template v-for="(_, scopedSlotName) in $slots" #[scopedSlotName]="slotData">
       <slot :name="scopedSlotName" v-bind="slotData" />

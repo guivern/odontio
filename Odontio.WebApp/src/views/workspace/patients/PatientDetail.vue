@@ -178,11 +178,11 @@ const fetchError = ref(false);
 const retryFetch = ref(false);
 const page = ref({ title: 'Detalle del Paciente' });
 const breadcrumbs = shallowRef([
-  {
-    title: 'Inicio',
-    disabled: false,
-    href: `/workspace/${props.workspaceId}`
-  },
+  // {
+  //   title: 'Inicio',
+  //   disabled: false,
+  //   href: `/workspace/${props.workspaceId}`
+  // },
   {
     title: 'Pacientes',
     disabled: false,

@@ -158,11 +158,6 @@ const page = ref({ title: 'Crear Paciente' });
 const retryFetch = ref(false);
 const fetchError = ref(false);
 const breadcrumbs = shallowRef([
-  // {
-  //   title: 'Inicio',
-  //   disabled: false,
-  //   href: `/workspace/${props.workspaceId}`
-  // },
   {
     title: 'Pacientes',
     disabled: false,
