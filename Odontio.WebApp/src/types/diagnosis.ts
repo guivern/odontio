@@ -4,3 +4,12 @@ export type UpsertDiagnosisDto = {
   description: string;
   observations: string | null;
 };
+
+export type DiagnosisDetailsDto = {
+  id: number | null;
+  date: Date | string;
+  toothId: number | null;
+  toothName: string | null;
+  description: string | null;
+  observations: string | null;
+};

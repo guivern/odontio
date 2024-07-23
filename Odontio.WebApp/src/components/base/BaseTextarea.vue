@@ -7,7 +7,7 @@
     }"
     :clearable="!$attrs.readonly"
     hide-details="auto"
-    rows="3"
+    rows="2"
     :id="uuid"
     variant="outlined"
   >

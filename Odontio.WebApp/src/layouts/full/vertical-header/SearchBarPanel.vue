@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, ref, onMounted, computed } from 'vue';
+import { watch, ref } from 'vue';
 import { XIcon } from 'vue-tabler-icons';
 import { usePatientStore } from '@/stores/patient';
 import { useRouter } from 'vue-router';
@@ -19,7 +19,6 @@ const props = defineProps({
 
 const router = useRouter();
 const patientStore = usePatientStore();
-const loading = ref(false);
 const patientId = ref<number | null>(null);
 
 watch(

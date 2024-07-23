@@ -37,6 +37,7 @@
       </v-col>
       <v-col cols="12" md="6">
         <base-textarea
+          v-model="model.observations"
           label="Observaciones"
           :readonly="readMode"
           :error-messages="validationErrors['Observation']"
@@ -59,17 +60,16 @@
           <template #actions-header>
             <v-btn
               v-if="!readMode"
-              color="primary"
               icon
-              title="Agregar Tratamiento"
+              title="Agregar"
               flat
-              variant="tonal"
-              @click="showPatientTreatmentForm = true"
+              color="secondary"
+              @click="showPatientTreatmentDialog = true"
             >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
-          <v-data-table-virtual :headers="headers" item-value="name"></v-data-table-virtual>
+          <v-data-table-virtual :headers="headers" item-value="name"  @click:row="onPatientTreatmentSelected($event)"></v-data-table-virtual>
         </UiParentCard>
       </v-col>
     </v-row>
@@ -77,15 +77,15 @@
       <form-actions :loading="loading" :read-mode="readMode" :show-delete-btn="false" />
     </template>
   </UiParentCard>
-  <patient-treatment-form
-    v-model="showPatientTreatmentForm"
+  <patient-treatment-dialog
+    v-model="showPatientTreatmentDialog"
     @onDelete="deletePatientTreatment"
-  ></patient-treatment-form>
+  ></patient-treatment-dialog>
 </template>
 <script setup lang="ts">
 import { onMounted, shallowRef, computed, ref } from 'vue';
 import type { CreateBudgetDto } from '@/types/budget';
-import PatientTreatmentForm from '@/components/budgets/PatientTreatmentForm.vue';
+import PatientTreatmentDialog from '@/components/forms/PatientTreatmentDialog.vue';
 
 const props = defineProps({
   workspaceId: {
@@ -102,7 +102,7 @@ const props = defineProps({
   }
 });
 
-const showPatientTreatmentForm = ref(false);
+const showPatientTreatmentDialog = ref(false);
 const validationErrors = ref<any>([]);
 const loading = ref(false);
 const readMode = ref(false);
@@ -132,13 +132,14 @@ const headers = ref([
   { title: 'Diente', key: 'toothName' },
   { title: 'Diagnóstico', key: 'diagnosis' },
   { title: 'Tratamiento', key: 'traeatmentName' },
+  { title: 'Observaciones', key: 'observations' },
   { title: 'Precio', align: 'end', key: 'price' }
 ]);
 
 const model = ref<CreateBudgetDto>({
   date: new Date(),
-  // expires in a month
   expirationDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+  observations: null,
   patientTreatments: []
 });
 
@@ -152,5 +153,8 @@ const deletePatientTreatment = (event: any) => {
   console.log('Delete patient treatment: ', event);
 };
 
-const selectedPatient = computed(() => props.patientId);
+const onPatientTreatmentSelected = (event: any) => {
+  console.log('Patient treatment selected: ', event);
+};
+
 </script>

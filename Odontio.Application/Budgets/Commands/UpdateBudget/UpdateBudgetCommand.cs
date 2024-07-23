@@ -24,5 +24,6 @@ public class UpdatePatientTreatment
     public long Id { get; set; }
     public long TreatmentId { get; set; }
     public long? DiagnosisId { get; set; }
+    public string? Observations { get; set; }
     public decimal Cost { get; set; }
 }

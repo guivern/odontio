@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { router } from '@/router';
 import { fetchWrapper } from '@/utils/helpers/fetch-wrapper';
+import { useToast } from 'vue-toastification';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -24,7 +25,12 @@ export const useAuthStore = defineStore({
         router.push(this.returnUrl || '/');
       });
     },
-    logout() {
+    logout(message?: string) {
+      if (message){
+        const toast = useToast();
+        toast.clear();
+        toast.error(message);
+      }
       this.user = null;
       localStorage.removeItem('user');
       router.push('/auth/login');

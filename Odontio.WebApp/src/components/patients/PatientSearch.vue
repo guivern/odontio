@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { PatientDto } from '@/types/patient';
 import { watch, ref, onMounted } from 'vue';
 import { usePatientStore } from '@/stores/patient';
-import type { PatientDto } from '@/types/patient';
+import { useRouter } from 'vue-router';
 import PatientsService from '@/services/PatientsService';
 
 const loading = defineModel<boolean>('loading');
@@ -10,12 +11,23 @@ const patientId = defineModel<number | null>('patientId');
 const items = ref<PatientDto[]>([]);
 const patientStore = usePatientStore();
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
+const router = useRouter();
 
 onMounted(async () => {
   // TODO: Verify bug when refresh page the patient is lost
   if (patientStore.patient) {
     items.value = [patientStore.patient];
     patientId.value = patientStore.patient.id;
+  } else if (router.currentRoute.value.params.patientId) {
+    const wokrspaceId = parseInt(router.currentRoute.value.params.workspaceId as string);
+    const patientId = parseInt(router.currentRoute.value.params.patientId as string);
+    await PatientsService.getById(wokrspaceId, patientId)
+      .then((response) => {
+        patientStore.setSelectedPatient(wokrspaceId, response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching patient:', error);
+      });
   }
 });
 
@@ -35,7 +47,7 @@ watch(
   { deep: true }
 );
 
-const filterPatients = async (filter: string) => {
+const getItems = async (filter: string) => {
   loading.value = true;
   await PatientsService.getByWorkspace(patientStore.workspaceId as number, 1, -1, filter)
     .then((response) => {
@@ -57,7 +69,7 @@ const handleInput = async (event: InputEvent) => {
 
   if (inputValue) {
     searchTimeout = await setTimeout(() => {
-      filterPatients(inputValue);
+      getItems(inputValue);
     }, 500); // Adjust debounce delay as needed
   }
 };

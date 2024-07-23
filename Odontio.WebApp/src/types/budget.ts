@@ -1,4 +1,4 @@
-import type { CreatePatientTreatmentDto, UpdatePatientTreatmentDto } from "./patient-treatment";
+import type { PatientTreatmentDto } from "./patient-treatment";
 
 export type BudgetDto = {
   id: number;
@@ -12,7 +12,8 @@ export type BudgetDto = {
 export type CreateBudgetDto = {
   date: Date | string;
   expirationDate: Date | string;
-  patientTreatments: CreatePatientTreatmentDto[];
+  observations: string | null;
+  patientTreatments: PatientTreatmentDto[];
 };
 
 export type BudgetDetailDto = {
@@ -21,5 +22,5 @@ export type BudgetDetailDto = {
   expirationDate: Date | string;
   status: string;
   totalCost: number;
-  patientTreatments: UpdatePatientTreatmentDto[];
+  patientTreatments: PatientTreatmentDto[];
 };

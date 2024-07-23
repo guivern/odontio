@@ -2,7 +2,6 @@
   <v-row justify="space-around">
     <v-col cols="auto">
       <v-dialog
-        transition="dialog-bottom-transition"
         width="auto"
         v-bind="{
           ...$attrs,

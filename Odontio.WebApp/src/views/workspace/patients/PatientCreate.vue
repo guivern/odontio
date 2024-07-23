@@ -259,7 +259,6 @@ const getMedicalConditionsQuestions = async () => {
 };
 
 const onNext = async (next: Function) => {
-  console.log('step', step.value);
   if (step.value === 1) {
     await submitStep1(next);
   } else if (step.value === 2) {

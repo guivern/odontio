@@ -9,6 +9,7 @@ public class GetBudgetFullResult
     public string Status { get; set; } = null!;
     public DateOnly ExpirationDate { get; set; }
     public long PatientId { get; set; }
+    public string? Observations { get; set; }
     public string PatientName { get; set; }
     public decimal TotalCost { get; set; }
     public decimal TotalPayments { get; set; }
@@ -23,9 +24,10 @@ public class GetPatientTreatmentResultDto
     public long Id { get; set; }
     public long TreatmentId { get; set; }
     public string TreatmentName { get; set; }
-    public long? ToothId { get; set; }
+    public long? DiagnosisId { get; set; }
     public decimal Cost { get; set; }
     public string Status { get; set; }
+    public string? Observations { get; set; }
     public List<GetMedicalNoteResultDto> MedicalNotes { get; set; } = new();
 }
 

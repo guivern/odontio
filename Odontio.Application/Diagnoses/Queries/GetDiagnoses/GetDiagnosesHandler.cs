@@ -34,6 +34,11 @@ public class GetDiagnosesHandler(IApplicationDbContext context, IMapper mapper):
             
             query = query.Where(x => x.PatientId == request.PatientId);
         }
+        
+        if (request.ToothId != null)
+        {
+            query = query.Where(x => x.ToothId == request.ToothId);
+        }
 
         if (!string.IsNullOrEmpty(request.Filter))
         {

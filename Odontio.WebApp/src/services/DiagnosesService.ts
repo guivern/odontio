@@ -25,6 +25,15 @@ export default {
 
     return fetchWrapper.get(apiUrl);
   },
+  getByPatientTooth(workspaceId: number, patientId: number, toothId: number) {
+    let apiUrl = endpoint + '/tooth/{toothId}';
+
+    apiUrl = apiUrl.replace('{workspaceId}', workspaceId.toString());
+    apiUrl = apiUrl.replace('{patientId}', patientId.toString());
+    apiUrl = apiUrl.replace('{toothId}', toothId.toString());
+
+    return fetchWrapper.get(apiUrl);
+  },
   getById(workspaceId: number, patientId: number, id: number) {
     let apiUrl = endpoint + '/{id}';
 

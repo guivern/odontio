@@ -16,8 +16,7 @@ public class PatientTreatment: BaseAuditableEntity
     public long? DiagnosisId { get; set; }
     public Diagnosis? Diagnosis { get; set; }
     
-    // public long? ToothId { get; set; }
-    // public Tooth? Tooth { get; set; }
+    public string? Observations { get; set; }
     
     public decimal Cost { get; set; }
 

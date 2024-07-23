@@ -13,4 +13,5 @@ public class GetDiagnosesQuery: PagedListQueryBase, IRequest<ErrorOr<PagedList<U
 {
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }
+    public long? ToothId { get; set; }
 }

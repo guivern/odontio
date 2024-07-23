@@ -35,7 +35,6 @@ const isWorkspace = computed(() => {
 // watch name and console log it
 
 onMounted(() => {
-  console.log('name', name.value);
   if (name.value == 'sm' || name.value == 'xs') {
     customizer.SET_SIDEBAR_DRAWER();
     mobileSize.value = true;
@@ -46,7 +45,6 @@ onMounted(() => {
 });
 
 watch(name, () => {
-  console.log('name', name.value);
   if (name.value == 'sm' || name.value == 'xs') {
     mobileSize.value = true;
   } else {
