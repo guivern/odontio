@@ -78,7 +78,7 @@ const model = ref<BudgetDetailDto>({
   observations: null,
   cost: null
 }) as Ref<BudgetDetailDto>;
-const selectedTreatment = ref<TreatmentDto | null>();
+const selectedTreatment = ref<TreatmentDto | undefined>();
 const resetModel = () => {
   model.value.id = null;
   model.value.diagnosis = null;
@@ -86,7 +86,7 @@ const resetModel = () => {
   model.value.observations = null;
   model.value.cost = null;
   diagnosis.value = {} as DiagnosisDto;
-  selectedTreatment.value = null;
+  selectedTreatment.value = undefined;
 };
 
 const onCancel = () => {

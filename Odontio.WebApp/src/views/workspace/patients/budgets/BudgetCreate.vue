@@ -62,7 +62,7 @@
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
-          <v-data-table-virtual :headers="headers" :items="model.details" @click:row="onDetailSelected" />
+          <v-data-table-virtual :headers="headers as any" :items="model.details" @click:row="onDetailSelected" />
         </UiParentCard>
       </v-col>
     </v-row>
