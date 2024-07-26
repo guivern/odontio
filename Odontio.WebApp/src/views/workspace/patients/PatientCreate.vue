@@ -134,11 +134,11 @@ import type { MedicalConditionQuestionDto } from '@/types/medical-condition';
 import DiseasesService from '@/services/DiseasesService';
 import PatientsService from '@/services/PatientsService';
 import MedicalConditionsService from '@/services/MedicalConditionsService';
-import PatientBasicInfo from '@/components/patients/PatientBasicInfo.vue';
-import PatientOtherData from '@/components/patients/PatientOtherData.vue';
-import PatientDiseases from '@/components/patients/PatientDiseases.vue';
-import PatientDentalInfo from '@/components/patients/PatientDentalInfo.vue';
-import PatientMedicalConditions from '@/components/patients/PatientMedicalConditions.vue';
+import PatientBasicInfo from '@/components/app/patients/PatientBasicInfo.vue';
+import PatientOtherData from '@/components/app/patients/PatientOtherData.vue';
+import PatientDiseases from '@/components/app/patients/PatientDiseases.vue';
+import PatientDentalInfo from '@/components/app/patients/PatientDentalInfo.vue';
+import PatientMedicalConditions from '@/components/app/patients/PatientMedicalConditions.vue';
 
 const props = defineProps({
   workspaceId: {

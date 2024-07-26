@@ -47,7 +47,7 @@ import { DEFAULT_PAGE_SIZE } from '@/types/constants';
 import { onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useCurrency } from '@/composables/useCurrency';
-import type { TreatmentsDto } from '@/types/treatment';
+import type { TreatmentDto } from '@/types/treatment';
 import TreatmentsService from '@/services/TreatmentsService';
 
 const props = defineProps({
@@ -62,7 +62,7 @@ const { formatCurrency } = useCurrency();
 const fetchError = ref(false);
 const router = useRouter();
 const search = ref('');
-const items = ref<TreatmentsDto[]>([]);
+const items = ref<TreatmentDto[]>([]);
 const page = ref(1);
 const pageSize = ref(DEFAULT_PAGE_SIZE);
 const totalItems = ref(0);
@@ -106,7 +106,7 @@ const getItems = async () => {
       const pagination = JSON.parse(response.headers.get('x-pagination'));
       totalPages.value = pagination.totalPages;
       totalItems.value = pagination.totalItems;
-      items.value = response.data as TreatmentsDto[];
+      items.value = response.data as TreatmentDto[];
     })
     .catch((error) => {
       toast.error('Ocurrió un error');

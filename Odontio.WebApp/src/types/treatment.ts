@@ -1,9 +1,9 @@
-export type TreatmentsDto = {
-  id: number;
-  name: string;
+export type TreatmentDto = {
+  id: number | null;
+  name: string | null;
   description: string | null;
-  cost: number;
-  categoryName: string;
+  cost: number | null;
+  categoryName: string | null;
 };
 
 export type UpsertTreatmentDto = {

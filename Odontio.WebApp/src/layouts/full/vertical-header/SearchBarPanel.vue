@@ -3,7 +3,7 @@ import { watch, ref } from 'vue';
 import { XIcon } from 'vue-tabler-icons';
 import { usePatientStore } from '@/stores/patient';
 import { useRouter } from 'vue-router';
-import PatientSearch from '@/components/patients/PatientSearch.vue';
+import PatientSearch from '@/components/app/patients/PatientSearch.vue';
 
 const props = defineProps({
   closesearch: {

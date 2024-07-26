@@ -144,13 +144,13 @@ import type { PatientDetailsDto, PatientDto, UpsertPatientDto } from '@/types/pa
 import type { DiseaseDto, PatientDiseaseDetail } from '@/types/disease';
 import type { MedicalConditionQuestionDto, MedicalConditionDto } from '@/types/medical-condition';
 import PatientsService from '@/services/PatientsService';
-import PatientBasicInfo from '@/components/patients/PatientBasicInfo.vue';
+import PatientBasicInfo from '@/components/app/patients/PatientBasicInfo.vue';
 import DiseasesService from '@/services/DiseasesService';
 import MedicalConditionsService from '@/services/MedicalConditionsService';
-import PatientOtherData from '@/components/patients/PatientOtherData.vue';
-import PatientMedicalConditions from '@/components/patients/PatientMedicalConditions.vue';
-import PatientDiseases from '@/components/patients/PatientDiseases.vue';
-import PatientDentalInfo from '@/components/patients/PatientDentalInfo.vue';
+import PatientOtherData from '@/components/app/patients/PatientOtherData.vue';
+import PatientMedicalConditions from '@/components/app/patients/PatientMedicalConditions.vue';
+import PatientDiseases from '@/components/app/patients/PatientDiseases.vue';
+import PatientDentalInfo from '@/components/app/patients/PatientDentalInfo.vue';
 
 const props = defineProps({
   workspaceId: {

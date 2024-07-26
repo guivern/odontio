@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { usePatientStore } from '@/stores/patient';
-import type { TreatmentsDto } from '@/types/treatment';
+import type { TreatmentDto } from '@/types/treatment';
 import TreatmentsService from '@/services/TreatmentsService';
 
 const loading = ref(false);
-const items = ref<TreatmentsDto[]>([]);
+const items = ref<TreatmentDto[]>([]);
 const patientStore = usePatientStore();
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -46,7 +46,7 @@ const handleInput = async (event: InputEvent) => {
 };
 
 watch(
-  () => props.modelValue as TreatmentsDto,
+  () => props.modelValue as TreatmentDto,
   async (newValue) => {
     if (newValue && !items.value.find((item) => item.id === newValue.id)) {
       await TreatmentsService.getById(patientStore.workspaceId as number, newValue.id as number)

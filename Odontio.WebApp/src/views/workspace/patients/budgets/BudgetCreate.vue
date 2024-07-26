@@ -58,18 +58,11 @@
         <!-- <v-divider></v-divider> -->
         <UiParentCard title="Detalle" flat :with-actions="false">
           <template #actions-header>
-            <v-btn
-              v-if="!readMode"
-              icon
-              title="Agregar"
-              flat
-              color="secondary"
-              @click="showPatientTreatmentDialog = true"
-            >
+            <v-btn v-if="!readMode" icon title="Agregar" flat color="secondary" @click="showPatientTreatmentDialog = true">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
-          <v-data-table-virtual :headers="headers" item-value="name"  @click:row="onPatientTreatmentSelected($event)"></v-data-table-virtual>
+          <v-data-table-virtual :headers="headers" :items="model.details" @click:row="onDetailSelected" />
         </UiParentCard>
       </v-col>
     </v-row>
@@ -77,15 +70,18 @@
       <form-actions :loading="loading" :read-mode="readMode" :show-delete-btn="false" />
     </template>
   </UiParentCard>
-  <patient-treatment-dialog
+  <budget-detail
     v-model="showPatientTreatmentDialog"
-    @onDelete="deletePatientTreatment"
-  ></patient-treatment-dialog>
+    :selected-detail="detailSelected"
+    @on:add="addDetail($event)"
+    @on:update="updateDetail($event)"
+  />
 </template>
 <script setup lang="ts">
-import { onMounted, shallowRef, computed, ref } from 'vue';
+import { onMounted, shallowRef, computed, ref, type Ref } from 'vue';
 import type { CreateBudgetDto } from '@/types/budget';
-import PatientTreatmentDialog from '@/components/forms/PatientTreatmentDialog.vue';
+import type { BudgetDetailDto } from '@/types/budget';
+import BudgetDetail from '@/components/app/budgets/BudgetDetail.vue';
 
 const props = defineProps({
   workspaceId: {
@@ -129,32 +125,41 @@ const breadcrumbs = shallowRef([
   }
 ]);
 const headers = ref([
-  { title: 'Diente', key: 'toothName' },
-  { title: 'Diagnóstico', key: 'diagnosis' },
-  { title: 'Tratamiento', key: 'traeatmentName' },
+  { title: 'Diente', key: 'diagnosis.toothName' },
+  { title: 'Diagnóstico', key: 'diagnosis.description' },
+  { title: 'Tratamiento', key: 'treatment.name' },
   { title: 'Observaciones', key: 'observations' },
-  { title: 'Precio', align: 'end', key: 'price' }
+  { title: 'Precio', align: 'end', key: 'cost' }
 ]);
-
 const model = ref<CreateBudgetDto>({
   date: new Date(),
   expirationDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
   observations: null,
-  patientTreatments: []
+  details: []
 });
+const detailSelected = ref<BudgetDetailDto>() as Ref<BudgetDetailDto>;
+const indexSelected = ref<number>(-1);
 
-onMounted(() => {
-  console.log('WorkspaceId: ', props.workspaceId);
-  console.log('PatientId: ', props.patientId);
-  console.log('BudgetId: ', props.budgetId);
-});
+onMounted(() => {});
 
-const deletePatientTreatment = (event: any) => {
-  console.log('Delete patient treatment: ', event);
+const addDetail = (event: BudgetDetailDto) => {
+  model.value.details.push(event);
 };
 
-const onPatientTreatmentSelected = (event: any) => {
-  console.log('Patient treatment selected: ', event);
+const onDetailSelected = (event: any, { item }: { item: any }) => {
+  console.log('item', item);
+  console.log('model.value.details', model.value.details);
+  const areEqual = (obj1: BudgetDetailDto, obj2: BudgetDetailDto) => {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+  };
+
+  indexSelected.value = model.value.details.findIndex(x => x === item);
+  console.log('indexSelected', indexSelected.value);
+  // detailSelected.value = event;
+  // showPatientTreatmentDialog.value = true;
 };
 
+const updateDetail = (event: BudgetDetailDto) => {
+  model.value.details[indexSelected.value] = event;
+};
 </script>

@@ -114,7 +114,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import type { UpsertPatientDto } from '@/types/patient';
-import UiParentCard from '../shared/UiParentCard.vue';
 
 const props = defineProps({
   validationErrors: {

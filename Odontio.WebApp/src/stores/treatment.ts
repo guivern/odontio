@@ -1,4 +1,4 @@
-import type { TreatmentsDto } from '@/types/treatment';
+import type { TreatmentDto } from '@/types/treatment';
 import { defineStore } from 'pinia';
 import TreatmentsService from '@/services/TreatmentsService';
 
@@ -6,7 +6,7 @@ import TreatmentsService from '@/services/TreatmentsService';
 export const useTreatmentsStore = defineStore({
   id: 'treatment',
   state: () => ({
-    treatments: [] as TreatmentsDto[],
+    treatments: [] as TreatmentDto[],
   }),
   actions: {
     async getFiltered(workspaceId: number, filter: string | null = null) {
