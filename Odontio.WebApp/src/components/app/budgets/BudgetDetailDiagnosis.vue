@@ -1,6 +1,6 @@
 <template>
   <h4 class="mb-4">Diagnóstico</h4>
-  <teeth-search return-object v-model="selectedTooth" />
+  <teeth-search return-object v-model="selectedTooth" :initial-tooth-id="initialToothId" />
   <v-row>
     <template v-if="thereArePrevDiagnoses">
       <v-col cols="12">
@@ -67,6 +67,7 @@ const showPrevDiagnoses = ref(false);
 const errorFetch = ref(false);
 const selectedTooth = ref<TeethDto>() as Ref<TeethDto>;
 const toothId = computed(() => selectedTooth?.value?.id);
+const initialToothId = ref<number | undefined>(undefined);
 const diagnosis = ref<DiagnosisDto>({
   id: null,
   date: new Date(),
@@ -164,10 +165,11 @@ watch(
   (newValue) => {
     if (newValue) {
       diagnosis.value = newValue;
+      if (newValue.toothId && newValue.toothName) initialToothId.value = newValue.toothId;
     } else {
       resetDiagnosis();
     }
   },
-  { deep: true }
+  { deep: true, immediate: true }
 );
 </script>

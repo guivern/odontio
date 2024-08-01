@@ -79,7 +79,7 @@ watch(
     color="default"
     label="Tratamiento"
     :items="items"
-    :loading="loading"
+    :loading="loading ? 'primary' : false"
     @input="handleInput"
     :prepend-inner-icon="modelValue ? '' : 'mdi-magnify'"
   >

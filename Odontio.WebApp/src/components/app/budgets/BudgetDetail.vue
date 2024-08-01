@@ -109,6 +109,7 @@ watch(
     if (newValue) {
       model.value = newValue;
       diagnosis.value = newValue.diagnosis as DiagnosisDto;
+      selectedTreatment.value = newValue.treatment;
     }
   }
 );
@@ -116,18 +117,17 @@ watch(
 watch(
   () => selectedTreatment.value,
   (newValue, oldVal) => {
-    console.log('newValue', newValue);
-    console.log('oldVal', oldVal);
     if (newValue) {
       model.value.treatment.id = newValue.id;
       model.value.treatment.name = newValue.name;
-      model.value.cost = newValue.cost;
+      if ((!oldVal && !model.value.cost) || (oldVal && oldVal.id !== newValue.id)) model.value.cost = newValue.cost;
     } else {
       model.value.treatment.id = null;
       model.value.treatment.name = null;
       model.value.cost = null;
     }
-  }
+  },
+  { immediate: true }
 );
 
 watch(

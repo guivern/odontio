@@ -109,8 +109,6 @@ const model = ref<UpsertMedicalConditionQuestionDto>({
 });
 
 onMounted(async () => {
-  console.log('props.workspaceId', props.workspaceId);
-  console.log('props.diseaseId', props.medicalConditionId);
   if (props.medicalConditionId) {
     readMode.value = true;
   }

@@ -18,8 +18,7 @@
         :loading="loading"
       />
     </v-col>
-    <v-col cols="12" md="6">
-      <base-text-input label="Diente" :readonly="true" v-model="toothName" :loading="loading" /> </v-col
+    <v-col cols="12" md="6"> <base-text-input label="Diente" :readonly="true" v-model="toothName" :loading="loading" /> </v-col
   ></v-row>
 </template>
 <script setup lang="ts">
@@ -31,6 +30,10 @@ const props = defineProps({
   modelValue: {
     type: [String, Number, Array, Object],
     default: null
+  },
+  initialToothId: {
+    type: Number,
+    requered: false
   }
 });
 
@@ -95,5 +98,32 @@ watch(
         });
     }
   }
+);
+
+//watch initialToothId
+watch(
+  () => props.initialToothId,
+  async (newValue) => {
+    if (newValue) {
+      const tooth = items.value.find((item) => item.id === newValue);
+
+      if (tooth) {
+        emits('update:modelValue', tooth);
+      }
+
+      if (!tooth) {
+        await teethStore
+          .getById(newValue)
+          .then((data) => {
+            items.value = [data as TeethDto];
+            emits('update:modelValue', data);
+          })
+          .catch((error) => {
+            console.error('Error fetching tooth:', error);
+          });
+      }
+    }
+  },
+  { immediate: true }
 );
 </script>

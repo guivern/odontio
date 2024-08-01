@@ -246,7 +246,6 @@ watch(loading2, (value) => {
 
 watch(inactivateMode, (value) => {
   if (value) {
-    console.log('Usuario inactivo');
     alert.value.title = 'Usuario Desactivado';
     alert.value.message = 'Este usuario se encuentra desactivado.';
     alert.value.type = 'info';

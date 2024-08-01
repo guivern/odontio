@@ -55,14 +55,17 @@
         />
       </v-col>
       <v-col cols="12">
-        <!-- <v-divider></v-divider> -->
-        <UiParentCard title="Detalle" flat :with-actions="false">
+        <UiParentCard variant="text" title="Detalle" flat :with-actions="false">
           <template #actions-header>
             <v-btn v-if="!readMode" icon title="Agregar" flat color="secondary" @click="showPatientTreatmentDialog = true">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
-          <v-data-table-virtual :headers="headers as any" :items="model.details" @click:row="onDetailSelected" />
+          <v-data-table-virtual :headers="headers as any" :items="model.details" @click:row="onDetailSelected">
+            <template v-slot:item.cost="{ item }">
+              <div>{{ formatCurrency(item.cost as number) }}</div>
+            </template>
+          </v-data-table-virtual>
         </UiParentCard>
       </v-col>
     </v-row>
@@ -82,6 +85,7 @@ import { onMounted, shallowRef, computed, ref, type Ref } from 'vue';
 import type { CreateBudgetDto } from '@/types/budget';
 import type { BudgetDetailDto } from '@/types/budget';
 import BudgetDetail from '@/components/app/budgets/BudgetDetail.vue';
+import { useCurrency } from '@/composables/useCurrency';
 
 const props = defineProps({
   workspaceId: {
@@ -98,6 +102,7 @@ const props = defineProps({
   }
 });
 
+const { formatCurrency } = useCurrency();
 const showPatientTreatmentDialog = ref(false);
 const validationErrors = ref<any>([]);
 const loading = ref(false);
@@ -126,7 +131,7 @@ const breadcrumbs = shallowRef([
 ]);
 const headers = ref([
   { title: 'Diente', key: 'diagnosis.toothName' },
-  { title: 'Diagnóstico', key: 'diagnosis.description' },
+  //{ title: 'Diagnóstico', key: 'diagnosis.description' },
   { title: 'Tratamiento', key: 'treatment.name' },
   { title: 'Observaciones', key: 'observations' },
   { title: 'Precio', align: 'end', key: 'cost' }
@@ -147,16 +152,9 @@ const addDetail = (event: BudgetDetailDto) => {
 };
 
 const onDetailSelected = (event: any, { item }: { item: any }) => {
-  console.log('item', item);
-  console.log('model.value.details', model.value.details);
-  const areEqual = (obj1: BudgetDetailDto, obj2: BudgetDetailDto) => {
-    return JSON.stringify(obj1) === JSON.stringify(obj2);
-  };
-
-  indexSelected.value = model.value.details.findIndex(x => x === item);
-  console.log('indexSelected', indexSelected.value);
-  // detailSelected.value = event;
-  // showPatientTreatmentDialog.value = true;
+  indexSelected.value = model.value.details.findIndex((x) => x === item);
+  detailSelected.value = { ...item };
+  showPatientTreatmentDialog.value = true;
 };
 
 const updateDetail = (event: BudgetDetailDto) => {

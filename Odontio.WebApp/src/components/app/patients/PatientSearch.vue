@@ -16,8 +16,6 @@ let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 const router = useRouter();
 
 onMounted(async () => {
-  // TODO: Verify bug when refresh page the patient is lost
-  console.log('patientStore.patient', patientStore.patient);
   if (patientStore.patient) {
     items.value = [patientStore.patient];
     patientId.value = patientStore.patient.id;

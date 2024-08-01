@@ -8,7 +8,7 @@ const endpoint = baseUrl + '/v1/teeth';
 export const useTeethStore = defineStore({
   id: 'teeth',
   state: () => ({
-    teeth: [] as TeethDto[],
+    teeth: [] as TeethDto[]
   }),
   actions: {
     async getAll(odontogram: string | null = null) {
@@ -34,6 +34,16 @@ export const useTeethStore = defineStore({
       }
 
       return this.teeth;
+    },
+    async getById(id: number) {
+      const tooth = this.teeth.find((t) => t.id === id);
+      if (tooth) return tooth;
+
+      fetchWrapper.get(`${endpoint}/${id}`).then((response) => {
+        this.teeth = [...this.teeth, response.data];
+      });
+
+      return this.teeth.find((t) => t.id === id);
     },
     clearTeeth() {
       this.teeth = [];
