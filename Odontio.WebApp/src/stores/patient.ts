@@ -4,16 +4,16 @@ import type { PatientDto } from '@/types/patient';
 export const usePatientStore = defineStore({
   id: 'patient',
   state: () => ({
-    workspaceId : null as number | null,
-    patient: null as PatientDto | null,
+    patient: localStorage.getItem('patient') ? JSON.parse(localStorage.getItem('patient') as string) : null
   }),
   actions: {
-    setSelectedPatient(workspaceId: number, patient: PatientDto) {
-      this.workspaceId = workspaceId;
+    setPatient(patient: PatientDto) {
       this.patient = patient;
+      localStorage.setItem('patient', JSON.stringify(this.patient));
     },
-    clearSelectedPatient() {
+    clearPatient() {
       this.patient = null;
-    },
+      localStorage.removeItem('patient');
+    }
   }
 });

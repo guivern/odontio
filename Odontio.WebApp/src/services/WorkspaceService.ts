@@ -22,7 +22,7 @@ export default {
 
     return fetchWrapper.get(apiUrl);
   },
-  get(id: number) {
+  getById(id: number) {
     return fetchWrapper.get(`${endpoint}/${id}`);
   },
   create(body: any) {

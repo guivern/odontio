@@ -1,4 +1,4 @@
-export type GetWorkspaceDto = {
+export type WorkspaceDto = {
   id: number;
   name: string;
   address: string | null;

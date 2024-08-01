@@ -121,7 +121,7 @@ const goToDetail = (event: any) => {
 };
 
 onMounted(async () => {
-  patientStore.clearSelectedPatient();
+  patientStore.clearPatient();
   await getItems();
 });
 

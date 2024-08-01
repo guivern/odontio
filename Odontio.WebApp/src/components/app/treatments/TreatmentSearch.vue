@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { usePatientStore } from '@/stores/patient';
+import { useWorkspace } from '@/stores/workspace';
 import type { TreatmentDto } from '@/types/treatment';
 import TreatmentsService from '@/services/TreatmentsService';
 
 const loading = ref(false);
 const items = ref<TreatmentDto[]>([]);
 const patientStore = usePatientStore();
+const workspaceStore = useWorkspace();
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const props = defineProps({
@@ -20,7 +22,7 @@ const emits = defineEmits(['update:modelValue']);
 
 const getItems = async (filter: string) => {
   loading.value = true;
-  await TreatmentsService.getByWorkspace(patientStore.workspaceId as number, 1, -1, filter)
+  await TreatmentsService.getByWorkspace(workspaceStore.workspace.id, 1, -1, filter)
     .then((response) => {
       items.value = response.data;
     })
@@ -49,7 +51,7 @@ watch(
   () => props.modelValue as TreatmentDto,
   async (newValue) => {
     if (newValue && !items.value.find((item) => item.id === newValue.id)) {
-      await TreatmentsService.getById(patientStore.workspaceId as number, newValue.id as number)
+      await TreatmentsService.getById(workspaceStore.workspace.id, newValue.id as number)
         .then((response) => {
           items.value = [response.data];
           emits('update:modelValue', response.data);
@@ -79,6 +81,7 @@ watch(
     :items="items"
     :loading="loading"
     @input="handleInput"
+    :prepend-inner-icon="modelValue ? '' : 'mdi-magnify'"
   >
   </base-autocomplete>
 </template>

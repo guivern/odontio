@@ -25,12 +25,7 @@
             @submit.prevent="updateBasicInfo"
             :disabled="loading"
           >
-            <patient-basic-info
-              v-model="patient"
-              :validation-errors="validationErrors"
-              :loading="loading"
-              :read-mode="readMode"
-            >
+            <patient-basic-info v-model="patient" :validation-errors="validationErrors" :loading="loading" :read-mode="readMode">
               <template #actions>
                 <form-actions
                   :loading="loading"
@@ -44,12 +39,7 @@
           </v-form>
         </v-tabs-window-item>
         <v-tabs-window-item value="other-data-form">
-          <patient-other-data
-            v-model="patient"
-            :validation-errors="validationErrors"
-            :loading="loading"
-            :read-mode="readMode"
-          >
+          <patient-other-data v-model="patient" :validation-errors="validationErrors" :loading="loading" :read-mode="readMode">
             <template #actions>
               <form-actions
                 :loading="loading"
@@ -104,12 +94,7 @@
         <v-tabs-window-item value="dental-info-form">
           <patient-dental-info v-model="patient" :validation-errors="validationErrors" :loading="loading" :read-mode="readMode">
             <template #actions>
-              <form-actions
-                :loading="loading"
-                :read-mode="readMode"
-                :show-delete-btn="false"
-                @on:submit="updatePatient"
-              />
+              <form-actions :loading="loading" :read-mode="readMode" :show-delete-btn="false" @on:submit="updatePatient" />
             </template>
           </patient-dental-info>
         </v-tabs-window-item>
@@ -257,11 +242,16 @@ const parseDateWithoutTime = (dateString: string) => {
 };
 
 const getPatient = async () => {
+  if (patientStore.patient && patientStore.patient.id === props.patientId) {
+    patient.value = patientStore.patient as PatientDetailsDto;
+    patient.value.birthdate = patient.value.birthdate ? parseDateWithoutTime(patient.value.birthdate.toString()) : null;
+    return;
+  }
   PatientsService.getById(props.workspaceId, props.patientId as number)
     .then((response) => {
       patient.value = response.data as PatientDetailsDto;
       patient.value.birthdate = patient.value.birthdate ? parseDateWithoutTime(patient.value.birthdate.toString()) : null;
-      patientStore.setSelectedPatient(props.workspaceId, patient.value as PatientDto);
+      patientStore.setPatient(patient.value as PatientDto);
     })
     .catch((error) => {
       console.error(error);

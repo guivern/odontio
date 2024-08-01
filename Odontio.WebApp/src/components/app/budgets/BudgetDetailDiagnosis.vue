@@ -46,6 +46,7 @@ import type { TeethDto } from '@/types/teeth';
 import { usePatientStore } from '@/stores/patient';
 import DiagnosesService from '@/services/DiagnosesService';
 import TeethSearch from '../teeth/TeethSearch.vue';
+import { useWorkspace } from '@/stores/workspace';
 
 const props = defineProps({
   modelValue: {
@@ -56,6 +57,7 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue']);
 
+const workspaceStore = useWorkspace();
 const patientStore = usePatientStore();
 const prevDiagnoses = ref<DiagnosisDto[]>([]);
 const prevDiagnosesLoading = ref(false);
@@ -115,7 +117,7 @@ watch(
     if (newValue) {
       prevDiagnosesLoading.value = true;
       prevDiagnoses.value = [];
-      DiagnosesService.getByPatientTooth(patientStore.workspaceId as number, patientStore.patient?.id as number, newValue)
+      DiagnosesService.getByPatientTooth(workspaceStore.workspace.id, patientStore.patient.id, newValue)
         .then((response) => {
           prevDiagnoses.value = response.data;
         })

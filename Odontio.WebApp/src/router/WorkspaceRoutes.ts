@@ -1,7 +1,28 @@
 import PatientRoutes from './PatientRoutes';
+import { useWorkspace } from '@/stores/workspace';
+import WorkspaceService from '@/services/WorkspaceService';
 
 const WorkspaceRoutes = {
   path: 'workspace/:workspaceId',
+  beforeEnter: async (to: any, from: any, next: any) => {
+    const workspaceId = Number(to.params.workspaceId);
+    const workspaceStore = useWorkspace();
+    if (!workspaceStore.workspace || workspaceStore.workspace.id !== workspaceId) {
+      await WorkspaceService.getById(workspaceId)
+        .then((response) => {
+          workspaceStore.setWorkspace(response.data);
+          next();
+        })
+        .catch((error) => {
+          if (error.status === 404) {
+            console.log('Workspace not found');
+            next({ name: 'app-error', query: { message: 'El workspace no existe o ha sido eliminado' } });
+          } else next({ name: 'app-error' });
+        });
+    } else {
+      next();
+    }
+  },
   children: [
     {
       path: '',

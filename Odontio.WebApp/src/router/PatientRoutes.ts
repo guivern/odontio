@@ -1,3 +1,6 @@
+import { usePatientStore } from '@/stores/patient';
+import PatientsService from '@/services/PatientsService';
+
 const PatientRoutes = {
   path: 'patients',
   children: [
@@ -15,6 +18,25 @@ const PatientRoutes = {
     },
     {
       path: ':patientId',
+      beforeEnter: async (to: any, from: any, next: any) => {
+        // if patient in store is null or has a difference id, set patient in store
+        const patientId = Number(to.params.patientId);
+        const workspaceId = Number(to.params.workspaceId);
+        const patientStore = usePatientStore();
+        if (!patientStore.patient || patientStore.patient.id !== patientId) {
+          await PatientsService.getById(workspaceId, patientId)
+            .then((response) => {
+              patientStore.setPatient(response.data);
+              next();
+            })
+            .catch((error) => {
+              if (error.status === 404) next({ name: 'app-error', query: { message: 'El paciente no existe o ha sido eliminado' } });
+              else next({ name: 'app-error' });
+            });
+        } else {
+          next();
+        }
+      },
       children: [
         {
           path: '',

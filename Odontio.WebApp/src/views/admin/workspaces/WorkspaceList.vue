@@ -40,7 +40,7 @@
 import { ref, watch, shallowRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { DEFAULT_PAGE_SIZE } from '@/types/constants';
-import type { GetWorkspaceDto } from '@/types/workspace';
+import type { WorkspaceDto } from '@/types/workspace';
 import WorskapceService from '@/services/WorkspaceService';
 import { onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
@@ -49,7 +49,7 @@ const toast = useToast();
 const fetchError = ref(false);
 const router = useRouter();
 const search = ref('');
-const items = ref<GetWorkspaceDto[]>([]);
+const items = ref<WorkspaceDto[]>([]);
 const page = ref(1);
 const pageSize = ref(DEFAULT_PAGE_SIZE);
 const totalItems = ref(0);
@@ -96,7 +96,7 @@ const getItems = async () => {
       const pagination = JSON.parse(response.headers.get('x-pagination'));
       totalPages.value = pagination.totalPages;
       totalItems.value = pagination.totalItems;
-      items.value = response.data as GetWorkspaceDto[];
+      items.value = response.data as WorkspaceDto[];
     })
     .catch((error) => {
       toast.error('Ocurrió un error');

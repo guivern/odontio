@@ -81,7 +81,7 @@
 import { onMounted, ref, watch, defineModel } from 'vue';
 import UsersService from '@/services/UsersService';
 import { useToast } from 'vue-toastification';
-import type { GetWorkspaceDto } from '@/types/workspace';
+import type { WorkspaceDto } from '@/types/workspace';
 import WorkspaceService from '@/services/WorkspaceService';
 import type { RoleDto } from '@/types/role';
 import RolesService from '@/services/RolesService';
@@ -134,7 +134,7 @@ const model = ref<UpsertUserDto>({
   lastName: null,
   photoUrl: null
 });
-const workspaces = ref<GetWorkspaceDto[]>([]);
+const workspaces = ref<WorkspaceDto[]>([]);
 const roles = ref<RoleDto[]>([]);
 const alert = ref<AlertInfo>({
   show: false,
@@ -163,7 +163,7 @@ const getWorkspaces = async () => {
   fetchError.value = false;
   await WorkspaceService.getAll(1, -1, null, null)
     .then((response) => {
-      workspaces.value = response.data as GetWorkspaceDto[];
+      workspaces.value = response.data as WorkspaceDto[];
     })
     .catch((error) => {
       fetchError.value = true;

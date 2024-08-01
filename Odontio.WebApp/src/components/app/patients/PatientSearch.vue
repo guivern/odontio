@@ -3,6 +3,7 @@ import type { PatientDto } from '@/types/patient';
 import { watch, ref, onMounted } from 'vue';
 import { usePatientStore } from '@/stores/patient';
 import { useRouter } from 'vue-router';
+import { useWorkspace } from '@/stores/workspace';
 import PatientsService from '@/services/PatientsService';
 
 const loading = defineModel<boolean>('loading');
@@ -10,24 +11,16 @@ const patientId = defineModel<number | null>('patientId');
 
 const items = ref<PatientDto[]>([]);
 const patientStore = usePatientStore();
+const workspaceStore = useWorkspace();
 let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 const router = useRouter();
 
 onMounted(async () => {
   // TODO: Verify bug when refresh page the patient is lost
+  console.log('patientStore.patient', patientStore.patient);
   if (patientStore.patient) {
     items.value = [patientStore.patient];
     patientId.value = patientStore.patient.id;
-  } else if (router.currentRoute.value.params.patientId) {
-    const wokrspaceId = parseInt(router.currentRoute.value.params.workspaceId as string);
-    const patientId = parseInt(router.currentRoute.value.params.patientId as string);
-    await PatientsService.getById(wokrspaceId, patientId)
-      .then((response) => {
-        patientStore.setSelectedPatient(wokrspaceId, response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching patient:', error);
-      });
   }
 });
 
@@ -49,7 +42,7 @@ watch(
 
 const getItems = async (filter: string) => {
   loading.value = true;
-  await PatientsService.getByWorkspace(patientStore.workspaceId as number, 1, -1, filter)
+  await PatientsService.getByWorkspace(workspaceStore.workspace.id, 1, -1, filter)
     .then((response) => {
       items.value = response.data;
     })

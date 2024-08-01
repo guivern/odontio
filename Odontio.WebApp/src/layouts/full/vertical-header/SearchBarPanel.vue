@@ -2,6 +2,7 @@
 import { watch, ref } from 'vue';
 import { XIcon } from 'vue-tabler-icons';
 import { usePatientStore } from '@/stores/patient';
+import { useWorkspace } from '@/stores/workspace';
 import { useRouter } from 'vue-router';
 import PatientSearch from '@/components/app/patients/PatientSearch.vue';
 
@@ -19,13 +20,14 @@ const props = defineProps({
 
 const router = useRouter();
 const patientStore = usePatientStore();
+const workspaceStore = useWorkspace();
 const patientId = ref<number | null>(null);
 
 watch(
   () => patientId.value,
   (newValue) => {
     if (newValue && newValue != patientStore.patient?.id) {
-      router.replace({ name: 'patient-detail', params: { patientId: newValue, workspaceId: patientStore.workspaceId } });
+      router.replace({ name: 'patient-detail', params: { patientId: newValue, workspaceId: workspaceStore.workspace.id } });
     }
   }
 );

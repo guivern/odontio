@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref, shallowRef } from 'vue';
-import type { ShallowReactive } from 'vue';
 import { useRouter } from 'vue-router';
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-import WorkspaceService from '@/services/WorkspaceService';
 import { useToast } from 'vue-toastification';
+import { useWorkspace } from '@/stores/workspace';
+import type { ShallowReactive } from 'vue';
 import type { UpsertWorkspaceDto } from '@/types/workspace';
 import type { AlertInfo } from '@/types/alert';
+import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+import WorkspaceService from '@/services/WorkspaceService';
 
 const props = defineProps({
   id: {
@@ -15,6 +16,7 @@ const props = defineProps({
   }
 });
 
+const workspaceStore = useWorkspace();
 const toast = useToast();
 const router = useRouter();
 const page = ref({ title: props.id ? 'Detalle de Workspace' : 'Crear Workspace' });
@@ -94,11 +96,17 @@ const deleteWorkspace = async () => {
 };
 
 const fetchData = async () => {
+  if (workspaceStore.workspace && workspaceStore.workspace.id === props.id) {
+    model.value = workspaceStore.workspace;
+    return;
+  }
+
   loading.value = true;
   fetchError.value = false;
-  await WorkspaceService.get(props.id as number)
+  await WorkspaceService.getById(props.id as number)
     .then((response) => {
       model.value = response.data;
+      workspaceStore.setWorkspace(response.data);
     })
     .catch((error) => {
       fetchError.value = true;

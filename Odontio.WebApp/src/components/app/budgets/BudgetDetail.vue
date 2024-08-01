@@ -115,15 +115,13 @@ watch(
 
 watch(
   () => selectedTreatment.value,
-  (newValue) => {
+  (newValue, oldVal) => {
+    console.log('newValue', newValue);
+    console.log('oldVal', oldVal);
     if (newValue) {
       model.value.treatment.id = newValue.id;
       model.value.treatment.name = newValue.name;
-
-      // update cost only if it's not set
-      if (!model.value.cost) {
-        model.value.cost = newValue.cost;
-      }
+      model.value.cost = newValue.cost;
     } else {
       model.value.treatment.id = null;
       model.value.treatment.name = null;

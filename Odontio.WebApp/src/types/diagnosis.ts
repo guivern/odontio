@@ -5,7 +5,7 @@ export type UpsertDiagnosisDto = {
   observations: string | null;
 };
 
-export type DiagnosisDetailsDto = {
+export type DiagnosisDto = {
   id: number | null;
   date: Date | string;
   toothId: number | null;
