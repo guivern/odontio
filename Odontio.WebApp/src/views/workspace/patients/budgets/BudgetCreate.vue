@@ -57,11 +57,13 @@
       <v-col cols="12">
         <UiParentCard variant="text" title="Detalle" flat :with-actions="false">
           <template #actions-header>
-            <v-btn v-if="!readMode" icon title="Agregar" flat color="secondary" @click="showPatientTreatmentDialog = true">
+            <v-btn v-if="!readMode" icon title="Agregar" flat color="secondary" @click="showDetailDialog = true">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
-          <v-data-table-virtual :headers="headers as any" :items="model.details" @click:row="onDetailSelected">
+          // ts ingnore
+          <!-- @vue-ignore -->
+          <v-data-table-virtual :headers="headers" :items="model.details" @click:row="onDetailSelected">
             <template v-slot:item.cost="{ item }">
               <div>{{ formatCurrency(item.cost as number) }}</div>
             </template>
@@ -74,7 +76,7 @@
     </template>
   </UiParentCard>
   <budget-detail
-    v-model="showPatientTreatmentDialog"
+    v-model="showDetailDialog"
     :selected-detail="detailSelected"
     @on:add="addDetail($event)"
     @on:update="updateDetail($event)"
@@ -103,7 +105,7 @@ const props = defineProps({
 });
 
 const { formatCurrency } = useCurrency();
-const showPatientTreatmentDialog = ref(false);
+const showDetailDialog = ref(false);
 const validationErrors = ref<any>([]);
 const loading = ref(false);
 const readMode = ref(false);
@@ -154,7 +156,7 @@ const addDetail = (event: BudgetDetailDto) => {
 const onDetailSelected = (event: any, { item }: { item: any }) => {
   indexSelected.value = model.value.details.findIndex((x) => x === item);
   detailSelected.value = { ...item };
-  showPatientTreatmentDialog.value = true;
+  showDetailDialog.value = true;
 };
 
 const updateDetail = (event: BudgetDetailDto) => {
