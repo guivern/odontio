@@ -5,12 +5,13 @@ public class CreateBudgetRequest
     public DateOnly? Date { get; set; }
     public DateOnly ExpirationDate { get; set; }
     public string? Observations { get; set; }
-    public List<CreatePatientTreatmentRequest> PatientTreatments { get; set; } = new();
+    public List<CreatePatientTreatmentRequest> Details { get; set; } = new();
 }
 
 public class CreatePatientTreatmentRequest
 {
-    public long TreatmentId { get; set; }
-    public long? DiagnosisId { get; set; }
+    public BudgetTreatmentRequest Treatment { get; set; } = null!;
+    public BudgetDiagnosisRequest? Diagnosis { get; set; }
+    public string? Observations { get; set; }
     public decimal Cost { get; set; }
 }

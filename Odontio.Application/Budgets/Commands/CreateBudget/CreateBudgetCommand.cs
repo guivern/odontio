@@ -15,13 +15,13 @@ public class CreateBudgetCommand: IRequest<ErrorOr<UpsertBudgetResult>>, IPatien
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }
     
-    public List<CreatePatientTreatmentDto> PatientTreatments { get; set; } = new();
+    public List<CreatePatientTreatmentDto> Details { get; set; } = new();
 }
 
 public class CreatePatientTreatmentDto
 {
-    public long TreatmentId { get; set; }
-    public long? DiagnosisId { get; set; }
+    public BudgetTreatmentDto Treatment { get; set; } = null!;
+    public BudgetDiagnosisDto? Diagnosis { get; set; }
     public string? Observations { get; set; }
     public decimal Cost { get; set; }
 }

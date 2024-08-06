@@ -14,7 +14,7 @@ const PatientRoutes = {
       path: 'create',
       name: 'patient-create',
       props: (route: any) => ({ workspaceId: Number(route.params.workspaceId) }),
-      component: () => import('@/views/workspace/patients/PatientCreate.vue')
+      component: () => import('@/views/workspace/patients/PatientCreateForm.vue')
     },
     {
       path: ':patientId',
@@ -41,7 +41,7 @@ const PatientRoutes = {
         {
           path: '',
           name: 'patient-detail',
-          component: () => import('@/views/workspace/patients/PatientDetail.vue'),
+          component: () => import('@/views/workspace/patients/PatientDetailForm.vue'),
           props: (route: any) => ({ workspaceId: Number(route.params.workspaceId), patientId: Number(route.params.patientId) })
         },
         {
@@ -62,13 +62,13 @@ const PatientRoutes = {
             {
               path: 'create',
               name: 'budget-create',
-              component: () => import('@/views/workspace/patients/budgets/BudgetCreate.vue'),
+              component: () => import('@/views/workspace/patients/budgets/BudgetForm.vue'),
               props: (route: any) => ({ workspaceId: Number(route.params.workspaceId), patientId: Number(route.params.patientId) })
             },
             {
               path: ':budgetId',
               name: 'budget-detail',
-              component: () => import('@/views/workspace/patients/budgets/BudgetCreate.vue'),
+              component: () => import('@/views/workspace/patients/budgets/BudgetForm.vue'),
               props: (route: any) => ({
                 workspaceId: Number(route.params.workspaceId),
                 patientId: Number(route.params.patientId),

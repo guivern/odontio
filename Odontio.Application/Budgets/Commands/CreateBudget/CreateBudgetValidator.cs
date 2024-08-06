@@ -19,7 +19,7 @@ public class CreateBudgetValidator : AbstractValidator<CreateBudgetCommand>
             .WithMessage("Patient is required");
 
         // validate that PatientTreatment is not null
-        RuleFor(x => x.PatientTreatments)
+        RuleFor(x => x.Details)
             .NotEmpty()
             .WithMessage("PatientTreatments are required");
 
@@ -27,7 +27,7 @@ public class CreateBudgetValidator : AbstractValidator<CreateBudgetCommand>
         // RuleForEach(x => x.PatientTreatments).SetAsyncValidator(new AddPatientTreatmentValidator(_context));
 
         // validate that each treatmentId exists
-        RuleFor(x => x.PatientTreatments)
+        RuleFor(x => x.Details)
             .ForEach(x => x.MustAsync(TreatmentExists).WithMessage("Treatment does not exist"));
         
         // validate that each toothId exists
@@ -35,7 +35,7 @@ public class CreateBudgetValidator : AbstractValidator<CreateBudgetCommand>
         //     .ForEach(x => x.MustAsync(ToothExists).WithMessage("Tooth does not exist"));
         
         // validate that each cost is a positive value
-        RuleFor(x => x.PatientTreatments)
+        RuleFor(x => x.Details)
             .ForEach(x => x.Must(y => y.Cost >= 0).WithMessage("Cost must be a positive value"));
     }
 
@@ -52,7 +52,7 @@ public class CreateBudgetValidator : AbstractValidator<CreateBudgetCommand>
 
     private Task<bool> TreatmentExists(CreatePatientTreatmentDto arg1, CancellationToken arg2)
     {
-        var exists = _context.Treatments.AsNoTracking().AnyAsync(x => x.Id == arg1.TreatmentId, cancellationToken: arg2);
+        var exists = _context.Treatments.AsNoTracking().AnyAsync(x => x.Id == arg1.Treatment.Id, cancellationToken: arg2);
         return exists;
     }
 }

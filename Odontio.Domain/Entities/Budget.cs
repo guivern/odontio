@@ -10,7 +10,7 @@ public class Budget: BaseAuditableEntity
     public DateOnly Date { get; set; }
     public BudgetStatus Status { get; set; }
 
-    public DateOnly ExpirationDate { get; set; }
+    public DateOnly? ExpirationDate { get; set; }
     public string? Observations { get; set; }
     
     public long PatientId { get; set; }

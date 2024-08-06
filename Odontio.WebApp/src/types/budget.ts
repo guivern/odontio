@@ -10,9 +10,10 @@ export type BudgetDto = {
   totalCost: number;
 };
 
-export type CreateBudgetDto = {
-  date: Date | string;
-  expirationDate: Date | string;
+export type UpsertBudgetDto = {
+  id: number | null;
+  date: Date | string | null;
+  expirationDate: Date | string | null; 
   observations: string | null;
   details: BudgetDetailDto[];
 };

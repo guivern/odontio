@@ -13,7 +13,38 @@ public class CreateBudgetHandler(IApplicationDbContext context, IMapper mapper, 
         
         budget.Date = request.Date ?? dateTimeProvider.Today;
         budget.Status = BudgetStatus.Pending;
-        budget.ExpirationDate = budget.Date.AddMonths(1);
+        budget.ExpirationDate ??= budget.Date.AddMonths(1);
+
+        foreach (var detail in request.Details)
+        {
+            if (detail.Diagnosis != null && detail.Diagnosis.Id != null)
+            {
+                var diagnosis = await context.Diagnoses.FindAsync(new object[] { detail.Diagnosis.Id }, cancellationToken);
+                if (diagnosis == null)
+                {
+                    return Error.NotFound(nameof(Diagnosis), "Diagnosis Not Found");
+                }
+                
+                budget.PatientTreatments.Add(new PatientTreatment
+                {
+                    TreatmentId = detail.Treatment.Id,
+                    DiagnosisId = detail.Diagnosis.Id,
+                    Observations = detail.Observations,
+                    Cost = detail.Cost
+                });      
+            }
+            else if (detail.Diagnosis != null)
+            {
+                var diagnosis = mapper.Map<Diagnosis>(detail.Diagnosis);
+                budget.PatientTreatments.Add(new PatientTreatment
+                {
+                    TreatmentId = detail.Treatment.Id,
+                    Diagnosis = diagnosis,
+                    Observations = detail.Observations,
+                    Cost = detail.Cost
+                });
+            }
+        }
         
         context.Budgets.Add(budget);
         await context.SaveChangesAsync(cancellationToken);

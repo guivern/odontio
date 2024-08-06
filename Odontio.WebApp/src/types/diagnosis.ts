@@ -7,7 +7,7 @@ export type UpsertDiagnosisDto = {
 
 export type DiagnosisDto = {
   id: number | null;
-  date: Date | string;
+  date: Date | string | null;
   toothId: number | null;
   toothName: string | null;
   description: string | null;

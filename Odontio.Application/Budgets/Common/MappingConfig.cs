@@ -1,4 +1,5 @@
-﻿using Odontio.Domain.Entities;
+﻿using Odontio.Application.Budgets.Commands.CreateBudget;
+using Odontio.Domain.Entities;
 
 namespace Odontio.Application.Budgets.Common;
 
@@ -17,6 +18,13 @@ public class MappingConfig : IRegister
             .Map(dest => dest.TotalCost, src => src.PatientTreatments.Sum(x => x.Cost))
             .Map(dest => dest.TotalPayments, src => src.Payments.Sum(x => x.Amount))
             .Map(dest => dest.Balance, src => src.PatientTreatments.Sum(x => x.Cost) - src.Payments.Sum(x => x.Amount));
-            
+
+        config.NewConfig<CreateBudgetCommand, Budget>()
+            .Map(dest => dest.PatientTreatments, src => src.Details.Select(x => new PatientTreatment
+            {
+                TreatmentId = x.Treatment.Id,
+                Observations = x.Observations,
+                Cost = x.Cost
+            }).ToList());
     }
 }

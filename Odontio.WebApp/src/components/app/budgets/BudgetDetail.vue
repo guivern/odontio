@@ -9,31 +9,33 @@
     persistent
   >
     <UiParentCard title="Detalle de Presupuesto" :withActions="true">
-      <v-row>
-        <v-col cols="12">
-          <v-sheet>
-            <budget-detail-diagnosis v-model="diagnosis" />
-          </v-sheet>
-        </v-col>
-      </v-row>
-      <v-row class="mt-4">
-        <v-col cols="12">
-          <v-sheet rounded="md">
-            <h4 class="mb-4">Tratamiento</h4>
-            <v-row>
-              <v-col cols="12" md="12">
-                <treatment-search return-object v-model="selectedTreatment" />
-              </v-col>
-              <v-col cols="12" md="12">
-                <base-textarea label="Observaciones" v-model="model.observations" />
-              </v-col>
-              <v-col cols="12" md="6">
-                <base-currency-input label="Costo" v-model="model.cost" />
-              </v-col>
-            </v-row>
-          </v-sheet>
-        </v-col>
-      </v-row>
+      <v-form ref="form" v-model="valid" validate-on="blur" @keyup.enter="onSave" @submit.prevent="onSave">
+        <v-row>
+          <v-col cols="12">
+            <v-sheet>
+              <budget-detail-diagnosis v-model="diagnosis" />
+            </v-sheet>
+          </v-col>
+        </v-row>
+        <v-row class="mt-4">
+          <v-col cols="12">
+            <v-sheet rounded="md">
+              <h4 class="mb-4">Tratamiento</h4>
+              <v-row>
+                <v-col cols="12" md="12">
+                  <treatment-search return-object v-model="selectedTreatment" :rules="[(v: any) => !!v || 'Es requerido']" required />
+                </v-col>
+                <v-col cols="12" md="12">
+                  <base-textarea label="Observaciones" v-model="model.observations" />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <base-currency-input label="Costo" v-model="model.cost" />
+                </v-col>
+              </v-row>
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-form>
       <template #actions>
         <v-row no-gutters>
           <v-col cols="6">
@@ -70,6 +72,8 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue', 'on:add', 'on:update']);
 
+const valid = ref(false);
+const form = ref<any>();
 const diagnosis = ref<DiagnosisDto>() as Ref<DiagnosisDto>;
 const model = ref<BudgetDetailDto>({
   id: null,
@@ -93,14 +97,17 @@ const onCancel = () => {
   emits('update:modelValue', false);
 };
 
-const onSave = () => {
-  if (props.selectedDetail) {
-    emits('on:update', { ...model.value });
-  } else {
-    emits('on:add', { ...model.value });
-  }
+const onSave = async () => {
+  await form.value.validate();
+  if (valid.value) {
+    if (props.selectedDetail) {
+      emits('on:update', { ...model.value });
+    } else {
+      emits('on:add', { ...model.value });
+    }
 
-  emits('update:modelValue', false);
+    emits('update:modelValue', false);
+  }
 };
 
 watch(
