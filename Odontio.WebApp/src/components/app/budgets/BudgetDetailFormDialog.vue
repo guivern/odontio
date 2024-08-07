@@ -29,7 +29,7 @@
                   <base-textarea label="Observaciones" v-model="model.observations" />
                 </v-col>
                 <v-col cols="12" md="6">
-                  <base-currency-input label="Costo" v-model="model.cost" />
+                  <base-currency-input label="Costo" v-model="model.cost" :rules="[(v: any) => !!v || 'Es requerido']" required />
                 </v-col>
               </v-row>
             </v-sheet>

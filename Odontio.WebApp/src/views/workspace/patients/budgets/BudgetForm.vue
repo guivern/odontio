@@ -1,103 +1,107 @@
 <template>
   <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs" />
   <error-card v-if="fetchError" :with-retry="true" @on:retry="fetchData" />
-  <form-actions-toolbar
-    v-if="props.budgetId"
-    v-model="readMode"
-    :show-delete-btn="!!props.budgetId"
-    :disabled="loading"
-    @on:delete="showDeleteDialog = true"
-  >
-  </form-actions-toolbar>
-  <UiParentCard title="Datos del Presupuesto" flat :with-actions="true" :loading="loading ? 'primary' : false">
-    <v-form
-      ref="form"
-      v-model="valid"
-      :validate-on="readMode ? 'submit' : 'blur'"
-      @keyup.enter="submitForm"
-      @submit.prevent="submitForm"
+  <template v-else>
+    <form-actions-toolbar
+      v-if="props.budgetId"
+      v-model="readMode"
+      :show-delete-btn="!!props.budgetId"
       :disabled="loading"
+      @on:delete="showDeleteDialog = true"
     >
-      <v-row>
-        <v-col cols="12" md="6">
-          <v-date-input
-            label="Fecha de Presupuesto"
-            v-model="model.date"
-            variant="outlined"
-            prepend-icon=""
-            prepend-inner-icon="$calendar"
-            :readonly="readMode"
-            :error-messages="validationErrors['Date']"
-            hide-details="auto"
-            :hide-actions="true"
-            :disabled="!!loading"
-            clearable
-            :max="new Date().toISOString().substr(0, 10)"
-            display-value="dd/mm/yyyy"
-            :rules="[(v: any) => !!v || 'Es requerido']"
-            required
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-date-input
-            label="Fecha de Expiración"
-            v-model="model.expirationDate"
-            variant="outlined"
-            prepend-icon=""
-            prepend-inner-icon="$calendar"
-            :readonly="readMode"
-            :error-messages="validationErrors['ExpirationDate']"
-            hide-details="auto"
-            :hide-actions="true"
-            :disabled="!!loading"
-            clearable
-            display-value="dd/mm/yyyy"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <base-textarea
-            v-model="model.observations"
-            label="Observaciones"
-            :readonly="readMode"
-            :error-messages="validationErrors['Observation']"
-            hide-details="auto"
-            :disabled="!!loading"
-          />
-        </v-col>
-        <v-col cols="12" md="6">
-          <base-currency-input
-            label="Total"
-            :readonly="readMode"
-            :error-messages="validationErrors['Total']"
-            hide-details="auto"
-            :disabled="!!loading"
-            :rules="[(v: any) => !!v || 'Es requerido']"
-            required
-            v-model="total"
-          />
-        </v-col>
-        <v-col cols="12">
-          <UiParentCard variant="text" title="Detalle" flat :with-actions="false" :disabled="loading">
-            <template #actions-header>
-              <v-btn v-if="!readMode && !loading" icon title="Agregar" flat color="secondary" @click="showDetailDialog = true">
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </template>
-            <!-- @vue-ignore -->
-            <v-data-table-virtual :headers="headers" :items="model.details" @click:row="onDetailSelected">
-              <template v-slot:item.cost="{ item }">
-                <div>{{ formatCurrency(item.cost as number) }}</div>
+    </form-actions-toolbar>
+    <error-alert v-if="alert.show && alert.position == 'top'" :text="alert.message" class="my-4" :title="alert.title" />
+    <UiParentCard title="Datos del Presupuesto" flat :with-actions="true" :loading="loading">
+      <v-form
+        ref="form"
+        v-model="valid"
+        :validate-on="readMode ? 'submit' : 'blur'"
+        @keyup.enter="submitForm"
+        @submit.prevent="submitForm"
+        :disabled="loading"
+      >
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-date-input
+              label="Fecha de Presupuesto"
+              v-model="model.date"
+              variant="outlined"
+              prepend-icon=""
+              prepend-inner-icon="$calendar"
+              :readonly="readMode"
+              :error-messages="validationErrors['Date']"
+              hide-details="auto"
+              :hide-actions="true"
+              :disabled="!!loading"
+              :max="new Date().toISOString().substr(0, 10)"
+              display-value="dd/mm/yyyy"
+              :rules="[(v: any) => !!v || 'Es requerido']"
+              required
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-date-input
+              label="Fecha de Expiración"
+              v-model="model.expirationDate"
+              variant="outlined"
+              prepend-icon=""
+              prepend-inner-icon="$calendar"
+              :readonly="readMode"
+              :error-messages="validationErrors['ExpirationDate']"
+              hide-details="auto"
+              :hide-actions="true"
+              :disabled="!!loading"
+              clearable
+              display-value="dd/mm/yyyy"
+              @click:clear="model.expirationDate = null"
+              hint="Por defecto es un mes después de la fecha de presupuesto. Puede cambiarla si lo desea."
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <base-text-input
+              v-model="model.observations"
+              label="Observaciones"
+              :readonly="readMode"
+              :error-messages="validationErrors['Observation']"
+              hide-details="auto"
+              :disabled="!!loading"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <base-currency-input
+              label="Total"
+              :readonly="true"
+              :error-messages="validationErrors['Total']"
+              hide-details="auto"
+              :disabled="!!loading"
+              :rules="[(v: any) => !!v || 'Debe agregar al menos un tratamiento']"
+              required
+              v-model="total"
+            />
+          </v-col>
+          <v-col cols="12">
+            <UiParentCard variant="text" title="Detalle" flat :with-actions="false" :disabled="loading">
+              <template #actions-header>
+                <v-btn v-if="!readMode && !loading" icon title="Agregar" flat color="secondary" @click="showDetailDialog = true">
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
               </template>
-            </v-data-table-virtual>
-          </UiParentCard>
-        </v-col>
-      </v-row>
-    </v-form>
-    <template #actions>
-      <form-actions :loading="loading" :read-mode="readMode" :show-delete-btn="false" @on:submit="submitForm" />
-    </template>
-  </UiParentCard>
-  <budget-detail
+              <!-- @vue-ignore -->
+              <v-data-table-virtual :headers="headers" :items="model.details" @click:row="onDetailSelected">
+                <template v-slot:item.cost="{ item }">
+                  <div>{{ toCurrency(item.cost as number) }}</div>
+                </template>
+              </v-data-table-virtual>
+            </UiParentCard>
+          </v-col>
+        </v-row>
+      </v-form>
+      <template #actions>
+        <form-actions :loading="loading" :read-mode="readMode" :show-delete-btn="false" @on:submit="submitForm" />
+      </template>
+    </UiParentCard>
+  </template>
+  <budget-detail-form-dialog
     v-model="showDetailDialog"
     :selected-detail="detailSelected"
     @on:add="addDetail($event)"
@@ -112,15 +116,15 @@
   ></delete-dialog>
 </template>
 <script setup lang="ts">
-import { onMounted, shallowRef, computed, ref, type Ref } from 'vue';
+import { onMounted, shallowRef, computed, ref, type Ref, watch } from 'vue';
 import type { UpsertBudgetDto } from '@/types/budget';
 import type { BudgetDetailDto } from '@/types/budget';
-import { useCurrency } from '@/composables/useCurrency';
+import { useFormatter } from '@/composables/useFormatter';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
 import type { AlertInfo } from '@/types/alert';
-import BudgetDetail from '@/components/app/budgets/BudgetDetail.vue';
 import BudgetService from '@/services/BudgetService';
+import BudgetDetailFormDialog from '@/components/app/budgets/BudgetDetailFormDialog.vue';
 
 const props = defineProps({
   workspaceId: {
@@ -142,13 +146,14 @@ const fetchError = ref(false);
 const valid = ref(false);
 const toast = useToast();
 const router = useRouter();
-const { formatCurrency } = useCurrency();
+const { toCurrency, toDateOnly, toNumber } = useFormatter();
 const showDeleteDialog = ref(false);
 const showDetailDialog = ref(false);
 const validationErrors = ref<any>([]);
 const loading = ref(false);
 const readMode = ref(false);
 const page = ref({ title: props.budgetId ? 'Detalle de Presupuesto' : 'Crear Presupuesto' });
+const total = ref<any>();
 const breadcrumbs = shallowRef([
   {
     title: 'Pacientes',
@@ -174,13 +179,13 @@ const headers = ref([
   { title: 'Diente', key: 'diagnosis.toothName' },
   //{ title: 'Diagnóstico', key: 'diagnosis.description' },
   { title: 'Tratamiento', key: 'treatment.name' },
-  { title: 'Observaciones', key: 'observations' },
-  { title: 'Precio', align: 'end', key: 'cost' }
+  // { title: 'Observaciones', key: 'observations' },
+  { title: 'Costo', align: 'end', key: 'cost' }
 ]);
 const model = ref<UpsertBudgetDto>({
   id: null,
   date: new Date(),
-  expirationDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+  expirationDate: null,
   observations: null,
   details: []
 });
@@ -222,9 +227,11 @@ const addDetail = (event: BudgetDetailDto) => {
 };
 
 const onDetailSelected = (event: any, { item }: { item: any }) => {
-  indexSelected.value = model.value.details.findIndex((x) => x === item);
-  detailSelected.value = { ...item };
-  showDetailDialog.value = true;
+  if (!readMode.value) {
+    indexSelected.value = model.value.details.findIndex((x) => x === item);
+    detailSelected.value = JSON.parse(JSON.stringify(item));
+    showDetailDialog.value = true;
+  }
 };
 
 const updateDetail = (event: BudgetDetailDto) => {
@@ -235,14 +242,11 @@ const submitForm = async () => {
   cleanAlert();
   await form.value.validate();
   if (valid.value) {
-
-    // TODO: refactor this
-    model.value.date = model.value.date ? new Date(model.value.date).toISOString().split('T')[0] : null;
-    model.value.expirationDate = model.value.expirationDate ? new Date(model.value.expirationDate).toISOString().split('T')[0] : null;
+    if (model.value.date) model.value.date = toDateOnly(model.value.date as string);
+    if (model.value.expirationDate) model.value.expirationDate = toDateOnly(model.value.expirationDate as string);
 
     model.value.details.forEach((detail) => {
-      if (detail.diagnosis != null)
-        detail.diagnosis.date = detail.diagnosis.date ? new Date(detail.diagnosis.date).toISOString().split('T')[0] : null;
+      if (detail.diagnosis && detail.diagnosis.date) detail.diagnosis.date = toDateOnly(detail.diagnosis.date as string);
     });
 
     loading.value = true;
@@ -268,7 +272,7 @@ const submitForm = async () => {
       BudgetService.create(props.workspaceId, props.patientId, model.value)
         .then((response) => {
           toast.success('Creado exitosamente');
-          router.replace({ name: 'budget-detail', params: { patientId: response.data.id } });
+          router.replace({ name: 'budget-detail', params: { budgetId: response.data.id } });
         })
         .catch((error) => {
           toast.error('Ocurrió un error');
@@ -300,6 +304,7 @@ const deleteBudget = () => {
       alert.value.message = error.data.title;
       alert.value.title = 'Error de Eliminación';
       alert.value.show = true;
+      alert.value.position = 'top';
     })
     .finally(() => {
       loading.value = false;
@@ -315,15 +320,24 @@ const cleanAlert = () => {
   alert.value.position = 'bottom';
 };
 
-// compute total
-const total = computed({
-  get: () => {
-    return model.value.details.reduce((acc, detail) => acc + (detail.cost || 0), 0);
+// watch model.date to update expirationDate, inmediate
+watch(
+  () => model.value.date,
+  (newValue) => {
+    if (newValue) {
+      model.value.expirationDate = new Date(new Date(newValue).setMonth(new Date(newValue).getMonth() + 1));
+    }
   },
-  set: (value) => {
-    model.value.details.forEach((detail) => {
-      detail.cost = value / model.value.details.length;
-    });
-  }
-});
+  { immediate: true }
+);
+
+// watch model.details to update total
+watch(
+  () => model.value.details,
+  (newValue) => {
+    if (newValue) total.value = newValue.reduce((acc, item) => acc + Number(item.cost), 0);
+    else total.value = null;
+  },
+  { deep: true }
+);
 </script>

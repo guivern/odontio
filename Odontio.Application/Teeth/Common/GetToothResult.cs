@@ -1,4 +1,4 @@
-﻿namespace Odontio.Application.Teeth.Query.GetTeeth;
+﻿namespace Odontio.Application.Teeth.Query.Common;
 
 public class GetToothResult
 {

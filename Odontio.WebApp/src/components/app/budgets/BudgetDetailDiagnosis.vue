@@ -1,7 +1,7 @@
 <template>
   <h4 class="mb-4">Diagnóstico</h4>
   <teeth-search return-object v-model="selectedTooth" :initial-tooth-id="initialToothId" />
-  <v-row>
+  <v-row class="mt-2">
     <template v-if="thereArePrevDiagnoses">
       <v-col cols="12">
         <v-alert class="mt-2" type="info" density="compact" variant="tonal" color="default">
@@ -120,6 +120,9 @@ watch(
       prevDiagnoses.value = [];
       DiagnosesService.getByPatientTooth(workspaceStore.workspace.id, patientStore.patient.id, newValue)
         .then((response) => {
+          if (diagnosis.value.id) {
+            response.data = (response.data as DiagnosisDto[]).filter((diagnosis) => diagnosis.id !== diagnosis.id);
+          }
           prevDiagnoses.value = response.data;
         })
         .catch((error) => {

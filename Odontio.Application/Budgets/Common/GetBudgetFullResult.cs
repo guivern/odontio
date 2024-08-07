@@ -15,20 +15,18 @@ public class GetBudgetFullResult
     public decimal TotalPayments { get; set; }
     public decimal Balance { get; set; }
 
-    public List<GetPatientTreatmentResultDto> PatientTreatments { get; set; } = new();
+    public List<GetBudgetDetailDto> Details { get; set; } = new();
     public List<GetPaymentDto> Payments { get; set; } = new();
 }
 
-public class GetPatientTreatmentResultDto
+public class GetBudgetDetailDto
 {
     public long Id { get; set; }
-    public long TreatmentId { get; set; }
-    public string TreatmentName { get; set; }
-    public long? DiagnosisId { get; set; }
+    public BudgetTreatmentDto Treatment { get; set; } = null!;
+    public BudgetDiagnosisDto? Diagnosis { get; set; }
     public decimal Cost { get; set; }
     public string Status { get; set; }
     public string? Observations { get; set; }
-    public List<GetMedicalNoteResultDto> MedicalNotes { get; set; } = new();
 }
 
 public class GetPaymentDto

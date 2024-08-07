@@ -1,5 +1,6 @@
 ﻿using Odontio.Application.Common.Attributes;
 using Odontio.Application.Common.Helpers;
+using Odontio.Application.Teeth.Query.Common;
 
 namespace Odontio.Application.Teeth.Query.GetTeeth;
 

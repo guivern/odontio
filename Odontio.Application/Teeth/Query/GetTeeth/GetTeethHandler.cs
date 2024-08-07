@@ -1,5 +1,6 @@
 ﻿using Odontio.Application.Common.Helpers;
 using Odontio.Application.Common.Interfaces;
+using Odontio.Application.Teeth.Query.Common;
 using Odontio.Domain.Entities;
 using Odontio.Domain.Enums;
 

@@ -58,7 +58,7 @@ public class BudgetsController(IMediator mediator, IMapper mapper) : ApiControll
 
         var result = await mediator.Send(command, cancellationToken);
 
-        return result.Match<IActionResult>(
+        return result.Match<IActionResult>(    
             result => CreatedAtAction(nameof(GetBudgetById),
                 new GetBudgetByIdQuery { Id = result.Id, WorkspaceId = workspaceId, PatientId = patientId }, result),
             errors => Problem(errors)
@@ -66,8 +66,7 @@ public class BudgetsController(IMediator mediator, IMapper mapper) : ApiControll
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> UpdateBudget(long id, long workspaceId, long patientId,
-        UpdateBudgetRequest request,
+    public async Task<IActionResult> UpdateBudget(long id, long workspaceId, long patientId, UpdateBudgetRequest request,
         CancellationToken cancellationToken)
     {
         var command = mapper.Map<UpdateBudgetCommand>(request);

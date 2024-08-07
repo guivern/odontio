@@ -11,19 +11,19 @@ public class UpdateBudgetCommand : IRequest<ErrorOr<UpsertBudgetResult>>, IPatie
 {
     public long Id { get; set; }
     public DateOnly Date { get; set; }
-    public DateOnly ExpirationDate { get; set; }
+    public DateOnly? ExpirationDate { get; set; }
     public string? Observations { get; set; }
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }
     
-    public List<UpdatePatientTreatment> PatientTreatments { get; set; } = new();
+    public List<UpdatePatientTreatment> Details { get; set; } = new();
 }
 
 public class UpdatePatientTreatment
 {
     public long Id { get; set; }
-    public long TreatmentId { get; set; }
-    public long? DiagnosisId { get; set; }
+    public BudgetTreatmentDto Treatment { get; set; } = null!;
+    public BudgetDiagnosisDto? Diagnosis { get; set; }
     public string? Observations { get; set; }
     public decimal Cost { get; set; }
 }

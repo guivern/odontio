@@ -50,7 +50,7 @@ public class CreateBudgetValidator : AbstractValidator<CreateBudgetCommand>
     //     return exists;
     // }
 
-    private Task<bool> TreatmentExists(CreatePatientTreatmentDto arg1, CancellationToken arg2)
+    private Task<bool> TreatmentExists(CreatePatientTreatment arg1, CancellationToken arg2)
     {
         var exists = _context.Treatments.AsNoTracking().AnyAsync(x => x.Id == arg1.Treatment.Id, cancellationToken: arg2);
         return exists;

@@ -3,6 +3,21 @@
     <v-col cols="12" md="3">
       <base-select label="Odontograma" v-model="odontogram" :items="['Adulto', 'Niño']" :clearable="false" />
     </v-col>
+    <v-col>
+      <base-autocomplete
+        label="Diente"
+        item-title="name"
+        item-value="id"
+        :items="items"
+        v-bind="{
+          ...$attrs,
+          modelValue,
+          'onUpdate:modelValue': (value: any) => $emit('update:modelValue', value)
+        }"
+        :clearable="false"
+        :loading="loading"
+      />
+    </v-col>
     <v-col cols="12" md="3">
       <base-select
         label="Número"
@@ -18,8 +33,8 @@
         :loading="loading"
       />
     </v-col>
-    <v-col cols="12" md="6"> <base-text-input label="Diente" :readonly="true" v-model="toothName" :loading="loading" /> </v-col
-  ></v-row>
+    <!-- <v-col cols="12" md="6"> <base-text-input label="Diente" :readonly="true" v-model="toothName" :loading="loading" /> </v-col> -->
+  </v-row>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue';
@@ -46,16 +61,16 @@ const teethStore = useTeethStore();
 const loading = ref(false);
 const toothName = computed(() => selectedTooth.value?.name || '');
 
-onMounted(async () => {
-  await teethStore
-    .getAll(odontogram.value)
-    .then((data) => {
-      items.value = data;
-    })
-    .catch((error) => {
-      errorFetch.value = true;
-    });
-});
+// onMounted(async () => {
+//   await teethStore
+//     .getAll(odontogram.value)
+//     .then((data) => {
+//       items.value = data;
+//     })
+//     .catch((error) => {
+//       errorFetch.value = true;
+//     });
+// });
 
 const selectedTooth = computed(() => {
   if (!props.modelValue) return null;
@@ -67,6 +82,7 @@ watch(
   async (newValue) => {
     loading.value = true;
     emits('update:modelValue', null);
+    console.log('newValue:', newValue);
     await teethStore
       .getAll(newValue)
       .then((data) => {
@@ -78,7 +94,8 @@ watch(
       .finally(() => {
         loading.value = false;
       });
-  }
+  },
+  { immediate: !props.initialToothId }
 );
 
 watch(
@@ -113,13 +130,19 @@ watch(
 
       if (!tooth) {
         await teethStore
-          .getById(newValue)
+          .getAll()
           .then((data) => {
-            items.value = [data as TeethDto];
-            emits('update:modelValue', data);
+            items.value = data;
+            const initialSelected = data.find((item) => item.id === newValue);
+            odontogram.value = initialSelected?.odontogramType || 'Adulto';
+            items.value = items.value.filter((item) => item.odontogramType === odontogram.value);
+            emits('update:modelValue', initialSelected);
           })
           .catch((error) => {
-            console.error('Error fetching tooth:', error);
+            errorFetch.value = true;
+          })
+          .finally(() => {
+            loading.value = false;
           });
       }
     }

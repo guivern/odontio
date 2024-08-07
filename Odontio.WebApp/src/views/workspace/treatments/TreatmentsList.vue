@@ -21,7 +21,7 @@
       >
         <template v-slot:item.cost="{ item }">
           <!-- show in the format $0.00 -->
-          <div>{{ formatCurrency(item.cost) }}</div>
+          <div>{{ toCurrency(item.cost) }}</div>
         </template>
       </base-pagination-table>
     </v-col>
@@ -46,7 +46,7 @@ import { useRouter } from 'vue-router';
 import { DEFAULT_PAGE_SIZE } from '@/types/constants';
 import { onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
-import { useCurrency } from '@/composables/useCurrency';
+import { useFormatter } from '@/composables/useFormatter';
 import type { TreatmentDto } from '@/types/treatment';
 import TreatmentsService from '@/services/TreatmentsService';
 
@@ -58,7 +58,7 @@ const props = defineProps({
 });
 
 const toast = useToast();
-const { formatCurrency } = useCurrency();
+const { toCurrency } = useFormatter();
 const fetchError = ref(false);
 const router = useRouter();
 const search = ref('');

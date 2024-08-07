@@ -3,7 +3,7 @@
 public class CreateBudgetRequest
 {
     public DateOnly? Date { get; set; }
-    public DateOnly ExpirationDate { get; set; }
+    public DateOnly? ExpirationDate { get; set; }
     public string? Observations { get; set; }
     public List<CreatePatientTreatmentRequest> Details { get; set; } = new();
 }

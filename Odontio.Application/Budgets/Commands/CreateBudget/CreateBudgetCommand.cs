@@ -10,15 +10,15 @@ namespace Odontio.Application.Budgets.Commands.CreateBudget;
 public class CreateBudgetCommand: IRequest<ErrorOr<UpsertBudgetResult>>, IPatientResource
 {
     public DateOnly? Date { get; set; }
-    public DateOnly ExpirationDate { get; set; }
+    public DateOnly? ExpirationDate { get; set; }
     public string? Observations { get; set; }
     public long WorkspaceId { get; set; }
     public long PatientId { get; set; }
     
-    public List<CreatePatientTreatmentDto> Details { get; set; } = new();
+    public List<CreatePatientTreatment> Details { get; set; } = new();
 }
 
-public class CreatePatientTreatmentDto
+public class CreatePatientTreatment
 {
     public BudgetTreatmentDto Treatment { get; set; } = null!;
     public BudgetDiagnosisDto? Diagnosis { get; set; }

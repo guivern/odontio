@@ -14,36 +14,11 @@ public class CreateBudgetHandler(IApplicationDbContext context, IMapper mapper, 
         budget.Date = request.Date ?? dateTimeProvider.Today;
         budget.Status = BudgetStatus.Pending;
         budget.ExpirationDate ??= budget.Date.AddMonths(1);
-
-        foreach (var detail in request.Details)
+        
+        var addTreatmentsResult = await AddPatientTreatments(budget, request.Details, cancellationToken);
+        if (addTreatmentsResult.IsError)
         {
-            if (detail.Diagnosis != null && detail.Diagnosis.Id != null)
-            {
-                var diagnosis = await context.Diagnoses.FindAsync(new object[] { detail.Diagnosis.Id }, cancellationToken);
-                if (diagnosis == null)
-                {
-                    return Error.NotFound(nameof(Diagnosis), "Diagnosis Not Found");
-                }
-                
-                budget.PatientTreatments.Add(new PatientTreatment
-                {
-                    TreatmentId = detail.Treatment.Id,
-                    DiagnosisId = detail.Diagnosis.Id,
-                    Observations = detail.Observations,
-                    Cost = detail.Cost
-                });      
-            }
-            else if (detail.Diagnosis != null)
-            {
-                var diagnosis = mapper.Map<Diagnosis>(detail.Diagnosis);
-                budget.PatientTreatments.Add(new PatientTreatment
-                {
-                    TreatmentId = detail.Treatment.Id,
-                    Diagnosis = diagnosis,
-                    Observations = detail.Observations,
-                    Cost = detail.Cost
-                });
-            }
+            return addTreatmentsResult.Errors;
         }
         
         context.Budgets.Add(budget);
@@ -52,5 +27,53 @@ public class CreateBudgetHandler(IApplicationDbContext context, IMapper mapper, 
         var result = mapper.Map<UpsertBudgetResult>(budget);
         
         return result;
+    }
+    
+    private async Task<ErrorOr<Success>> AddPatientTreatments(Budget budget, IEnumerable<CreatePatientTreatment> details, CancellationToken cancellationToken)
+    {
+        budget.PatientTreatments.Clear();
+        foreach (var budgetDetail in details)
+        {
+            var addTreatmentResult = await AddPatientTreatment(budget, budgetDetail, cancellationToken);
+            if (addTreatmentResult.IsError)
+            {
+                return addTreatmentResult.Errors;
+            }
+        }
+
+        return Result.Success;
+    }
+
+    private async Task<ErrorOr<Success>> AddPatientTreatment(Budget budget, CreatePatientTreatment budgetDetail, CancellationToken cancellationToken)
+    {
+        PatientTreatment patientTreatment = new()
+        {
+            TreatmentId = budgetDetail.Treatment.Id,
+            Observations = budgetDetail.Observations,
+            Cost = budgetDetail.Cost
+        };
+
+        switch (budgetDetail.Diagnosis)
+        {
+            case { Id: not null }:
+                var existingDiagnosis = await context.Diagnoses.FindAsync(new object[] { budgetDetail.Diagnosis.Id }, cancellationToken);
+                if (existingDiagnosis is null)
+                {
+                    return Error.NotFound(nameof(Diagnosis), "Diagnosis Not Found");
+                }
+                existingDiagnosis.Description = budgetDetail.Diagnosis.Description;
+                existingDiagnosis.Observations = budgetDetail.Diagnosis.Observations;
+                patientTreatment.DiagnosisId = budgetDetail.Diagnosis.Id;
+                break;
+
+            case not null:
+                var newDiagnosis = mapper.Map<Diagnosis>(budgetDetail.Diagnosis);
+                newDiagnosis.PatientId = budget.PatientId;
+                patientTreatment.Diagnosis = newDiagnosis;
+                break;
+        }
+
+        budget.PatientTreatments.Add(patientTreatment);
+        return Result.Success;
     }
 }

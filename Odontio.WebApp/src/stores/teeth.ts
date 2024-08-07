@@ -19,7 +19,7 @@ export const useTeethStore = defineStore({
         }
       }
 
-      if (this.teeth.length === 0 || odontogram) {
+      if (this.teeth.length === 0) {
         let url = `${endpoint}?page=1&pageSize=-1`;
         if (odontogram) {
           url = `${url}&odontogram=${odontogram}`;
